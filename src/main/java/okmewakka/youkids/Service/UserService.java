@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import java.io.File;
 import java.util.UUID;
 
@@ -41,6 +42,10 @@ public class UserService {
         user.setUserProfileFilePath("/files" + fileName);
 
 
+    }
+    public boolean authenticate(String phoneNumber, String password) {
+        user user = userRepository.findByUserIdPhone(phoneNumber);
+        return user != null && user.getUserPassword().equals(password);
     }
 
 

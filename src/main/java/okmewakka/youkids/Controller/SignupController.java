@@ -32,22 +32,24 @@ public class SignupController<request> extends HttpServlet {
         model.addAttribute("user", user);
         return "name";
     }
+
     //이름 입력
     @PostMapping("/name")
     public String saveName(Model model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         model.addAttribute("user", user);
         request.setCharacterEncoding("utf-8");
-        String name=request.getParameter("name");
+        String name = request.getParameter("name");
         user.setUserName(name);
 
         return "phoneNumber";
     }
+
     //패스워드 입력
     @PostMapping("/password")
     public String submitPassword(Model model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         model.addAttribute("user", user);
         request.setCharacterEncoding("utf-8");
-        String password=request.getParameter("password");
+        String password = request.getParameter("password");
         user.setUserPassword(password);
 
         return "profilePicture";
@@ -58,38 +60,34 @@ public class SignupController<request> extends HttpServlet {
     public String submitphoneNumber(Model model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         model.addAttribute("user", user);
         request.setCharacterEncoding("utf-8");
-        String phoneNumber=request.getParameter("phoneNumber");
-        String phoneNum=userService.userPNPlus(phoneNumber);
+        String phoneNumber = request.getParameter("phoneNumber");
+        String phoneNum = userService.userPNPlus(phoneNumber);
         user.setUserIdPhone(phoneNum);
         return "password";
     }
 
     //프로필 사진 업로드
     @PostMapping("/profilePicture")
-    public String submitprofilePicture( Model model, MultipartFile profile, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String submitprofilePicture(Model model, MultipartFile profile, HttpServletRequest request, HttpServletResponse response) throws Exception {
         model.addAttribute("user", user);
-        userService.profileUpload(user,profile);
-       return "terms";
+        userService.profileUpload(user, profile);
+        return "terms";
     }
+
     // 약관 동의 후 user 데이터 베이스에 저장
     @PostMapping("/complete")
-    public void completeSignUp( Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String completeSignUp(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
         model.addAttribute("user", user);
         userRepository.save(user);
 
-        String name= user.getUserName();
-        String password= user.getUserPassword();
-        String pn= user.getUserIdPhone();
-        System.out.println(name+password+pn);
+        String name = user.getUserName();
+        String password = user.getUserPassword();
+        String pn = user.getUserIdPhone();
+        System.out.println(name + password + pn);
+
+        return "index";
 
     }
 
 
-        /* public void print(@ModelAttribute user user,Model model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        model.addAttribute("user", user);
-        String name= user.getUserName();
-        String password= user.getUserPassword();
-        String pn= user.getUserIdPhone();
-        System.out.println(name+password+pn);
-    }*/
 }
