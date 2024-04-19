@@ -63,7 +63,7 @@ public class SignupController<request> extends HttpServlet {
         String phoneNumber = request.getParameter("phoneNumber");
         String phoneNum = userService.userPNPlus(phoneNumber);
         user.setUserIdPhone(phoneNum);
-        return "password";
+        return "/password";
     }
 
     //프로필 사진 업로드
