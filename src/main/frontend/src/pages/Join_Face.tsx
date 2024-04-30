@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import light from "../assets/light.svg";
 
 function Join_Face() {

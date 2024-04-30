@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         neutral: {
+          100: "#F5F5F5",
           900: "#111111",
         },
         stone: {
