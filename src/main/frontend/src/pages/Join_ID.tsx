@@ -1,6 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-function JoinID() {
+function Join_ID() {
+  const navigate = useNavigate();
+
+  const handleConfirmation = () => {
+    // '확인' 버튼을 클릭하면 Join_PW로 이동
+    navigate("/Join_PW");
+  };
+
   return (
     <div className="w-full h-screen flex items-center justify-center bg-emerald-200">
       <div className="mb-16">
@@ -20,7 +28,10 @@ function JoinID() {
             placeholder="휴대폰 번호를 입력하세요."
           />
         </div>
-        <button className="flex items-center justify-center w-72 h-[50px] bg-slate-500 rounded-lg">
+        <button
+          onClick={handleConfirmation}
+          className="flex items-center justify-center w-72 h-[50px] bg-slate-500 rounded-lg"
+        >
           <div className="text-center text-white text-base font-normal font-['Pretendard'] leading-snug">
             확인
           </div>
@@ -30,4 +41,4 @@ function JoinID() {
   );
 }
 
-export default JoinID;
+export default Join_ID;
