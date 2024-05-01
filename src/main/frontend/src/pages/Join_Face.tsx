@@ -1,7 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import light from "../assets/light.svg";
 
 function Join_Face() {
+  const navigate = useNavigate();
+
+  const handleConfirmation = () => {
+    // '확인' 버튼을 클릭하면 Join_Done로 이동
+    navigate("/Join_Done");
+  };
+
   return (
     <div className="w-full h-screen flex items-center justify-center bg-emerald-200">
       <div className="mb-16">
@@ -41,7 +49,10 @@ function Join_Face() {
           </div>
         </div>
 
-        <button className="flex items-center justify-center w-72 h-[50px] bg-slate-500 rounded-lg">
+        <button
+          onClick={handleConfirmation}
+          className="flex items-center justify-center w-72 h-[50px] bg-slate-500 rounded-lg"
+        >
           <div className="text-center text-white text-base font-normal font-['Pretendard'] leading-snug">
             등록
           </div>

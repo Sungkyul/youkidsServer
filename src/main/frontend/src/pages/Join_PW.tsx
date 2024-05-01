@@ -34,7 +34,7 @@ function Join_PW() {
   const navigate = useNavigate();
 
   const handleConfirmation = () => {
-    // '확인' 버튼을 클릭하면 Join_PW로 이동
+    // '확인' 버튼을 클릭하면 Join_Name로 이동
     navigate("/Join_Name");
   };
   return (
