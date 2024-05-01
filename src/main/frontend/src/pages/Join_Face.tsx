@@ -82,7 +82,7 @@ function Join_Face() {
                   key={index}
                   src={image}
                   alt={`프로필 이미지 ${index + 1}`}
-                  className="w-16 h-16 m-1"
+                  className="w-[60px] h-[60px] m-1"
                 />
               ))}
             </div>
