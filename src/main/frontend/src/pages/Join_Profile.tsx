@@ -5,12 +5,24 @@ import ExitButton from "../components/ExitButton";
 
 function Join_Profile() {
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달이 열려있는지 상태를 관리
+  const [isEmptyModalOpen, setIsEmptyModalOpen] = useState(false); // 모달이 열려있는지 상태를 관리
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     setSelectedFile(file);
+
+    // 선택된 파일이 있으면 미리보기 이미지를 설정
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setPreviewImage(null);
+    }
   };
 
   const handleConfirmation = () => {
@@ -18,7 +30,7 @@ function Join_Profile() {
     if (selectedFile) {
       navigate("/Join_Face");
     } else {
-      setIsModalOpen(true);
+      setIsEmptyModalOpen(true);
     }
   };
 
@@ -42,11 +54,21 @@ function Join_Profile() {
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             onChange={handleFileChange}
           />
-          <div className="w-40 h-40 bg-white rounded-[50px] flex items-center justify-center">
-            <div className="text-center text-slate-500 text-base font-normal font-['Pretendard'] leading-snug">
-              사진 선택
+
+          {previewImage && (
+            <img
+              src={previewImage}
+              alt="프로필 이미지"
+              className="w-40 h-40 rounded-[50px]"
+            />
+          )}
+          {!previewImage && (
+            <div className="w-40 h-40 bg-white rounded-[50px] flex items-center justify-center">
+              <div className="text-center text-slate-500 text-base font-normal font-['Pretendard'] leading-snug">
+                사진 선택
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <button
@@ -60,21 +82,27 @@ function Join_Profile() {
       </div>
 
       {/* 모달 */}
-      <Modal2 isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal2
+        isOpen={isEmptyModalOpen}
+        onClose={() => setIsEmptyModalOpen(false)}
+      >
         {/* 모달 내용 */}
         <div className="">
           <div className="flex">
             <div className="ml-auto">
               <ExitButton
-                text="앨범생성"
-                onClick={() => setIsModalOpen(false)}
+                text="모달닫기"
+                onClick={() => setIsEmptyModalOpen(false)}
               />
             </div>
           </div>
           <div className="my-2 text-center text-neutral-900 text-[22px] font-semibold font-['Pretendard'] leading-snug">
-            프로필을 등록해주세요.
+            프로필 사진을 등록해주세요.
           </div>
-          <button className="my-4 w-[280px] h-9 bg-neutral-100 rounded-lg border border-stone-300">
+          <button
+            className="my-4 w-[280px] h-9 bg-neutral-100 rounded-lg border border-stone-300"
+            onClick={() => setIsEmptyModalOpen(false)}
+          >
             <div className="text-center text-neutral-900 text-base font-semibold font-['Pretendard'] leading-snug">
               확인
             </div>

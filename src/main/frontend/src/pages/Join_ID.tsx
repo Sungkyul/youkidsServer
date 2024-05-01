@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Modal2 from "../components/Modal2";
+import ExitButton from "../components/ExitButton";
 
 function Join_ID() {
   const navigate = useNavigate();
+  const [isEmptyModalOpen, setIsEmptyModalOpen] = useState(false); // 입력하지 않은 경우 모달 열림 여부 상태
+  const [isInvalidLengthModalOpen, setIsInvalidLengthModalOpen] =
+    useState(false); // 11자리가 아닌 경우 모달 열림 여부 상태
+  const [phoneNumber, setPhoneNumber] = useState(""); // 입력된 휴대폰 번호 상태를 관리
 
   const handleConfirmation = () => {
-    // '확인' 버튼을 클릭하면 Join_PW로 이동
-    navigate("/Join_PW");
+    if (!phoneNumber.trim()) {
+      // 휴대폰 번호를 입력하지 않은 경우 모달 열기
+      setIsEmptyModalOpen(true);
+    } else if (phoneNumber.trim().length !== 11) {
+      // 휴대폰 번호가 11자리가 아닌 경우 모달 열기
+      setIsInvalidLengthModalOpen(true);
+    } else {
+      // 휴대폰 번호가 입력되었을 때 Join_PW로 이동
+      navigate("/Join_PW");
+    }
   };
 
   return (
@@ -25,7 +39,9 @@ function Join_ID() {
           <input
             type="tel"
             className="mx-2 w-full h-full text-neutral-900 text-sm font-normal font-['Pretendard'] leading-snug"
-            placeholder="휴대폰 번호를 입력하세요."
+            placeholder="휴대폰 번호를 입력하세요. (-제외)"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
           />
         </div>
         <button
@@ -37,6 +53,62 @@ function Join_ID() {
           </div>
         </button>
       </div>
+
+      {/* 모달 */}
+      {/* 입력하지 않은 경우 */}
+      <Modal2
+        isOpen={isEmptyModalOpen}
+        onClose={() => setIsEmptyModalOpen(false)}
+      >
+        <div className="">
+          <div className="flex">
+            <div className="ml-auto">
+              <ExitButton
+                text="모달닫기"
+                onClick={() => setIsEmptyModalOpen(false)}
+              />
+            </div>
+          </div>
+          <div className="my-2 text-center text-neutral-900 text-[22px] font-semibold font-['Pretendard'] leading-snug">
+            휴대폰 번호를 입력해주세요.
+          </div>
+          <button
+            className="my-4 w-[280px] h-9 bg-neutral-100 rounded-lg border border-stone-300"
+            onClick={() => setIsEmptyModalOpen(false)}
+          >
+            <div className="text-center text-neutral-900 text-base font-semibold font-['Pretendard'] leading-snug">
+              확인
+            </div>
+          </button>
+        </div>
+      </Modal2>
+      {/* 11자리가 아닌 경우 */}
+      <Modal2
+        isOpen={isInvalidLengthModalOpen}
+        onClose={() => setIsInvalidLengthModalOpen(false)}
+      >
+        <div className="">
+          <div className="flex">
+            <div className="ml-auto">
+              <ExitButton
+                text="모달닫기"
+                onClick={() => setIsInvalidLengthModalOpen(false)}
+              />
+            </div>
+          </div>
+          <div className="my-2 text-center text-neutral-900 text-[22px] font-semibold font-['Pretendard'] leading-snug">
+            올바르게 입력해주세요.
+          </div>
+          <button
+            className="my-4 w-[280px] h-9 bg-neutral-100 rounded-lg border border-stone-300"
+            onClick={() => setIsInvalidLengthModalOpen(false)}
+          >
+            <div className="text-center text-neutral-900 text-base font-semibold font-['Pretendard'] leading-snug">
+              확인
+            </div>
+          </button>
+        </div>
+      </Modal2>
     </div>
   );
 }
