@@ -18,6 +18,7 @@ import Share_Code from "./pages/Share_Code";
 import Share_Done from "./pages/Share_Done";
 import Down_Code from "./pages/Down_Code";
 import Down_Face from "./pages/Down_Face";
+import Amazon from "./pages/Amazon";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
           <Route path="/Share_Done" element={<Share_Done />} />
           <Route path="/Down_Code" element={<Down_Code />} />
           <Route path="/Down_Face" element={<Down_Face />} />
+          <Route path="/Amazon" element={<Amazon />} />
         </Routes>
       </Router>
     </div>
