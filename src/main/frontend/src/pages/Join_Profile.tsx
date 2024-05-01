@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Modal2 from "../components/Modal2";
+import ExitButton from "../components/ExitButton";
 
 function Join_Profile() {
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달이 열려있는지 상태를 관리
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    setSelectedFile(file);
+  };
 
   const handleConfirmation = () => {
-    // '확인' 버튼을 클릭하면 Join_Face로 이동
-    navigate("/Join_Face");
+    // 프로필 사진이 등록되었는지 확인하는 조건
+    if (selectedFile) {
+      navigate("/Join_Face");
+    } else {
+      setIsModalOpen(true);
+    }
   };
 
   return (
@@ -27,6 +40,7 @@ function Join_Profile() {
             type="file"
             accept="image/*"
             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+            onChange={handleFileChange}
           />
           <div className="w-40 h-40 bg-white rounded-[50px] flex items-center justify-center">
             <div className="text-center text-slate-500 text-base font-normal font-['Pretendard'] leading-snug">
@@ -44,6 +58,29 @@ function Join_Profile() {
           </div>
         </button>
       </div>
+
+      {/* 모달 */}
+      <Modal2 isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        {/* 모달 내용 */}
+        <div className="">
+          <div className="flex">
+            <div className="ml-auto">
+              <ExitButton
+                text="앨범생성"
+                onClick={() => setIsModalOpen(false)}
+              />
+            </div>
+          </div>
+          <div className="my-2 text-center text-neutral-900 text-[22px] font-semibold font-['Pretendard'] leading-snug">
+            프로필을 등록해주세요.
+          </div>
+          <button className="my-4 w-[280px] h-9 bg-neutral-100 rounded-lg border border-stone-300">
+            <div className="text-center text-neutral-900 text-base font-semibold font-['Pretendard'] leading-snug">
+              확인
+            </div>
+          </button>
+        </div>
+      </Modal2>
     </div>
   );
 }
