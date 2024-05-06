@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Modal2 from "../components/Modal2";
+import ExitButton from "../components/ExitButton";
 
 function Join_Name() {
+  const navigate = useNavigate();
+  const [isEmptyModalOpen, setIsEmptyModalOpen] = useState(false); // 입력하지 않은 경우 모달 열림 여부 상태
+  const [name, setName] = useState(""); // 입력된 휴대폰 번호 상태를 관리
+
+  const handleConfirmation = () => {
+    if (!name.trim()) {
+      setIsEmptyModalOpen(true);
+    } else {
+      //비밀번호가 입력되었을 때 Join_Name으로 이동
+      navigate("/Join_Profile");
+    }
+  };
+
   return (
     <div className="w-full h-screen flex items-center justify-center bg-emerald-200">
       <div className="mb-16">
@@ -18,14 +34,47 @@ function Join_Name() {
             type="text"
             className="mx-2 w-full h-full text-neutral-900 text-sm font-normal font-['Pretendard'] leading-snug"
             placeholder="이름을 입력하세요."
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <button className="flex items-center justify-center w-72 h-[50px] bg-slate-500 rounded-lg">
+        <button
+          onClick={handleConfirmation}
+          className="flex items-center justify-center w-72 h-[50px] bg-slate-500 rounded-lg"
+        >
           <div className="text-center text-white text-base font-normal font-['Pretendard'] leading-snug">
             확인
           </div>
         </button>
       </div>
+      {/* 모달 */}
+      {/* 입력하지 않은 경우 */}
+      <Modal2
+        isOpen={isEmptyModalOpen}
+        onClose={() => setIsEmptyModalOpen(false)}
+      >
+        <div className="">
+          <div className="flex">
+            <div className="ml-auto">
+              <ExitButton
+                text="모달닫기"
+                onClick={() => setIsEmptyModalOpen(false)}
+              />
+            </div>
+          </div>
+          <div className="my-2 text-center text-neutral-900 text-[22px] font-semibold font-['Pretendard'] leading-snug">
+            이름을 입력해주세요.
+          </div>
+          <button
+            className="my-4 w-[280px] h-9 bg-neutral-100 rounded-lg border border-stone-300"
+            onClick={() => setIsEmptyModalOpen(false)}
+          >
+            <div className="text-center text-neutral-900 text-base font-semibold font-['Pretendard'] leading-snug">
+              확인
+            </div>
+          </button>
+        </div>
+      </Modal2>
     </div>
   );
 }

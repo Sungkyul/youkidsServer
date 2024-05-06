@@ -1,6 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
+
+  const handleConfirmation = () => {
+    // '회원가입' 버튼을 클릭하면 Join_ID로 이동
+    navigate("/Join_ID");
+  };
+
   return (
     <div className="w-full h-screen flex items-center justify-center bg-emerald-200">
       <div className="mb-16">
@@ -27,7 +35,10 @@ function Login() {
           </div>
         </button>
         <div className="flex items-center justify-center">
-          <button className="my-4 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug">
+          <button
+            onClick={handleConfirmation}
+            className="my-4 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug"
+          >
             회원가입
           </button>
           <span className="mx-2 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug">
