@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 public class UserController {
 
     @GetMapping("/")
-    public String showSignUpPage() {
+    public String showLoginPage() {
         
         return "index";
     }
