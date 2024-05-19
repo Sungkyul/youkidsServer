@@ -11,6 +11,8 @@
     "@types/react": "^18.2.73",
     "@types/react-dom": "^18.2.21",
     "aws-sdk": "^2.1594.0",
+    "dotenv": "^16.4.5",
+    "face-api.js": "^0.22.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.0",

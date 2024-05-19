@@ -1,7 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Magnifier from "../assets/Magnifier.svg";
 
 function Search() {
+  const navigate = useNavigate();
+  const handleCancel = () => {
+    navigate("/Home");
+  };
   return (
     <div className="w-full mx-auto">
       <div className="mt-[24px] flex items-center justify-center">
@@ -15,9 +20,14 @@ function Search() {
             검색
           </div>
         </div>
-        <div className="ml-3 text-center text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
-          취소
-        </div>
+        <button>
+          <div
+            onClick={handleCancel}
+            className="ml-3 text-center text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug"
+          >
+            취소
+          </div>
+        </button>
       </div>
       <div className="flex items-center justify-between mx-[14px] my-[24px]">
         <div className="text-center text-neutral-500 text-xs font-normal font-['Pretendard'] leading-snug">

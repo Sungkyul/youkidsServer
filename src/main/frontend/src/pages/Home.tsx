@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import profile from "../assets/profile.svg";
 import image1 from "../assets/image1.svg";
 import image2 from "../assets/image2.svg";
 import MenuBar from "../components/MenuBar";
 import SearchButton from "../components/SearchButton";
 import Notification from "../components/Notification";
+import FixedButton from "../components/FixedButton";
 
 function Home() {
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(true);
+
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="pt-2">
       <div className="w-full mx-auto flex justify-between">
@@ -15,13 +24,13 @@ function Home() {
           <SearchButton
             text={""}
             onClick={() => {
-              throw new Error("Function not implemented.");
+              navigate("/Search");
             }}
           />
           <Notification
             text={""}
             onClick={() => {
-              throw new Error("Function not implemented.");
+              navigate("/Noti");
             }}
           />
         </div>
@@ -84,6 +93,12 @@ function Home() {
           <p className="text-xs text-left pt-1">입학식</p>
         </div>
       </div>
+      <FixedButton
+        isOpen={isOpen}
+        onClose={toggleOpen}
+        style={{ zIndex: 9999 }}
+      />
+      {/* FixedButton 컴포넌트를 홈 화면의 가장 아래에 렌더링 */}
     </div>
   );
 }
