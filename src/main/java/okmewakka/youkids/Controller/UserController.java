@@ -25,7 +25,7 @@ public class UserController {
     @Autowired 
     UserRepository userRepository;
 
-    @GetMapping("/")
+    @GetMapping("/login")
     public String showLoginPage() {
         
         return "index";
