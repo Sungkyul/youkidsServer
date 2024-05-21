@@ -7,11 +7,15 @@ import okmewakka.youkids.Service.UserService;
 import okmewakka.youkids.entity.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.ui.Model;
 
+@Tag(name = "로그인 API", description = "로그인 API")
 @Controller
 public class LoginController {
 
@@ -22,6 +26,9 @@ public class LoginController {
     private UserRepository userRepository;
 
 
+    @Operation(summary = "로그인", description = "입력 받은 전화번호, 비밀번호로 로그인.")
+    @Parameter(name = "phoneNumber", description = "입력한 전화번호")
+    @Parameter(name = "password", description = "입력한 비밀번호")
     @PostMapping("/login")
     public String login(@RequestParam String phoneNumber, @RequestParam String password, HttpSession session, Model model) {
         if (userService.authenticate(phoneNumber, password)) {

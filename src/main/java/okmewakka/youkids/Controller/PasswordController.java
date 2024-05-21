@@ -2,7 +2,6 @@ package okmewakka.youkids.Controller;
 
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import okmewakka.youkids.Repository.PhotoRepository;
 import okmewakka.youkids.entity.Photo;
 
 
-
+@Tag(name = "입력코드 API", description = "입력코드 체크 API")
 @Controller
 public class PasswordController {
 
@@ -22,7 +24,9 @@ public class PasswordController {
     PhotoRepository photoRepository;
 
     
-
+ 
+    @Operation(summary = "코드 확인", description = "사진을 전송 받을 때 입력한 코드 확인.")
+    @Parameter(name = "password", description = "입력한 코드")
     @PostMapping("/checkPassword")
     public ResponseEntity<List<Photo>> checkPassword(@RequestBody Map<String, String> requestBody) {
         String password = requestBody.get("password");
