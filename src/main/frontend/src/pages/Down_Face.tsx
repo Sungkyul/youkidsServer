@@ -135,9 +135,10 @@ function Down_Face() {
           >
             취소
           </button>
-          <div className="bg-white w-[180px] h-[30px] rounded-lg text-center flex items-center justify-center">
-            운동회
-          </div>
+          <input
+            className="bg-white w-[180px] h-[30px] rounded-lg text-center flex items-center justify-center"
+            placeholder="제목"
+          ></input>
           <button className="text-sm pl-6" onClick={handleConfirm}>
             저장
           </button>

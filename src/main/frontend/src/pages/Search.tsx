@@ -16,9 +16,11 @@ function Search() {
             alt="검색"
             className="my-2 mx-2 w-[22px] h-[22px] relative"
           />
-          <div className="my-2 text-center text-neutral-500 text-base font-normal font-['Pretendard'] leading-snug">
-            검색
-          </div>
+          <input
+            type="text"
+            placeholder="검색"
+            className="flex-grow my-2 bg-transparent text-neutral-500 text-base font-normal font-['Pretendard'] leading-snug focus:outline-none pl-2"
+          />
         </div>
         <button>
           <div

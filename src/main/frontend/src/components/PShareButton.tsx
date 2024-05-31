@@ -11,7 +11,7 @@ const PShareButton: React.FC<PShareButtonProps> = ({ text, onClick }) => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
-    navigate("/Share_Done");
+    navigate("/Test");
     onClick();
   };
 

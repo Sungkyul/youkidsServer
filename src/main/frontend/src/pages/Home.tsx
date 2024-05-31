@@ -20,7 +20,7 @@ function Home() {
     <div className="pt-2">
       <div className="w-full mx-auto flex justify-between">
         <MenuBar text="" /> {/* MenuBar 컴포넌트를 사용 */}
-        <div className="flex justify-end items-center pr-4 ">
+        <div className="flex justify-end items-center pr-4">
           <SearchButton
             text={""}
             onClick={() => {
@@ -54,7 +54,7 @@ function Home() {
             alt="짱구"
             className="w-[125px] h-[125px] rounded-lg"
           />
-          <p className="text-xs text-left pt-1">입학식</p>
+          <p className="text-xs text-left pt-1">소풍</p>
         </div>
       </div>
       <div className="flex justify-center item-center space-x-6">
@@ -72,7 +72,7 @@ function Home() {
             alt="짱구"
             className="w-[125px] h-[125px] rounded-lg"
           />
-          <p className="text-xs text-left pt-1">입학식</p>
+          <p className="text-xs text-left pt-1">소풍</p>
         </div>
       </div>
       <div className="flex justify-center item-center space-x-6">
@@ -90,7 +90,25 @@ function Home() {
             alt="짱구"
             className="w-[125px] h-[125px] rounded-lg"
           />
+          <p className="text-xs text-left pt-1">소풍</p>
+        </div>
+      </div>
+      <div className="flex justify-center item-center space-x-6">
+        <div className="pb-6">
+          <img
+            src={image1}
+            alt="짱구"
+            className="w-[125px] h-[125px] rounded-lg"
+          />
           <p className="text-xs text-left pt-1">입학식</p>
+        </div>
+        <div>
+          <img
+            src={image2}
+            alt="짱구"
+            className="w-[125px] h-[125px] rounded-lg"
+          />
+          <p className="text-xs text-left pt-1">소풍</p>
         </div>
       </div>
       <FixedButton

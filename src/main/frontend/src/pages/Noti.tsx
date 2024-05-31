@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import BeforeButton from "../components/BeforeButton";
 
 function Noti() {
+  const navigate = useNavigate();
+
   return (
     <div className="w-full mx-auto">
-      <div className="justify-center py-4">
+      <div className="flex justify-center py-4">
+        <div className="absolute left-0 w-6 h-6 ml-4">
+          <BeforeButton
+            text={""}
+            onClick={() => {
+              navigate("/Home");
+            }}
+          />
+        </div>
         <p className=" text-[20px] text-center font-bold">알림</p>
       </div>
 
