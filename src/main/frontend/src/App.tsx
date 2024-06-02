@@ -9,6 +9,7 @@ import Join_PW from "./pages/Join_PW";
 import Join_Name from "./pages/Join_Name";
 import Join_Profile from "./pages/Join_Profile";
 import Join_Face from "./pages/Join_Face";
+import Join_Done from "./pages/Join_Done";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 import Noti from "./pages/Noti";
@@ -18,6 +19,7 @@ import Share_Code from "./pages/Share_Code";
 import Share_Done from "./pages/Share_Done";
 import Down_Code from "./pages/Down_Code";
 import Down_Face from "./pages/Down_Face";
+import Amazon from "./pages/Amazon";
 
 function App() {
   return (
@@ -30,6 +32,7 @@ function App() {
           <Route path="/Join_Name" element={<Join_Name />} />
           <Route path="/Join_Profile" element={<Join_Profile />} />
           <Route path="/Join_Face" element={<Join_Face />} />
+          <Route path="/Join_Done" element={<Join_Done />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/Search" element={<Search />} />
           <Route path="/Noti" element={<Noti />} />
@@ -39,6 +42,7 @@ function App() {
           <Route path="/Share_Done" element={<Share_Done />} />
           <Route path="/Down_Code" element={<Down_Code />} />
           <Route path="/Down_Face" element={<Down_Face />} />
+          <Route path="/Amazon" element={<Amazon />} />
         </Routes>
       </Router>
     </div>

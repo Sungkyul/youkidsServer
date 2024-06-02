@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀번호 입력</title>
+</head>
+<body>
+
+<h2>비밀번호를 입력하세요</h2>
+<input type="password" id="password">
+<button onclick="checkPassword()">확인</button>
+
+<script>
+   
+   function checkPassword() {
+    var password = document.getElementById("password").value;
+    fetch("/checkPassword", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password: password }),
+    })
+    .then(response => {
+        if (response.ok) {
+           // 비밀번호가 올바르면 이미지 페이지로 이동
+           window.location.href = `/photoview?password=${encodeURIComponent(password)}`;
+        } else {
+            alert("잘못된 비밀번호입니다. 다시 시도하세요.");
+        }
+    })
+    .catch(error => console.error("비밀번호를 확인하는 중 오류 발생:", error));
+}
+
+// function fetchImages() {
+//     var password = document.getElementById("password").value;
+//     // 서버로부터 이미지 파일의 경로를 받아오는 AJAX 요청
+//     fetch(`/getImages?password=${encodeURIComponent(password)}`)
+//     .then(response => response.json()) // 이미지 파일의 경로 목록을 JSON으로 받음
+//     .then(imagePaths => {
+//         // 이미지를 표시하는 페이지로 이동
+//         window.location.href = `/photoview?imagePaths=${encodeURIComponent(JSON.stringify(imagePaths))}`;
+//     })
+//     .catch(error => console.error("이미지를 받아오는 중 오류 발생:", error));
+// }
+
+</script>
+
+</body>
+</html>

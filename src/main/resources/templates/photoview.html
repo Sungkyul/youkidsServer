@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이미지 페이지</title>
+    <style>
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .image-container img {
+            margin: 10px;
+            max-width: 300px;
+            max-height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h2>이미지 페이지</h2>
+    <div class="image-container" id="image-container"></div> <!-- 이미지를 담을 컨테이너 -->
+
+    <script>
+        window.onload = function() {
+            // URL 파라미터에서 패스워드를 가져옴
+            var urlParams = new URLSearchParams(window.location.search);
+            var password = urlParams.get('password');
+    
+            // 이미지 가져오는 함수 호출
+            fetchImages(password);
+        };
+    
+        function fetchImages(password) {
+            // 서버로부터 이미지 파일의 경로를 받아오는 AJAX 요청
+            fetch(`/getImages?password=${encodeURIComponent(password)}`)
+            .then(response => response.json()) // 이미지 파일의 경로 목록을 JSON으로 받음
+            .then(imagePaths => {
+                // 이미지를 표시하는 함수 호출
+                displayImages(imagePaths);
+            })
+            .catch(error => console.error("이미지를 받아오는 중 오류 발생:", error));
+        }
+    
+        function displayImages(imagePaths) {
+            var imageContainer = document.getElementById("image-container");
+            // 가져온 이미지 경로 목록을 사용하여 이미지를 동적으로 생성하고 표시
+            imagePaths.forEach(function(imagePath) {
+                var img = document.createElement("img");
+                img.src = imagePath;
+                img.alt = "사진";
+                imageContainer.appendChild(img);
+            });
+        }
+    </script>
+    
+</body>
+</html>
+

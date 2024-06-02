@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.File;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -47,6 +48,18 @@ public class UserService {
         user user = userRepository.findByUserIdPhone(phoneNumber);
         return user != null && user.getUserPassword().equals(password);
     }
+
+    public user updateUserName(String phone, String newUserName) {
+        Optional<user> optionalUser = Optional.ofNullable(userRepository.findByUserIdPhone(phone));
+        if (optionalUser.isPresent()) {
+            user user = optionalUser.get();
+            user.setUserName(newUserName);
+            return userRepository.save(user);
+        } else {
+            return null;
+        }
+    }
+
 
 
 }

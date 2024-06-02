@@ -1,8 +1,9 @@
 {
   "files": {
-    "main.css": "/static/css/main.1f231f9f.css",
-    "main.js": "/static/js/main.7066f6ed.js",
-    "static/js/453.a8fa0134.chunk.js": "/static/js/453.a8fa0134.chunk.js",
+    "main.css": "/static/css/main.a1b5ffcb.css",
+    "main.js": "/static/js/main.04fbad3a.js",
+    "static/js/453.b2a5b42a.chunk.js": "/static/js/453.b2a5b42a.chunk.js",
+    "static/media/profile.svg": "/static/media/profile.820f0c3704604f38aaa31660a93485a5.svg",
     "static/media/image1.svg": "/static/media/image1.43dda5e0f6b3974e4d821154e6d8acbc.svg",
     "static/media/image4.svg": "/static/media/image4.f72bb34e65655b45dc516ff25c41c3be.svg",
     "static/media/image5.svg": "/static/media/image5.742f255c53c98e64794c27ce76c52e66.svg",
@@ -10,14 +11,26 @@
     "static/media/image3.svg": "/static/media/image3.925f9623ffe023cf105876e12b906c47.svg",
     "static/media/image2.svg": "/static/media/image2.e9c08f645dc7cdcf3e43abefe6fc1b6c.svg",
     "static/media/light.svg": "/static/media/light.a29adf869e339d9b424f3c3ebd81ad50.svg",
+    "static/media/설정.svg": "/static/media/설정.54336efe37a29f0b2623aea2397a8975.svg",
+    "static/media/전송기록.svg": "/static/media/전송기록.6dad301e3c5f82a57066493ea8048d2c.svg",
+    "static/media/즐겨찾기.svg": "/static/media/즐겨찾기.587285b2c64fa4679d2851bcbb0beeeb.svg",
+    "static/media/공지.svg": "/static/media/공지.3c2bd3ca8e35d6f1cf086b3379e2b540.svg",
+    "static/media/휴지통.svg": "/static/media/휴지통.0008511411b46e26a951a700ced69fb6.svg",
+    "static/media/exit.svg": "/static/media/exit.d17b7bb51c7039a962463fac51203e0a.svg",
+    "static/media/Magnifier.svg": "/static/media/Magnifier.cb35ce53cc063fca8d8b0a77900ae879.svg",
+    "static/media/search.svg": "/static/media/search.2813655527c01426fbdd90da96964341.svg",
+    "static/media/Right.svg": "/static/media/Right.1c4eb6f464e4e3170061f9dcc35d03aa.svg",
+    "static/media/오른쪽 화살표.svg": "/static/media/오른쪽 화살표.d8717d39901a5393c3a2d4e38f8f5117.svg",
     "static/media/Plus.svg": "/static/media/Plus.bdb94f8f78743df89b7cac2fb7f59915.svg",
+    "static/media/notification.svg": "/static/media/notification.bab430914bcc43ca006db818f28607b0.svg",
     "index.html": "/index.html",
-    "main.1f231f9f.css.map": "/static/css/main.1f231f9f.css.map",
-    "main.7066f6ed.js.map": "/static/js/main.7066f6ed.js.map",
-    "453.a8fa0134.chunk.js.map": "/static/js/453.a8fa0134.chunk.js.map"
+    "static/media/menubar.svg": "/static/media/menubar.09ef423a6998032857a6274c12d13e27.svg",
+    "main.a1b5ffcb.css.map": "/static/css/main.a1b5ffcb.css.map",
+    "main.04fbad3a.js.map": "/static/js/main.04fbad3a.js.map",
+    "453.b2a5b42a.chunk.js.map": "/static/js/453.b2a5b42a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1f231f9f.css",
-    "static/js/main.7066f6ed.js"
+    "static/css/main.a1b5ffcb.css",
+    "static/js/main.04fbad3a.js"
   ]
 }
