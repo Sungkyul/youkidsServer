@@ -1,5 +1,18 @@
 package okmewakka.youkids.Controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import okmewakka.youkids.Repository.PhotoRepository;
 import okmewakka.youkids.Service.VerificationCodeService;
 import okmewakka.youkids.entity.Photo;
@@ -13,19 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
-
+@Tag(name = "사진 API", description = "사진 API")
 @Controller
 public class PhotoController {
 
@@ -37,66 +38,53 @@ public class PhotoController {
 
     private Photo photo = new Photo();
 
+    @Operation(summary = "Upload Page 보기", description = "파일 업로드 페이지를 보여줍니다.")
     @GetMapping("/uploadpage")
     public String showUploadPage() {
         return "photoUpload"; 
     }
+
+    @Operation(summary = "Code Input Page 보기", description = "코드 입력 페이지를 보여줍니다.")
     @GetMapping("/codeinputpage")
     public String codeinputpage() {
         return "codeinput";
     }
     
+    @Operation(summary = "사진 업로드", description = "사진을 업로드합니다.")
+    @Parameter(name = "files", description = "업로드 사진")
     @PostMapping("/upload")
     public String uploadPhotos(Model model, @RequestParam("files") List<MultipartFile> files) {
         try {
-            String commonUUID = UUID.randomUUID().toString(); // 여러 파일에 동일한 UUID 생성
+            String commonUUID = UUID.randomUUID().toString();
             String code = verificationCodeService.createVerificationCode();
     
             for (MultipartFile file : files) {
-                // UUID를 사용하여 파일명을 고유하게 생성
                 String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
                 String fileName = commonUUID + "_" + originalFileName;
     
-                // 파일을 업로드할 디렉토리 경로 설정
                 String uploadDir = "src/main/resources/static/files";
                 String filePath = uploadDir + File.separator + fileName;
     
-                // 파일 저장
                 Path path = Paths.get(filePath);
                 Files.write(path, file.getBytes());
     
-                // 새로운 Photo 객체 생성 및 속성 설정
                 Photo photo = new Photo();
                 photo.setFileName(fileName);
                 photo.setFilePath("/files/" + fileName);
-                photo.setUuid(code); // 모든 파일에 동일한 UUID 설정
+                photo.setUuid(code);
     
-                // 데이터베이스에 Photo 객체 저장
                 photoRepository.save(photo);
     
-                // 코드를 모델에 추가하여 뷰로 전달
                 model.addAttribute("code", code);
             }
         } catch (IOException e) {
             e.printStackTrace();
-            // 예외 처리
         }
         return "verificationCodeView";
     }
     
     
-    // @PostMapping("/verifyCode")
-    // public ResponseEntity<?> verifyCode(@RequestParam String code) {
-    //     boolean isValidCode = verificationCodeService.enterVerificationCode(code);
-    //     if (verificationCodeService.verifyCode(code)) {
-    //         // 인증 성공 시 사진 전송 로직
-    //         // 예시로는 단순 문자열 반환
-    //         return ResponseEntity.ok("인증 성공! 여기 사진을 보내드립니다.");
-    //     } else {
-    //         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
-    //     }
-    // }
-
+    @Operation(summary = "코드 보기", description = "코드를 보여줍니다.")
     @GetMapping("/codeView")
     public String ViewVerificationCode(Model model) {
         model.addAttribute("photo", photo);
@@ -104,29 +92,21 @@ public class PhotoController {
         model.addAttribute("code",code);
         return "verificationCodeView";
     }
+    
+    @Operation(summary = "이미지 경로 가져오기", description = "이미지 경로를 가져옵니다.")
     @GetMapping("/getImages")
-    public ResponseEntity<List<String>> getImagePaths(@RequestParam String password) {
-    List<Photo> photos = photoRepository.findByUuid(password);
-    List<String> imagePaths = new ArrayList<>();
-    for (Photo photo : photos) {
-        imagePaths.add(photo.getFilePath());
-    }
-    return ResponseEntity.ok().body(imagePaths);
+    public ResponseEntity<List<String>> getImagePaths(@Parameter(description = "비밀번호") @RequestParam String password) {
+        List<Photo> photos = photoRepository.findByUuid(password);
+        List<String> imagePaths = new ArrayList<>();
+        for (Photo photo : photos) {
+            imagePaths.add(photo.getFilePath());
+        }
+        return ResponseEntity.ok().body(imagePaths);
     }
     
+    @Operation(summary = "사진 보기", description = "사진 보기 페이지를 보여줍니다.")
     @GetMapping("/photoview")
     public String showPhotoViewPage() {
-    return "photoview"; // 이 경우에는 photoview.html 파일의 경로를 반환하는 것이 아니라 뷰의 이름을 반환합니다.
-}
-
-
-    
-
-    // @GetMapping("/photoview")
-    // public String showPhotoView(@RequestParam String imagePath, Model model) {
-    //     // 이미지 경로를 모델에 추가하여 템플릿으로 전달
-    //     model.addAttribute("imagePath", imagePath);
-    //     return "photoview"; // 렌더링할 템플릿 이름 반환
-    // }
-
+        return "photoview";
+    }
 }

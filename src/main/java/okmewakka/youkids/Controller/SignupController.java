@@ -13,27 +13,34 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+@Tag(name = "회원가입 API", description = "회원가입 API")
 @Controller
-public class SignupController<request> extends HttpServlet {
+public class SignupController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private UserRepository userRepository;
 
     private user user = new user();
 
-    // 회원가입 페이지로 이동하는 메소드
+    @Operation(summary = "회원가입 페이지 보기", description = "회원가입 페이지를 보여줍니다.")
     @GetMapping("/signup")
     public String showSignUpPage(Model model) throws IOException {
         model.addAttribute("user", user);
         return "name";
     }
 
-    //이름 입력
+    @Operation(summary = "이름 입력", description = "사용자의 이름을 입력합니다.")
+    @Parameter(name = "name")
     @PostMapping("/name")
     public String saveName(Model model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         model.addAttribute("user", user);
@@ -44,7 +51,8 @@ public class SignupController<request> extends HttpServlet {
         return "phoneNumber";
     }
 
-    //패스워드 입력
+    @Operation(summary = "패스워드 입력", description = "사용자의 패스워드를 입력합니다.")
+    @Parameter(name = "password")
     @PostMapping("/password")
     public String submitPassword(Model model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         model.addAttribute("user", user);
@@ -55,9 +63,10 @@ public class SignupController<request> extends HttpServlet {
         return "profilePicture";
     }
 
-    //휴대폰 번호 입력
+    @Operation(summary = "휴대폰 번호 입력", description = "사용자의 휴대폰 번호를 입력합니다.")
+    @Parameter(name = "phoneNumber")
     @PostMapping("/phoneNumber")
-    public String submitphoneNumber(Model model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    public String submitPhoneNumber(Model model, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         model.addAttribute("user", user);
         request.setCharacterEncoding("utf-8");
         String phoneNumber = request.getParameter("phoneNumber");
@@ -66,15 +75,15 @@ public class SignupController<request> extends HttpServlet {
         return "/password";
     }
 
-    //프로필 사진 업로드
+    @Operation(summary = "프로필 사진 업로드", description = "사용자의 프로필 사진을 업로드합니다.")
     @PostMapping("/profilePicture")
-    public String submitprofilePicture(Model model, MultipartFile profile, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public String submitProfilePicture(Model model, MultipartFile profile, HttpServletRequest request, HttpServletResponse response) throws Exception {
         model.addAttribute("user", user);
         userService.profileUpload(user, profile);
         return "terms";
     }
 
-    // 약관 동의 후 user 데이터 베이스에 저장
+    @Operation(summary = "약관 동의 후 회원가입 완료", description = "약관 동의 후 사용자 정보를 데이터베이스에 저장합니다.")
     @PostMapping("/complete")
     public String completeSignUp(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
         model.addAttribute("user", user);
@@ -86,8 +95,5 @@ public class SignupController<request> extends HttpServlet {
         System.out.println(name + password + pn);
 
         return "index";
-
     }
-
-
 }

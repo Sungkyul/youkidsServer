@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import okmewakka.youkids.Repository.UserRepository;
 import okmewakka.youkids.Service.UserService;
 import okmewakka.youkids.entity.user;
@@ -22,17 +24,21 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
     @Autowired 
     UserRepository userRepository;
 
+    @Operation(summary = "로그인 페이지 보기", description = "로그인 페이지로 이동합니다.")
     @GetMapping("/login")
     public String showLoginPage() {
-        
         return "index";
     }
-    //유저 네임 수정 
+
+    @Operation(summary = "유저 이름 수정", description = "유저의 이름을 수정합니다.")
     @PutMapping("/{phone}/name")
-    public ResponseEntity<String> updateUserName(@PathVariable String phone, @RequestBody String newUserName) {
+    public ResponseEntity<String> updateUserName(
+            @Parameter(description = "유저 전화번호") @PathVariable String phone,
+            @Parameter(description = "새로운 유저 이름") @RequestBody String newUserName) {
         user updatedUser = userService.updateUserName(phone, newUserName);
         if (updatedUser != null) {
             return ResponseEntity.ok().body("회원 이름이 성공적으로 업데이트되었습니다.");
@@ -41,9 +47,11 @@ public class UserController {
         }
     }
 
-    //유저 비밀번호 수정 
+    @Operation(summary = "유저 비밀번호 수정", description = "유저의 비밀번호를 수정합니다.")
     @PutMapping("/{phone}/password")
-    public ResponseEntity<String> updateUserPassword(@PathVariable String phone, @RequestBody String newPassword) {
+    public ResponseEntity<String> updateUserPassword(
+            @Parameter(description = "유저 전화번호") @PathVariable String phone,
+            @Parameter(description = "새로운 비밀번호") @RequestBody String newPassword) {
         Optional<user> userOptional = Optional.ofNullable(userRepository.findByUserIdPhone(phone));
         if (userOptional.isPresent()) {
             user user = userOptional.get();
@@ -54,17 +62,18 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당하는 사용자를 찾을 수 없습니다.");
         }
     }
+
+    @Operation(summary = "유저 전화번호 수정", description = "유저의 전화번호를 수정합니다.")
     @PutMapping("/{phone}/phoneNumber")
-    public ResponseEntity<String> updateUserPhoneNumber(@PathVariable String phone, @RequestBody String newPhoneNumber) {
+    public ResponseEntity<String> updateUserPhoneNumber(
+            @Parameter(description = "유저 전화번호") @PathVariable String phone,
+            @Parameter(description = "새로운 전화번호") @RequestBody String newPhoneNumber) {
         Optional<user> userOptional = Optional.ofNullable(userRepository.findByUserIdPhone(phone));
         if (userOptional.isPresent()) {
             user user = userOptional.get();
-
-            // 새로운 전화번호가 이미 등록되어 있는지 확인
             if (userRepository.findByUserIdPhone(newPhoneNumber) != null) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("새로운 전화번호가 이미 등록되어 있습니다.");
             }
-
             user.setUserIdPhone(newPhoneNumber);
             userRepository.save(user);
             return ResponseEntity.ok("전화번호가 성공적으로 업데이트되었습니다.");
@@ -72,9 +81,12 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당하는 사용자를 찾을 수 없습니다.");
         }
     }
-    //유저 프로필 사진 수정 
+
+    @Operation(summary = "유저 프로필 사진 수정", description = "유저의 프로필 사진을 수정합니다.")
     @PutMapping("/{phone}/profile")
-    public ResponseEntity<String> updateProfile(@PathVariable String phone, @RequestParam MultipartFile profile) {
+    public ResponseEntity<String> updateProfile(
+            @Parameter(description = "유저 전화번호") @PathVariable String phone,
+            @Parameter(description = "프로필 사진") @RequestParam MultipartFile profile) {
         try {
             Optional<user> userOptional = Optional.ofNullable(userRepository.findByUserIdPhone(phone));
             if (userOptional.isPresent()) {
@@ -88,6 +100,5 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로필 사진 업데이트에 실패했습니다.");
         }
     }
-    
 }
 
