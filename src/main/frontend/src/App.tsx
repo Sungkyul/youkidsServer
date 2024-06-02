@@ -20,6 +20,7 @@ import Share_Done from "./pages/Share_Done";
 import Down_Code from "./pages/Down_Code";
 import Down_Face from "./pages/Down_Face";
 import Amazon from "./pages/Amazon";
+import Pre from "./pages/Pre";
 import Hello from "./pages/Hello";
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
           <Route path="/Down_Code" element={<Down_Code />} />
           <Route path="/Down_Face" element={<Down_Face />} />
           <Route path="/Amazon" element={<Amazon />} />
+          <Route path="/Pre" element={<Pre />} />
           <Route path="/Hello" element={<Hello />} />
         </Routes>
       </Router>
