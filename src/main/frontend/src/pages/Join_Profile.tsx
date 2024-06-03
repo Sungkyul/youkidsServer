@@ -28,7 +28,7 @@ function Join_Profile() {
   const handleConfirmation = () => {
     // 프로필 사진이 등록되었는지 확인하는 조건
     if (selectedFile) {
-      navigate("/Join_Face");
+      navigate("/Join_Done");
     } else {
       setIsEmptyModalOpen(true);
     }

@@ -14,6 +14,9 @@ module.exports = {
         emerald: {
           200: "#B5D8CB",
         },
+        zinc: {
+          200: "#DAEBE5",
+        },
         slate: {
           500: "#6490B1",
         },
