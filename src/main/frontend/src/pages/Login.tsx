@@ -4,7 +4,12 @@ import { useNavigate } from "react-router-dom";
 function Login() {
   const navigate = useNavigate();
 
-  const handleConfirmation = () => {
+  const handleLogin = () => {
+    // '회원가입' 버튼을 클릭하면 Home로 이동
+    navigate("/Home");
+  };
+
+  const handleJoin = () => {
     // '회원가입' 버튼을 클릭하면 Join_ID로 이동
     navigate("/Join_ID");
   };
@@ -29,14 +34,17 @@ function Login() {
             placeholder="비밀번호"
           />
         </div>
-        <button className="flex items-center justify-center w-72 h-[50px] bg-slate-500 rounded-lg">
+        <button
+          onClick={handleLogin}
+          className="flex items-center justify-center w-72 h-[50px] bg-slate-500 rounded-lg"
+        >
           <div className="text-center text-white text-base font-normal font-['Pretendard'] leading-snug">
             로그인
           </div>
         </button>
         <div className="flex items-center justify-center">
           <button
-            onClick={handleConfirmation}
+            onClick={handleJoin}
             className="my-4 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug"
           >
             회원가입

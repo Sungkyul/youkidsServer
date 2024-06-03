@@ -1,27 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import profile from "../assets/profile.svg";
 import image1 from "../assets/image1.svg";
 import image2 from "../assets/image2.svg";
 import MenuBar from "../components/MenuBar";
 import SearchButton from "../components/SearchButton";
 import Notification from "../components/Notification";
+import FixedButton from "../components/FixedButton";
 
 function Home() {
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(true);
+
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="pt-2">
       <div className="w-full mx-auto flex justify-between">
         <MenuBar text="" /> {/* MenuBar 컴포넌트를 사용 */}
-        <div className="flex justify-end items-center pr-4 ">
+        <div className="flex justify-end items-center pr-4">
           <SearchButton
             text={""}
             onClick={() => {
-              throw new Error("Function not implemented.");
+              navigate("/Search");
             }}
           />
           <Notification
             text={""}
             onClick={() => {
-              throw new Error("Function not implemented.");
+              navigate("/Noti");
             }}
           />
         </div>
@@ -45,7 +54,7 @@ function Home() {
             alt="짱구"
             className="w-[125px] h-[125px] rounded-lg"
           />
-          <p className="text-xs text-left pt-1">입학식</p>
+          <p className="text-xs text-left pt-1">소풍</p>
         </div>
       </div>
       <div className="flex justify-center item-center space-x-6">
@@ -63,7 +72,7 @@ function Home() {
             alt="짱구"
             className="w-[125px] h-[125px] rounded-lg"
           />
-          <p className="text-xs text-left pt-1">입학식</p>
+          <p className="text-xs text-left pt-1">소풍</p>
         </div>
       </div>
       <div className="flex justify-center item-center space-x-6">
@@ -81,9 +90,33 @@ function Home() {
             alt="짱구"
             className="w-[125px] h-[125px] rounded-lg"
           />
-          <p className="text-xs text-left pt-1">입학식</p>
+          <p className="text-xs text-left pt-1">소풍</p>
         </div>
       </div>
+      <div className="flex justify-center item-center space-x-6">
+        <div className="pb-6">
+          <img
+            src={image1}
+            alt="짱구"
+            className="w-[125px] h-[125px] rounded-lg"
+          />
+          <p className="text-xs text-left pt-1">입학식</p>
+        </div>
+        <div>
+          <img
+            src={image2}
+            alt="짱구"
+            className="w-[125px] h-[125px] rounded-lg"
+          />
+          <p className="text-xs text-left pt-1">소풍</p>
+        </div>
+      </div>
+      <FixedButton
+        isOpen={isOpen}
+        onClose={toggleOpen}
+        style={{ zIndex: 9999 }}
+      />
+      {/* FixedButton 컴포넌트를 홈 화면의 가장 아래에 렌더링 */}
     </div>
   );
 }
