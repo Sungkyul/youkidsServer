@@ -1,7 +1,6 @@
-// import React from 'react';
-// import logo from './logo.svg';
-// import { Route, Routes } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import axios from 'axios';
 import "./App.css";
 import Login from "./pages/Login";
 import Join_ID from "./pages/Join_ID";
@@ -22,6 +21,14 @@ import Down_Face from "./pages/Down_Face";
 import Amazon from "./pages/Amazon";
 
 function App() {
+  const [hello, setHello] = useState('');
+
+  useEffect(() => {
+    axios.get('/api/hello')
+    .then(response => setHello(response.data))
+    .catch(error => console.log(error));
+  }, []);
+
   return (
     <div>
       <Router>
@@ -45,8 +52,12 @@ function App() {
           <Route path="/Amazon" element={<Amazon />} />
         </Routes>
       </Router>
+      <div>
+        백엔드에서 가져온 데이터입니다: {hello}
+      </div>
     </div>
   );
 }
 
 export default App;
+
