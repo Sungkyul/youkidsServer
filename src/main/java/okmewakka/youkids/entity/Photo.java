@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.amazonaws.services.rekognition.model.Face;
+
 
 import lombok.Getter;
 import lombok.Setter;
