@@ -42,6 +42,13 @@ dependencies {
    // AWS Java SDK for Rekognition
    implementation 'com.amazonaws:aws-java-sdk-rekognition:1.11.1030'
    
+   implementation 'org.hibernate.orm:hibernate-core:6.4.4.Final'
+
+
+
+ 
+
+   
 }
 /*
 tasks.named('test') {

@@ -38,50 +38,54 @@ const Amazon: React.FC = () => {
       const imageBytes = await file.arrayBuffer();
       const params = {
         Image: { Bytes: new Uint8Array(imageBytes) },
-        Attributes: ["ALL"],
+        Attributes: ["ALL"], // Attributes는 "ALL" 또는 "DEFAULT"로 설정
       };
 
-      const response = await rekognition.detectFaces(params).promise();
-      const image = URL.createObjectURL(file);
-      const img = new Image();
-      img.src = image;
+      try {
+        const response = await rekognition.detectFaces(params).promise();
+        const image = URL.createObjectURL(file);
+        const img = new Image();
+        img.src = image;
 
-      await new Promise((resolve) => {
-        img.onload = () => {
-          const width = img.width;
-          const height = img.height;
+        await new Promise((resolve) => {
+          img.onload = () => {
+            const width = img.width;
+            const height = img.height;
 
-          response.FaceDetails?.forEach((faceDetail, index) => {
-            const box = faceDetail.BoundingBox!;
-            const left = Math.floor(box.Left! * width);
-            const top = Math.floor(box.Top! * height);
-            const right = Math.floor((box.Left! + box.Width!) * width);
-            const bottom = Math.floor((box.Top! + box.Height!) * height);
+            response.FaceDetails?.forEach((faceDetail, index) => {
+              const box = faceDetail.BoundingBox!;
+              const left = Math.floor(box.Left! * width);
+              const top = Math.floor(box.Top! * height);
+              const right = Math.floor((box.Left! + box.Width!) * width);
+              const bottom = Math.floor((box.Top! + box.Height!) * height);
 
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d")!;
-            canvas.width = right - left;
-            canvas.height = bottom - top;
-            ctx.drawImage(
-              img,
-              left,
-              top,
-              canvas.width,
-              canvas.height,
-              0,
-              0,
-              canvas.width,
-              canvas.height
-            );
+              const canvas = document.createElement("canvas");
+              const ctx = canvas.getContext("2d")!;
+              canvas.width = right - left;
+              canvas.height = bottom - top;
+              ctx.drawImage(
+                img,
+                left,
+                top,
+                canvas.width,
+                canvas.height,
+                0,
+                0,
+                canvas.width,
+                canvas.height
+              );
 
-            canvas.toBlob((blob) => {
-              const newImagePath = URL.createObjectURL(blob!);
-              faces.push({ imagePath: newImagePath, faceDetail });
+              canvas.toBlob((blob) => {
+                const newImagePath = URL.createObjectURL(blob!);
+                faces.push({ imagePath: newImagePath, faceDetail });
+              });
             });
-          });
-          resolve(null);
-        };
-      });
+            resolve(null);
+          };
+        });
+      } catch (error) {
+        console.error("Error detecting faces:", error);
+      }
     }
 
     return faces;
@@ -97,10 +101,16 @@ const Amazon: React.FC = () => {
     const params = {
       SourceImage: { Bytes: await img1.arrayBuffer() },
       TargetImage: { Bytes: await img2.arrayBuffer() },
+      SimilarityThreshold: 90, // 유사도 임계값 설정 (기본값은 80)
     };
 
-    const response = await rekognition.compareFaces(params).promise();
-    return response.FaceMatches?.[0]?.Similarity || 0;
+    try {
+      const response = await rekognition.compareFaces(params).promise();
+      return response.FaceMatches?.[0]?.Similarity || 0;
+    } catch (error) {
+      console.error("Error comparing faces:", error);
+      return 0;
+    }
   };
 
   const groupFacesBySimilarity = async (
@@ -137,8 +147,7 @@ const Amazon: React.FC = () => {
   };
 
   const handleConfirm = () => {
-    // Navigate to the cancel route
-    navigate("/Share_Done"); // Replace with your actual route
+    navigate("/Share_Done");
   };
 
   const handleCancel = () => {
@@ -147,7 +156,7 @@ const Amazon: React.FC = () => {
     setFaceGroups([]);
     setShowConfirmation(false);
     if (fileInputRef.current) {
-      fileInputRef.current.value = ""; // 파일 입력 초기화
+      fileInputRef.current.value = "";
     }
   };
 
@@ -162,7 +171,7 @@ const Amazon: React.FC = () => {
           type="file"
           multiple
           onChange={handleFileChange}
-          ref={fileInputRef} // 파일 입력 참조 연결
+          ref={fileInputRef}
         />
         <button
           className="w-40 h-9 bg-blue-400 mr-4"
