@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import AWS from "aws-sdk";
+import ShareLoading from "./Share_Loading";
 
 // AWS 설정
 AWS.config.update({
@@ -150,6 +151,10 @@ const Amazon: React.FC = () => {
       fileInputRef.current.value = ""; // 파일 입력 초기화
     }
   };
+
+  if (isProcessing) {
+    return <ShareLoading />;
+  }
 
   return (
     <div className="w-full mx-auto">
