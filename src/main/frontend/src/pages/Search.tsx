@@ -44,32 +44,16 @@ function Search() {
           <div className="flex items-center justify-center w-[22px] h-[22px] bg-neutral-200 rounded-full">
             <img src={Magnifier} alt="검색" className="w-3.5 h-3.5 relative" />
           </div>
-          <div className="w-[100px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
-            운동회
+          <div className="ml-1 w-[100px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
+            체육대회
           </div>
         </div>
         <div className="flex mx-[14px] my-[14px]">
           <div className="flex items-center justify-center w-[22px] h-[22px] bg-neutral-200 rounded-full">
             <img src={Magnifier} alt="검색" className="w-3.5 h-3.5 relative" />
           </div>
-          <div className="w-[100px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
-            소풍
-          </div>
-        </div>
-        <div className="flex mx-[14px] my-[14px]">
-          <div className="flex items-center justify-center w-[22px] h-[22px] bg-neutral-200 rounded-full">
-            <img src={Magnifier} alt="검색" className="w-3.5 h-3.5 relative" />
-          </div>
-          <div className="w-[100px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
+          <div className="ml-1 w-[100px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
             입학식
-          </div>
-        </div>
-        <div className="flex mx-[14px] my-[14px]">
-          <div className="flex items-center justify-center w-[22px] h-[22px] bg-neutral-200 rounded-full">
-            <img src={Magnifier} alt="검색" className="w-3.5 h-3.5 relative" />
-          </div>
-          <div className="w-[100px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
-            체험학습
           </div>
         </div>
       </div>
