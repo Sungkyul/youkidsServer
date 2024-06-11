@@ -40,14 +40,6 @@ function Home() {
         <p className="text-[100px] text-center text-lg  ">김연아</p>
       </div>
       <div className="flex justify-center item-center space-x-6">
-        <div className="pb-6">
-          <img
-            src={image1}
-            alt="짱구"
-            className="w-[125px] h-[125px] rounded-lg"
-          />
-          <p className="text-xs text-left pt-1">입학식</p>
-        </div>
         <div>
           <img
             src={image2}
@@ -55,6 +47,14 @@ function Home() {
             className="w-[125px] h-[125px] rounded-lg"
           />
           <p className="text-xs text-left pt-1">체육대회</p>
+        </div>
+        <div className="pb-6">
+          <img
+            src={image1}
+            alt="짱구"
+            className="w-[125px] h-[125px] rounded-lg"
+          />
+          <p className="text-xs text-left pt-1">입학식</p>
         </div>
       </div>
       <FixedButton
