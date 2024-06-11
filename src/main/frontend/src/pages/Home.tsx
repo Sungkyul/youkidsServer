@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import profile from "../assets/profile.svg";
-import image1 from "../assets/image1.svg";
-import image2 from "../assets/image2.svg";
+import profile from "../assets/profile.jpeg";
+import image1 from "../assets/image1.png";
+import image2 from "../assets/image2.png";
 import MenuBar from "../components/MenuBar";
 import SearchButton from "../components/SearchButton";
 import Notification from "../components/Notification";
@@ -37,7 +37,7 @@ function Home() {
       </div>
       <div className="flex flex-col items-center justify-center py-8">
         <img src={profile} alt="프로필" className="w-[80px] h-[80px]" />
-        <p className="text-[100px] text-center text-lg  ">신짱구</p>
+        <p className="text-[100px] text-center text-lg  ">김연아</p>
       </div>
       <div className="flex justify-center item-center space-x-6">
         <div className="pb-6">
@@ -54,61 +54,7 @@ function Home() {
             alt="짱구"
             className="w-[125px] h-[125px] rounded-lg"
           />
-          <p className="text-xs text-left pt-1">소풍</p>
-        </div>
-      </div>
-      <div className="flex justify-center item-center space-x-6">
-        <div className="pb-6 ">
-          <img
-            src={image1}
-            alt="짱구"
-            className="w-[125px] h-[125px] rounded-lg"
-          />
-          <p className="text-xs text-left pt-1">입학식</p>
-        </div>
-        <div>
-          <img
-            src={image2}
-            alt="짱구"
-            className="w-[125px] h-[125px] rounded-lg"
-          />
-          <p className="text-xs text-left pt-1">소풍</p>
-        </div>
-      </div>
-      <div className="flex justify-center item-center space-x-6">
-        <div className="pb-6">
-          <img
-            src={image1}
-            alt="짱구"
-            className="w-[125px] h-[125px] rounded-lg"
-          />
-          <p className="text-xs text-left pt-1">입학식</p>
-        </div>
-        <div>
-          <img
-            src={image2}
-            alt="짱구"
-            className="w-[125px] h-[125px] rounded-lg"
-          />
-          <p className="text-xs text-left pt-1">소풍</p>
-        </div>
-      </div>
-      <div className="flex justify-center item-center space-x-6">
-        <div className="pb-6">
-          <img
-            src={image1}
-            alt="짱구"
-            className="w-[125px] h-[125px] rounded-lg"
-          />
-          <p className="text-xs text-left pt-1">입학식</p>
-        </div>
-        <div>
-          <img
-            src={image2}
-            alt="짱구"
-            className="w-[125px] h-[125px] rounded-lg"
-          />
-          <p className="text-xs text-left pt-1">소풍</p>
+          <p className="text-xs text-left pt-1">체육대회</p>
         </div>
       </div>
       <FixedButton

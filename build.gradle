@@ -39,6 +39,15 @@ dependencies {
    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
    // Swagger
    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'	
+   // AWS Java SDK for Rekognition
+   implementation 'com.amazonaws:aws-java-sdk-rekognition:1.11.1030'
+   
+   implementation 'org.hibernate.orm:hibernate-core:6.4.4.Final'
+
+
+
+ 
+
    
 }
 /*

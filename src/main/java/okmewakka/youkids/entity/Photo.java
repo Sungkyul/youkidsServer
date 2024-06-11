@@ -1,12 +1,24 @@
 package okmewakka.youkids.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,6 +46,13 @@ public class Photo {
     @Column(name="file_path")
     @Schema(description = "파일 이름")
     private String filePath;
+
+    @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
+    private List<Face> faces = new ArrayList<>();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
+    private Date uploadDate = new Date(); // 업로드 날짜
 
  
 }

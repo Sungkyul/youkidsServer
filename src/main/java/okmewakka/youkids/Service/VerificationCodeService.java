@@ -49,6 +49,5 @@ public class VerificationCodeService {
         if (isValidCode) {
             verificationCodeRepository.deleteByCode(codeEnteredByUser);
         }
-        return isValidCode;
-    }
+        return isValidCode;    }
 }
