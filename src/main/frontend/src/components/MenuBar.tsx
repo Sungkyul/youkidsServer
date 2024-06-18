@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import image1 from "../assets/image1.svg";
+import profile from "../assets/profile.jpeg";
 import 오른쪽화살표 from "../assets/오른쪽 화살표.svg";
 import 전송기록 from "../assets/전송기록.svg";
 import 즐겨찾기 from "../assets/즐겨찾기.svg";
@@ -50,11 +50,11 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
           <div className="flex flex-col items-center justify-center w-full h-full">
             <div className="flex items-center py-8 pl-2 w-full">
               <img
-                src={image1}
-                alt="짱구"
+                src={profile}
+                alt="김연아"
                 className="w-[50px] h-[50px] rounded-full"
               />
-              <p className="text-sm text-left pl-4 pr-4 font-bold">신짱구</p>
+              <p className="text-sm text-left pl-4 pr-4 font-bold">김연아</p>
               <div className="flex justify-end flex-1">
                 <img
                   src={오른쪽화살표}

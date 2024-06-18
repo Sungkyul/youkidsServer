@@ -2,22 +2,29 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal2 from "../components/Modal2";
 import ExitButton from "../components/ExitButton";
+import { getImagePaths } from "../api/photoApi"; // 이미지 경로를 불러오는 함수 임포트
 
 function Down_Code() {
   const navigate = useNavigate();
-  const [isEmptyModalOpen, setIsEmptyModalOpen] = useState(false); // 입력하지 않은 경우 모달 열림 여부 상태
-  const [code, setCode] = useState(""); // 입력된 코드 상태를 관리
-  const handleConfirmation = () => {
+  const [isEmptyModalOpen, setIsEmptyModalOpen] = useState(false);
+  const [code, setCode] = useState("");
+
+  const handleConfirmation = async () => {
     if (!code.trim()) {
       setIsEmptyModalOpen(true);
     } else {
-      //코드 입력되었을 때 Down_Face으로 이동
-      navigate("/Down_Face");
+      try {
+        const paths = await getImagePaths(code); // API 호출
+        // 이미지 경로를 상태로 전달하며 Down_Face 페이지로 이동
+        navigate("/Down_Face", { state: { imagePaths: paths } });
+      } catch (error) {
+        console.error("Error fetching image paths:", error);
+      }
     }
   };
+
   const handleCancel = () => {
-    // Navigate to the cancel route
-    navigate("/Home"); // Replace with your actual route
+    navigate("/Home");
   };
 
   return (
@@ -61,8 +68,8 @@ function Down_Code() {
           </button>
         </div>
       </div>
+
       {/* 모달 */}
-      {/* 입력하지 않은 경우 */}
       <Modal2
         isOpen={isEmptyModalOpen}
         onClose={() => setIsEmptyModalOpen(false)}
