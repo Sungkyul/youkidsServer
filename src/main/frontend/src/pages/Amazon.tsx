@@ -5,8 +5,8 @@ import ShareLoading from "./Share_Loading";
 
 // AWS 설정
 AWS.config.update({
-  accessKeyId: "AKIAXXNNTXWNKASLG6HO",
-  secretAccessKey: "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",
+  accessKeyId: "accessKey",
+  secretAccessKey: "secretAccessKey",
   region: "ap-northeast-2",
 });
 
