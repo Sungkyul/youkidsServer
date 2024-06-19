@@ -4,8 +4,8 @@ import AWS from "aws-sdk";
 
 // AWS 설정
 AWS.config.update({
-  accessKeyId: "AKIAXXNNTXWNKASLG6HO",
-  secretAccessKey: "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",
+  accessKeyId: "accesskey",
+  secretAccessKey: "secretAccessKey",
   region: "ap-northeast-2",
 });
 
