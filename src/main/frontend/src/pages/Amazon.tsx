@@ -3,8 +3,8 @@ import AWS from "aws-sdk";
 import NextButton from "../components/NextButton";
 
 const awsConfig = {
-  accessKeyId: "AKIAXXNNTXWNKASLG6HO",
-  secretAccessKey: "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",
+  accessKeyId: "accessKey",
+  secretAccessKey: "secretAccessKey",
   region: "ap-northeast-2",
 };
 
