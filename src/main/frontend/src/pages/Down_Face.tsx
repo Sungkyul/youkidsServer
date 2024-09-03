@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "../components/Modal";
 import NextButton from "../components/NextButton";
 
+import image1 from "../assets/image1.svg";
+import image2 from "../assets/image2.svg";
+import image3 from "../assets/image3.svg";
+
 const Down_Face: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달이 열려있는지 상태를 관리
   const location = useLocation();
   const navigate = useNavigate();
   const { imagePaths } = location.state || { imagePaths: [] };
@@ -13,8 +18,11 @@ const Down_Face: React.FC = () => {
   };
 
   const handleCancel = () => {
-    // Navigate to the cancel route
-    navigate("/Down_Code"); // Replace with your actual route
+    navigate("/Down_Code");
+  };
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
   };
 
   return (
@@ -52,7 +60,7 @@ const Down_Face: React.FC = () => {
       <div className="flex justify-between mx-[24px]">
         <button
           className="w-36 h-9 bg-emerald-200 rounded-lg shadow"
-          //onClick={handleOpenModal}
+          onClick={handleOpenModal}
         >
           <div className="text-center text-neutral-900 text-base font-semibold font-['Pretendard'] leading-snug">
             생성
@@ -67,6 +75,12 @@ const Down_Face: React.FC = () => {
           </div>
         </button>
       </div>
+      {/* 모달 */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        imagePaths={imagePaths} // 이미지 경로를 모달에 전달
+      />
     </div>
   );
 };

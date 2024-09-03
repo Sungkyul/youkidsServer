@@ -3,6 +3,7 @@ package okmewakka.youkids.Controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -73,7 +74,11 @@ public class PhotoController {
                 photo.setFileName(fileName);
                 photo.setFilePath("/files/" + fileName);
                 photo.setUuid(code);
-    
+
+                LocalDateTime localDateTime = LocalDateTime.now();
+                photo.setUploadDate(localDateTime);
+
+
                 photoRepository.save(photo);
     
                 model.addAttribute("code", code);
