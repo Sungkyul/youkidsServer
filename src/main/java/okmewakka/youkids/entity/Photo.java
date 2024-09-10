@@ -1,5 +1,7 @@
 package okmewakka.youkids.entity;
 
+import java.time.LocalDateTime;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,6 +37,15 @@ public class Photo {
     @Schema(description = "파일 이름")
     private String filePath;
 
+    @Column(name="upload_date")
+    @Schema(description = "파일 저장 날짜")
+    private LocalDateTime uploadDate;
+
+
+    // Setters
+    public void setUploadDate(LocalDateTime localDateTime) {
+        this.uploadDate = localDateTime;
+    }
  
 }
 
