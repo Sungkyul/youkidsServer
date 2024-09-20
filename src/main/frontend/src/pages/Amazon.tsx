@@ -5,8 +5,8 @@ import ShareLoading from "./Share_Loading";
 
 // AWS 설정
 AWS.config.update({
-  accessKeyId: "accessKey",
-  secretAccessKey: "secretAccessKey",
+  accessKeyId: "a",
+  secretAccessKey: "s",
   region: "ap-northeast-2",
 });
 
@@ -24,7 +24,7 @@ const Amazon: React.FC = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
   const navigate = useNavigate();
-  const fileInputRef = useRef<HTMLInputElement>(null); // 파일 입력 참조 추가
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -52,7 +52,7 @@ const Amazon: React.FC = () => {
           const width = img.width;
           const height = img.height;
 
-          response.FaceDetails?.forEach((faceDetail, index) => {
+          response.FaceDetails?.forEach((faceDetail) => {
             const box = faceDetail.BoundingBox!;
             const left = Math.floor(box.Left! * width);
             const top = Math.floor(box.Top! * height);
@@ -137,9 +137,51 @@ const Amazon: React.FC = () => {
     setShowConfirmation(true);
   };
 
+  const handleSendToBackend = async () => {
+    const formData = new FormData();
+
+    // 비동기적으로 모든 파일을 formData에 추가
+    await Promise.all(
+      faceGroups.flatMap((group, idx) =>
+        group.map((face, faceIdx) =>
+          fetch(face.imagePath)
+            .then((res) => res.blob())
+            .then((blob) => {
+              formData.append(
+                `files`,
+                blob,
+                `group_${idx}_face_${faceIdx}.jpg`
+              );
+            })
+        )
+      )
+    );
+
+    // formData 확인 (디버그용)
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
+    try {
+      const response = await fetch("http://localhost:7080/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.text();
+        console.log("Received verification code:", data);
+      } else {
+        console.error("Failed to send data to the backend.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   const handleConfirm = () => {
-    // Navigate to the cancel route
-    navigate("/Share_Done"); // Replace with your actual route
+    handleSendToBackend();
+    navigate("/Share_Done");
   };
 
   const handleCancel = () => {
@@ -148,7 +190,7 @@ const Amazon: React.FC = () => {
     setFaceGroups([]);
     setShowConfirmation(false);
     if (fileInputRef.current) {
-      fileInputRef.current.value = ""; // 파일 입력 초기화
+      fileInputRef.current.value = "";
     }
   };
 
@@ -159,7 +201,7 @@ const Amazon: React.FC = () => {
   return (
     <div className="w-full mx-auto">
       <div className="justify-center py-4">
-        <p className=" text-[20px] text-center font-bold">사진 선택</p>
+        <p className="text-[20px] text-center font-bold">사진 선택</p>
         <br></br>
       </div>
       <div className="flex">
@@ -167,7 +209,7 @@ const Amazon: React.FC = () => {
           type="file"
           multiple
           onChange={handleFileChange}
-          ref={fileInputRef} // 파일 입력 참조 연결
+          ref={fileInputRef}
         />
         <button
           className="w-40 h-9 bg-blue-400 mr-4"
@@ -201,6 +243,7 @@ const Amazon: React.FC = () => {
           </div>
         ))}
       </div>
+
       {showConfirmation && (
         <div className="flex justify-between mx-[24px]">
           <button

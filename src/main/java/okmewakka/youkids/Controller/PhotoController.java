@@ -55,39 +55,38 @@ public class PhotoController {
     @Operation(summary = "사진 업로드", description = "사진을 업로드합니다.")
     @Parameter(name = "files", description = "업로드 사진")
     @PostMapping("/upload")
-    public String uploadPhotos(Model model, @RequestParam("files") List<MultipartFile> files) {
+    public ResponseEntity<String> uploadPhotos(@RequestParam("files") List<MultipartFile> files) {
         try {
             String commonUUID = UUID.randomUUID().toString();
             String code = verificationCodeService.createVerificationCode();
-    
+
             for (MultipartFile file : files) {
                 String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
                 String fileName = commonUUID + "_" + originalFileName;
-    
+
                 String uploadDir = "src/main/resources/static/files";
                 String filePath = uploadDir + File.separator + fileName;
-    
+
                 Path path = Paths.get(filePath);
                 Files.write(path, file.getBytes());
-    
+
                 Photo photo = new Photo();
                 photo.setFileName(fileName);
                 photo.setFilePath("/files/" + fileName);
                 photo.setUuid(code);
-
                 LocalDateTime localDateTime = LocalDateTime.now();
                 photo.setUploadDate(localDateTime);
 
-
                 photoRepository.save(photo);
-    
-                model.addAttribute("code", code);
             }
+
+            return ResponseEntity.ok(code); // 검증 코드 반환
         } catch (IOException e) {
             e.printStackTrace();
+            return ResponseEntity.status(500).body("File upload failed.");
         }
-        return "verificationCodeView";
     }
+
     
     
     @Operation(summary = "코드 보기", description = "코드를 보여줍니다.")
