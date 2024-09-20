@@ -169,7 +169,9 @@ const Amazon: React.FC = () => {
       });
 
       if (response.ok) {
-        const data = await response.text();
+        const data = await response.text(); // 여기서 숫자 코드를 받아옵니다
+        const backendCode = data; // 응답에서 숫자 코드를 저장합니다
+        navigate("/Share_Done", { state: { verificationCode: backendCode } });
         console.log("Received verification code:", data);
       } else {
         console.error("Failed to send data to the backend.");
@@ -181,7 +183,7 @@ const Amazon: React.FC = () => {
 
   const handleConfirm = () => {
     handleSendToBackend();
-    navigate("/Share_Done");
+    //navigate("/Share_Done");
   };
 
   const handleCancel = () => {
