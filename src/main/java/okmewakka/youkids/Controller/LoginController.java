@@ -7,6 +7,7 @@ import okmewakka.youkids.Service.UserService;
 import okmewakka.youkids.entity.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -34,13 +35,22 @@ public class LoginController {
         if (userService.authenticate(phoneNumber, password)) {
             user user = userRepository.findByUserIdPhone(phoneNumber);
             String username=user.getUserName();
+            String phonenumber= user.getUserIdPhone();
             session.setAttribute("username", username);
+            session.setAttribute("phonenumber", phonenumber);
             return "redirect:/dashboard";
         } else {
             model.addAttribute("error", "Invalid username or password");
-            return "index";
+            return "index"; // 로그인 페이지
         }
     }
+
+    @Operation(summary = "로그아웃", description = "로그아웃하면 로그인 페이지로 리다이렉트")
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+    session.invalidate();  // 세션 무효화
+    return "redirect:/index";  // 로그인 페이지로 리다이렉트
+}
 
 
 }

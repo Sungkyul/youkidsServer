@@ -41,6 +41,10 @@ public class Photo {
     @Schema(description = "파일 저장 날짜")
     private LocalDateTime uploadDate;
 
+    @Column(name="group_id")
+    @Schema(description = "얼굴 인식 동일 그룹")
+    private int groupId;
+    
 
     // Setters
     public void setUploadDate(LocalDateTime localDateTime) {
