@@ -139,6 +139,7 @@ const Amazon: React.FC = () => {
 
   const handleSendToBackend = async () => {
     const formData = new FormData();
+    const groupData: { [key: number]: string[] } = {}; // 그룹 ID를 숫자로 변경
 
     // 비동기적으로 모든 파일을 formData에 추가
     await Promise.all(
@@ -147,20 +148,21 @@ const Amazon: React.FC = () => {
           fetch(face.imagePath)
             .then((res) => res.blob())
             .then((blob) => {
-              formData.append(
-                `files`,
-                blob,
-                `group_${idx}_face_${faceIdx}.jpg`
-              );
+              const fileName = `group_${idx}_face_${faceIdx}.jpg`;
+              formData.append(`files`, blob, fileName);
+
+              // 그룹 정보를 저장할 때 숫자로 처리
+              if (!groupData[idx]) {
+                groupData[idx] = [];
+              }
+              groupData[idx].push(fileName);
             })
         )
       )
     );
 
-    // formData 확인 (디버그용)
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
+    // 그룹 정보를 FormData에 추가
+    formData.append("groupData", JSON.stringify(groupData));
 
     try {
       const response = await fetch("http://localhost:7080/upload", {
@@ -169,12 +171,13 @@ const Amazon: React.FC = () => {
       });
 
       if (response.ok) {
-        const data = await response.text(); // 여기서 숫자 코드를 받아옵니다
-        const backendCode = data; // 응답에서 숫자 코드를 저장합니다
+        const data = await response.text();
+        const backendCode = data;
         navigate("/Share_Done", { state: { verificationCode: backendCode } });
         console.log("Received verification code:", data);
       } else {
-        console.error("Failed to send data to the backend.");
+        const errorText = await response.text(); // 서버에서 반환한 에러 메시지
+        console.error("Failed to send data to the backend:", errorText);
       }
     } catch (error) {
       console.error("Error:", error);
