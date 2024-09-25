@@ -36,8 +36,12 @@ public class LoginController {
             user user = userRepository.findByUserIdPhone(phoneNumber);
             String username=user.getUserName();
             String phonenumber= user.getUserIdPhone();
+            String userid=user.getId();
+
             session.setAttribute("username", username);
             session.setAttribute("phonenumber", phonenumber);
+            session.setAttribute(userid, userid);
+            
             return "redirect:/dashboard";
         } else {
             model.addAttribute("error", "Invalid username or password");
