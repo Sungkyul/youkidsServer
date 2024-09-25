@@ -1,13 +1,9 @@
 package okmewakka.youkids.Repository;
 
-import okmewakka.youkids.entity.user;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import okmewakka.youkids.entity.Album;
 
 @Repository
-public interface UserRepository extends JpaRepository<user, String> {
-
-    user findByUserIdPhone(String phoneNumber);
-
-    }
+public interface AlbumRepository extends JpaRepository<Album, Long> {}
