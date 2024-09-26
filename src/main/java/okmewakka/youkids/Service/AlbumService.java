@@ -9,6 +9,7 @@ import okmewakka.youkids.entity.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,4 +69,26 @@ public class AlbumService {
         album.setCoverPhoto(photo);
         return albumRepository.save(album);
     }
+
+     // 앨범 제목으로 검색 (정확한 일치)
+     public List<Album> searchAlbumByTitle(String userIdPhone, String title) {
+        return albumRepository.findByTitleAndUserUserIdPhone(title, userIdPhone);
+    }
+
+    // 앨범 제목의 일부로 검색 (포함된 제목 검색)
+    public List<Album> searchAlbumByTitleContaining(String userIdPhone, String title) {
+        return albumRepository.findByTitleContainingAndUserUserIdPhone(title, userIdPhone);
+    }
+
+      // 앨범 삭제
+    @Transactional
+    public void deleteAlbum(Long albumId) {
+        // 앨범이 존재하는지 확인
+        Album album = albumRepository.findById(albumId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 앨범이 존재하지 않습니다. ID: " + albumId));
+        
+        // 앨범 삭제
+        albumRepository.deleteById(albumId);
+    }
+
 }
