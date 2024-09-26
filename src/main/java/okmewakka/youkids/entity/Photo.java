@@ -2,6 +2,8 @@ package okmewakka.youkids.entity;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -56,6 +58,7 @@ public class Photo {
  
     @ManyToOne
     @JoinColumn(name = "album_id")
+    @JsonBackReference  // album 필드에서 직렬화 제외, 순환 참조 방지
     private Album album;
 
     @PrePersist

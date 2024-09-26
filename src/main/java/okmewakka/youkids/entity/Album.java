@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Getter
 @Setter
 @Entity
@@ -21,10 +24,12 @@ public class Album {
     private String title;
 
     @ManyToOne
+    @JsonIgnore  // 직렬화 시 이 필드를 무시하여 순환 참조 방지
     @JoinColumn(name = "user_id", nullable = false)
     private user user;
 
     @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference  // photos 필드에서 직렬화 관리 역할 수행
     private List<Photo> photos = new ArrayList<>();
 
     @OneToOne
