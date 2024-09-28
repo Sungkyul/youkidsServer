@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import profile from "../assets/profile.jpeg";
-import image1 from "../assets/image1.png";
-import image2 from "../assets/image2.png";
 import MenuBar from "../components/MenuBar";
 import SearchButton from "../components/SearchButton";
 import Notification from "../components/Notification";
@@ -16,6 +14,11 @@ function Home() {
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleAlbumClick = (entry: { title: string; images: string[] }) => {
+    // 앨범 클릭 시 해당 앨범 화면으로 이동
+    navigate("/Album", { state: { title: entry.title, images: entry.images } });
   };
 
   return (
@@ -43,12 +46,13 @@ function Home() {
       </div>
 
       {/* 저장된 앨범 표시 */}
-      <div className="flex justify-center item-center space-x-6">
-        <div className="flex flex-wrap justify-center">
+      <div className="flex item-center space-x-6">
+        <div className="ml-5 flex flex-wrap">
           {album.map((entry, index) => (
             <div
               key={index}
-              className="w-[125px] h-[125px] rounded-lg mx-2 mb-10"
+              className="w-[125px] h-[125px] rounded-lg mx-4 mb-10"
+              onClick={() => handleAlbumClick(entry)}
             >
               <img
                 src={entry.images[0]} // 첫 번째 이미지만 표시
