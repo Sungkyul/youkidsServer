@@ -11,7 +11,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, imagePaths }) => {
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-      <div className="bg-white p-4 rounded shadow-lg">
+      <div className="bg-white p-4 ml-4 mr-4 rounded shadow-lg">
         <div className="flex items-center justify-center pb-2">
           <button className="text-sm pr-6" onClick={onClose}>
             취소
@@ -24,13 +24,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, imagePaths }) => {
             저장
           </button>
         </div>
-        <div className="flex flex-wrap justify-center">
+        <div className="flex flex-wrap ml-4 overflow-y-auto max-h-96">
           {imagePaths.map((path, index) => (
             <img
               key={index}
               src={path}
               alt={`Photo ${index}`}
-              className="w-[90px] h-[90px] m-1"
+              className="w-[82px] h-[82px] m-1"
             />
           ))}
         </div>

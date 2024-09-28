@@ -4,7 +4,8 @@ import Modal from "../components/Modal";
 import NextButton from "../components/NextButton";
 
 const DownFace: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달이 열려있는지 상태를 관리
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedGroupImages, setSelectedGroupImages] = useState<string[]>([]); // 선택된 그룹의 이미지를 저장할 상태 추가
   const location = useLocation();
   const navigate = useNavigate();
   const { imagePaths } = location.state || { imagePaths: [] };
@@ -20,7 +21,8 @@ const DownFace: React.FC = () => {
     navigate("/Down_Code");
   };
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (images: string[]) => {
+    setSelectedGroupImages(images); // 선택된 그룹의 이미지를 저장
     setIsModalOpen(true);
   };
 
@@ -29,6 +31,7 @@ const DownFace: React.FC = () => {
   );
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchImagesByGroup = async () => {
@@ -39,7 +42,7 @@ const DownFace: React.FC = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          setGroupedImages(new Map(Object.entries(data))); // JSON을 Map으로 변환
+          setGroupedImages(new Map(Object.entries(data)));
         } else {
           setError("그룹화된 이미지를 가져오는 데 실패했습니다.");
         }
@@ -61,6 +64,15 @@ const DownFace: React.FC = () => {
     return <div className="text-red-500">{error}</div>;
   }
 
+  const handleGroupClick = (groupId: string, images: string[]) => {
+    setSelectedGroup(groupId === selectedGroup ? null : groupId);
+    if (groupId === selectedGroup) {
+      setSelectedGroupImages([]); // 선택 해제 시 이미지를 비웁니다.
+    } else {
+      setSelectedGroupImages(images); // 그룹 클릭 시 해당 그룹 이미지를 저장
+    }
+  };
+
   return (
     <div className="w-full mx-auto">
       <div className="justify-center py-4">
@@ -72,15 +84,16 @@ const DownFace: React.FC = () => {
         {Array.from(groupedImages.entries()).map(([groupId, images]) => (
           <div
             key={groupId}
-            className={`mx-[14px] my-[14px] rounded-lg flex items-center justify-center cursor-pointer bg-neutral-100 `}
+            className={`mx-[14px] my-[14px] rounded-lg flex items-center justify-center cursor-pointer ${selectedGroup === groupId ? "bg-emerald-200" : "bg-neutral-100"}`}
+            onClick={() => handleGroupClick(groupId, images)} // 그룹 클릭 시 이미지를 전달
           >
             <div className="items-center w-[332px] h-[121px]">
               <div className="ml-4 mt-2">
-                <p>그룹: {groupId}</p>
+                <p>그룹 {groupId}</p>
                 <br />
               </div>
               <div className="mx-[14px] my-[14px] flex items-center justify-between">
-                <div className="flex items-center">
+                <div className="flex items-center overflow-x-auto max-w-80">
                   {images.map((image, index) => (
                     <img
                       key={index}
@@ -90,9 +103,9 @@ const DownFace: React.FC = () => {
                     />
                   ))}
                 </div>
-                <div className="w-6 h-6 relative">
+                {/* <div className="w-6 h-6 relative">
                   <NextButton />
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -100,7 +113,7 @@ const DownFace: React.FC = () => {
         <div className="flex justify-between mx-[24px]">
           <button
             className="w-36 h-9 bg-emerald-200 rounded-lg shadow"
-            onClick={handleOpenModal}
+            onClick={() => handleOpenModal(selectedGroupImages)} // 선택된 그룹의 이미지를 모달에 전달
           >
             <div className="text-center text-neutral-900 text-base font-semibold font-['Pretendard'] leading-snug">
               생성
@@ -115,11 +128,10 @@ const DownFace: React.FC = () => {
             </div>
           </button>
         </div>
-        {/* 모달 */}
         <Modal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          imagePaths={imagePaths} // 이미지 경로를 모달에 전달
+          imagePaths={selectedGroupImages} // 선택된 그룹의 이미지를 모달에 전달
         />
       </div>
     </div>
