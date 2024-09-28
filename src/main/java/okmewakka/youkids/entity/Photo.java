@@ -2,12 +2,17 @@ package okmewakka.youkids.entity;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +26,7 @@ public class Photo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "사용자 아이디")
+    @Schema(description = "아이디")
     private Long id;
 
     @Column(name="file_name")
@@ -44,11 +49,20 @@ public class Photo {
     @Column(name="group_id")
     @Schema(description = "얼굴 인식 동일 그룹")
     private int groupId;
+    
 
     // Setters
     public void setUploadDate(LocalDateTime localDateTime) {
         this.uploadDate = localDateTime;
     }
  
-}
+    @ManyToOne
+    @JoinColumn(name = "album_id")
+    @JsonBackReference  // album 필드에서 직렬화 제외, 순환 참조 방지
+    private Album album;
 
+    @PrePersist
+    protected void onUpload() {
+        this.uploadDate = LocalDateTime.now();
+    }
+}

@@ -4,6 +4,10 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hibernate.annotations.GenericGenerator;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -46,6 +50,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
         @Column(name = "user_profile_file_path")
         @Schema(description = "사용자 프로필 사진 파일 경로")
         private String userProfileFilePath;
+
+        @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+        private List<Album> albums = new ArrayList<>();
+
+        public user orElseThrow(Object object) {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'orElseThrow'");
+        }
 
 
 

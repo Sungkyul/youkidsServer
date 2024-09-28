@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import okmewakka.youkids.Repository.PhotoRepository;
+import okmewakka.youkids.Service.PhotoService;
 import okmewakka.youkids.Service.VerificationCodeService;
 import okmewakka.youkids.entity.Photo;
 
@@ -41,6 +42,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 @Tag(name = "사진 API", description = "사진 API")
 @Controller
 public class PhotoController {
+    @Autowired
+    private PhotoService photoService;
 
     @Autowired
     private VerificationCodeService verificationCodeService;
@@ -167,5 +170,12 @@ public ResponseEntity<String> uploadPhotos(
     @GetMapping("/photoview")
     public String showPhotoViewPage() {
         return "photoview";
+    }
+
+    @Operation(summary = "사진 목록을 반환", description = "오늘 전송된 사진 목록을 반환.")
+     @GetMapping("/today/sent-list")
+     public ResponseEntity<List<String>> getTodaySentList() {
+     List<String> sentList = photoService.getTodaySentPhotos();
+         return ResponseEntity.ok(sentList);
     }
 }
