@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "../components/Modal";
 import NextButton from "../components/NextButton";
+import { useImageContext } from "../components/ImageContext"; // Context import 추가
 
 const DownFace: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -9,6 +10,7 @@ const DownFace: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { imagePaths } = location.state || { imagePaths: [] };
+  const { saveImages } = useImageContext(); // Context에서 saveImages 함수 가져오기
 
   const params = new URLSearchParams(location.search);
   const verificationCode = params.get("verificationCode") || "";
@@ -73,6 +75,12 @@ const DownFace: React.FC = () => {
     }
   };
 
+  const handleSave = (title: string) => {
+    saveImages(selectedGroupImages, title); // 선택된 그룹의 이미지를 Context에 저장
+    setIsModalOpen(false); // 모달 닫기
+    navigate("/Home");
+  };
+
   return (
     <div className="w-full mx-auto">
       <div className="justify-center py-4">
@@ -132,6 +140,7 @@ const DownFace: React.FC = () => {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           imagePaths={selectedGroupImages} // 선택된 그룹의 이미지를 모달에 전달
+          onSave={handleSave} // 저장 함수 전달
         />
       </div>
     </div>

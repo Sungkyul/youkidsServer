@@ -7,9 +7,11 @@ import MenuBar from "../components/MenuBar";
 import SearchButton from "../components/SearchButton";
 import Notification from "../components/Notification";
 import FixedButton from "../components/FixedButton";
+import { useImageContext } from "../components/ImageContext"; // Context import 추가
 
 function Home() {
   const navigate = useNavigate();
+  const { album } = useImageContext(); // Context에서 album 가져오기
   const [isOpen, setIsOpen] = useState(true);
 
   const toggleOpen = () => {
@@ -39,22 +41,23 @@ function Home() {
         <img src={profile} alt="프로필" className="w-[80px] h-[80px]" />
         <p className="text-[100px] text-center text-lg  ">김연아</p>
       </div>
+
+      {/* 저장된 앨범 표시 */}
       <div className="flex justify-center item-center space-x-6">
-        <div>
-          <img
-            src={image2}
-            alt="짱구"
-            className="w-[125px] h-[125px] rounded-lg"
-          />
-          <p className="text-xs text-left pt-1">체육대회</p>
-        </div>
-        <div className="pb-6">
-          <img
-            src={image1}
-            alt="짱구"
-            className="w-[125px] h-[125px] rounded-lg"
-          />
-          <p className="text-xs text-left pt-1">입학식</p>
+        <div className="flex flex-wrap justify-center">
+          {album.map((entry, index) => (
+            <div
+              key={index}
+              className="w-[125px] h-[125px] rounded-lg mx-2 mb-10"
+            >
+              <img
+                src={entry.images[0]} // 첫 번째 이미지만 표시
+                alt={`앨범 ${entry.title}`}
+                className="w-[125px] h-[125px] rounded-lg"
+              />
+              <p className="text-xs text-left pt-1">{entry.title}</p>
+            </div>
+          ))}
         </div>
       </div>
       <FixedButton

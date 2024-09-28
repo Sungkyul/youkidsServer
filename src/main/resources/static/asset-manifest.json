@@ -1,16 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.813694c5.css",
-    "main.js": "/static/js/main.e352caee.js",
+    "main.css": "/static/css/main.42627514.css",
+    "main.js": "/static/js/main.ec96b781.js",
     "static/js/453.b2a5b42a.chunk.js": "/static/js/453.b2a5b42a.chunk.js",
     "static/media/image2.png": "/static/media/image2.b0f987d2b6286c8a47c7.png",
     "static/media/image1.png": "/static/media/image1.101ed00efa0214abca80.png",
-    "static/media/image1.svg": "/static/media/image1.43dda5e0f6b3974e4d821154e6d8acbc.svg",
-    "static/media/image4.svg": "/static/media/image4.f72bb34e65655b45dc516ff25c41c3be.svg",
-    "static/media/image5.svg": "/static/media/image5.742f255c53c98e64794c27ce76c52e66.svg",
-    "static/media/image6.svg": "/static/media/image6.aada15ab0bfb8a477741f566b4821008.svg",
-    "static/media/image3.svg": "/static/media/image3.925f9623ffe023cf105876e12b906c47.svg",
-    "static/media/image2.svg": "/static/media/image2.e9c08f645dc7cdcf3e43abefe6fc1b6c.svg",
     "static/media/profile.jpeg": "/static/media/profile.3a5003e89704e1d6287c.jpeg",
     "static/media/light.svg": "/static/media/light.a29adf869e339d9b424f3c3ebd81ad50.svg",
     "static/media/설정.svg": "/static/media/설정.f3e02a3749d7a40a78005b80ae275970.svg",
@@ -27,16 +21,15 @@
     "static/media/search.svg": "/static/media/search.77168342096a79c4e326843e4ab5828e.svg",
     "static/media/Left.svg": "/static/media/Left.c5564d17baf90501593b99faabe670d2.svg",
     "static/media/오른쪽 화살표.svg": "/static/media/오른쪽 화살표.8da7fa8c2d2f6061777b1d5dd7712b94.svg",
-    "static/media/Plus.svg": "/static/media/Plus.bdb94f8f78743df89b7cac2fb7f59915.svg",
     "static/media/notification.svg": "/static/media/notification.e12677aebea62a87518bc7f8548a9e8a.svg",
     "index.html": "/index.html",
     "static/media/menubar.svg": "/static/media/menubar.4a754ee3cbd948981d5e59211e12e786.svg",
-    "main.813694c5.css.map": "/static/css/main.813694c5.css.map",
-    "main.e352caee.js.map": "/static/js/main.e352caee.js.map",
+    "main.42627514.css.map": "/static/css/main.42627514.css.map",
+    "main.ec96b781.js.map": "/static/js/main.ec96b781.js.map",
     "453.b2a5b42a.chunk.js.map": "/static/js/453.b2a5b42a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.813694c5.css",
-    "static/js/main.e352caee.js"
+    "static/css/main.42627514.css",
+    "static/js/main.ec96b781.js"
   ]
 }
