@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.66828da4.css",
-    "main.js": "/static/js/main.956284fb.js",
+    "main.css": "/static/css/main.6fcfd6ed.css",
+    "main.js": "/static/js/main.482b46ad.js",
     "static/js/453.b2a5b42a.chunk.js": "/static/js/453.b2a5b42a.chunk.js",
     "static/media/image2.png": "/static/media/image2.b0f987d2b6286c8a47c7.png",
     "static/media/image1.png": "/static/media/image1.101ed00efa0214abca80.png",
@@ -26,18 +26,17 @@
     "static/media/Magnifier.svg": "/static/media/Magnifier.9e6c34d134cbc7143aed3ed9ec05b295.svg",
     "static/media/search.svg": "/static/media/search.77168342096a79c4e326843e4ab5828e.svg",
     "static/media/Left.svg": "/static/media/Left.c5564d17baf90501593b99faabe670d2.svg",
-    "static/media/Right.svg": "/static/media/Right.21a2e7e453436e4b68db792780e3ec25.svg",
     "static/media/오른쪽 화살표.svg": "/static/media/오른쪽 화살표.8da7fa8c2d2f6061777b1d5dd7712b94.svg",
     "static/media/Plus.svg": "/static/media/Plus.bdb94f8f78743df89b7cac2fb7f59915.svg",
     "static/media/notification.svg": "/static/media/notification.e12677aebea62a87518bc7f8548a9e8a.svg",
     "index.html": "/index.html",
     "static/media/menubar.svg": "/static/media/menubar.4a754ee3cbd948981d5e59211e12e786.svg",
-    "main.66828da4.css.map": "/static/css/main.66828da4.css.map",
-    "main.956284fb.js.map": "/static/js/main.956284fb.js.map",
+    "main.6fcfd6ed.css.map": "/static/css/main.6fcfd6ed.css.map",
+    "main.482b46ad.js.map": "/static/js/main.482b46ad.js.map",
     "453.b2a5b42a.chunk.js.map": "/static/js/453.b2a5b42a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.66828da4.css",
-    "static/js/main.956284fb.js"
+    "static/css/main.6fcfd6ed.css",
+    "static/js/main.482b46ad.js"
   ]
 }
