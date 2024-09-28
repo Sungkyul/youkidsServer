@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import GroupView from "./Down_Face";
+import { useNavigate } from "react-router-dom";
 
-const CodeInput: React.FC = () => {
+const DownCode: React.FC = () => {
   const [code, setCode] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
-    setSubmitted(true);
+    navigate(`/down_face?verificationCode=${code}`);
   };
 
   return (
@@ -18,9 +18,8 @@ const CodeInput: React.FC = () => {
         placeholder="코드를 입력하세요"
       />
       <button onClick={handleSubmit}>조회</button>
-      {submitted && <GroupView verificationCode={code} />}
     </div>
   );
 };
 
-export default CodeInput;
+export default DownCode;
