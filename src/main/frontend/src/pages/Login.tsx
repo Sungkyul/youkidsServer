@@ -1,16 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleLogin = () => {
-    // '회원가입' 버튼을 클릭하면 Home로 이동
-    navigate("/Home");
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("http://localhost:7080/login", {
+        phoneNumber,
+        password,
+      });
+      // 성공 시 처리
+      navigate("/Home");
+    } catch (err) {
+      // 오류 처리
+      setError("잘못된 사용자 이름 또는 비밀번호입니다.");
+      // 입력 필드 초기화
+      setPassword("");
+    }
   };
 
   const handleJoin = () => {
-    // '회원가입' 버튼을 클릭하면 Join_ID로 이동
     navigate("/Join_ID");
   };
 
@@ -18,11 +32,13 @@ function Login() {
     <div className="w-full h-screen flex items-center justify-center bg-emerald-200">
       <div className="mb-16">
         <div className="justify-center py-2">
-          <p className=" text-[20px] text-center font-bold">로그인</p>
+          <p className="text-[20px] text-center font-bold">로그인</p>
         </div>
         <div className="my-4 flex items-center justify-start w-72 h-[50px] bg-white rounded-lg border-2 border-stone-300">
           <input
             type="tel"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
             className="mx-2 w-full h-full text-neutral-900 text-sm font-normal font-['Pretendard'] leading-snug"
             placeholder="아이디"
           />
@@ -30,10 +46,13 @@ function Login() {
         <div className="my-4 flex items-center justify-start w-72 h-[50px] bg-white rounded-lg border-2 border-stone-300">
           <input
             type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="mx-2 w-full h-full text-neutral-900 text-sm font-normal font-['Pretendard'] leading-snug"
             placeholder="비밀번호"
           />
         </div>
+        {error && <div className="text-red-500 text-center mb-4">{error}</div>}
         <button
           onClick={handleLogin}
           className="flex items-center justify-center w-72 h-[50px] bg-slate-500 rounded-lg"

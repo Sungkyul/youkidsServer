@@ -1,11 +1,12 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Share_Done() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const verificationCode = location.state?.verificationCode || "N/A"; // 전달받은 코드
 
   const handleConfirm = () => {
-    // '회원가입' 버튼을 클릭하면 Home로 이동
     navigate("/Home");
   };
 
@@ -16,9 +17,8 @@ function Share_Done() {
           코드가 생성되었습니다.
         </span>
         <br />
-        <br />
         <span className="ml-5 w-[150px] text-center text-neutral-900 text-4xl font-semibold font-['Pretendard'] leading-snug">
-          #123456
+          <p>{verificationCode}</p>
         </span>
         <div className="mt-8">
           <button

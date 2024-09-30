@@ -54,6 +54,7 @@ public class LoginController {
     public String logout(HttpSession session) {
     session.invalidate();  // 세션 무효화
     return "redirect:/index";  // 로그인 페이지로 리다이렉트
+
 }
 
 

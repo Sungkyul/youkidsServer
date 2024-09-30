@@ -2,25 +2,19 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal2 from "../components/Modal2";
 import ExitButton from "../components/ExitButton";
-import { getImagePaths } from "../api/photoApi"; // 이미지 경로를 불러오는 함수 임포트
 
-function Down_Code() {
+const DownCode: React.FC = () => {
   const navigate = useNavigate();
   const [isEmptyModalOpen, setIsEmptyModalOpen] = useState(false);
   const [code, setCode] = useState("");
 
-  const handleConfirmation = async () => {
-    if (!code.trim()) {
+  const handleConfirmation = () => {
+    if (!/^\d+$/.test(code)) {
+      // 입력이 비어 있지 않고 숫자로만 구성되어 있는지 확인
       setIsEmptyModalOpen(true);
-    } else {
-      try {
-        const paths = await getImagePaths(code); // API 호출
-        // 이미지 경로를 상태로 전달하며 Down_Face 페이지로 이동
-        navigate("/Down_Face", { state: { imagePaths: paths } });
-      } catch (error) {
-        console.error("Error fetching image paths:", error);
-      }
+      return;
     }
+    navigate(`/down_face?verificationCode=${code}`);
   };
 
   const handleCancel = () => {
@@ -48,7 +42,6 @@ function Down_Code() {
             onChange={(e) => setCode(e.target.value)}
           />
         </div>
-
         <div className="flex items-center justify-center">
           <button
             onClick={handleConfirmation}
@@ -98,6 +91,6 @@ function Down_Code() {
       </Modal2>
     </div>
   );
-}
+};
 
-export default Down_Code;
+export default DownCode;
