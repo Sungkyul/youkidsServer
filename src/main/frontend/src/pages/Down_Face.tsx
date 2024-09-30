@@ -75,10 +75,38 @@ const DownFace: React.FC = () => {
     }
   };
 
-  const handleSave = (title: string) => {
-    saveImages(selectedGroupImages, title); // 선택된 그룹의 이미지를 Context에 저장
-    setIsModalOpen(false); // 모달 닫기
-    navigate("/Home");
+  // const handleSave = (title: string) => {
+  //   saveImages(selectedGroupImages, title); // 선택된 그룹의 이미지를 Context에 저장
+  //   setIsModalOpen(false); // 모달 닫기
+  //   navigate("/Home");
+  // };
+
+  const handleSave = async (title: string) => {
+    try {
+      const response = await fetch(
+        `http://localhost:7080/albums/create?userIdPhone=01014141414&title=${encodeURIComponent(title)}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(selectedGroupImages), // 선택한 그룹 이미지를 JSON 형식으로 전송
+        }
+      );
+
+      if (response.ok) {
+        const album = await response.json();
+        console.log("앨범 생성 성공:", album);
+        navigate("/Home");
+      } else {
+        const errorMessage = await response.text();
+        console.error("앨범 생성 실패:", errorMessage);
+      }
+    } catch (error) {
+      console.error("오류:", error);
+    } finally {
+      setIsModalOpen(false); // 모달 닫기
+    }
   };
 
   return (
