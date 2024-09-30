@@ -84,6 +84,7 @@ const DownFace: React.FC = () => {
   const handleSave = async (title: string) => {
     try {
       const response = await fetch(
+        //userIdPhone 변경해야됨
         `http://localhost:7080/albums/create?userIdPhone=01014141414&title=${encodeURIComponent(title)}`,
         {
           method: "POST",

@@ -90,4 +90,4 @@ public class AlbumService {
         // 앨범 삭제
         albumRepository.deleteById(albumId);
     }
-
+}
