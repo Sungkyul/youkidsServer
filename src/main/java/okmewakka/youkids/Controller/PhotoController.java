@@ -172,6 +172,7 @@ public ResponseEntity<String> uploadPhotos(
         return "photoview";
     }
 
+
     @Operation(summary = "사진 목록을 반환", description = "오늘 전송된 사진 목록을 반환.")
      @GetMapping("/today/sent-list")
      public ResponseEntity<List<String>> getTodaySentList() {

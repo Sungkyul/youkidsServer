@@ -60,6 +60,8 @@ public class Photo {
     @JoinColumn(name = "album_id")
     @JsonBackReference  // album 필드에서 직렬화 제외, 순환 참조 방지
     private Album album;
+ 
+
 
     @PrePersist
     protected void onUpload() {
