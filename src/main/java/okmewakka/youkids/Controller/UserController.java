@@ -28,11 +28,7 @@ public class UserController {
     @Autowired 
     UserRepository userRepository;
 
-    @Operation(summary = "로그인 페이지 보기", description = "로그인 페이지로 이동합니다.")
-    @GetMapping("/login")
-    public String showLoginPage() {
-        return "index";
-    }
+
 
     @Operation(summary = "유저 이름 수정", description = "유저의 이름을 수정합니다.")
     @PutMapping("/{phone}/name")

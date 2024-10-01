@@ -10,18 +10,37 @@ function Join_ID() {
     useState(false); // 11자리가 아닌 경우 모달 열림 여부 상태
   const [phoneNumber, setPhoneNumber] = useState(""); // 입력된 휴대폰 번호 상태를 관리
 
-  const handleConfirmation = () => {
-    if (!phoneNumber.trim()) {
-      // 휴대폰 번호를 입력하지 않은 경우 모달 열기
-      setIsEmptyModalOpen(true);
-    } else if (phoneNumber.trim().length !== 11) {
-      // 휴대폰 번호가 11자리가 아닌 경우 모달 열기
-      setIsInvalidLengthModalOpen(true);
-    } else {
-      // 휴대폰 번호가 입력되었을 때 Join_PW로 이동
-      navigate("/Join_PW");
+ //  POST 요청으로 서버에 데이터를 전송하는 코드
+const handleConfirmation = async () => {
+  if (!phoneNumber.trim()) {
+    setIsEmptyModalOpen(true);
+  } else if (phoneNumber.trim().length !== 11) {
+    setIsInvalidLengthModalOpen(true);
+  } else {
+    try {
+      // 서버로 POST 요청 보내기
+      const response = await fetch("/phoneNumber", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          phoneNumber: phoneNumber.trim(), // 서버로 전송할 휴대폰 번호
+        }),
+      });
+
+      if (response.ok) {
+        
+        navigate("/Join_PW");
+      } else {
+        console.error("서버 오류 발생");
+      }
+    } catch (error) {
+      console.error("요청 중 오류가 발생했습니다.", error);
     }
-  };
+  }
+};
+
 
   return (
     <div className="w-full h-screen flex items-center justify-center bg-emerald-200">
