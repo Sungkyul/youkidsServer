@@ -11,18 +11,25 @@ function Login() {
   const handleLogin = async () => {
     try {
       const response = await axios.post("http://localhost:7080/login", {
-        phoneNumber,
-        password,
-      });
-      // 성공 시 처리
+        phoneNumber: phoneNumber,  
+        password: password,
+      },{ withCredentials: true } // 세션 쿠키를 유지
+       );
+      console.log("로그인 성공:", response.data);
       navigate("/Home");
     } catch (err) {
-      // 오류 처리
+      if (axios.isAxiosError(err)) {
+        // AxiosError일 경우 처리
+        console.error("로그인 실패:", err.response?.data || err.message);
+      } else {
+        // AxiosError가 아닐 경우 처리
+        console.error("로그인 실패:", err);
+      }
       setError("잘못된 사용자 이름 또는 비밀번호입니다.");
-      // 입력 필드 초기화
       setPassword("");
     }
   };
+  
 
   const handleJoin = () => {
     navigate("/Join_ID");

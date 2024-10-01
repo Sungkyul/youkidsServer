@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import profile from "../assets/profile.jpeg";
 import MenuBar from "../components/MenuBar";
@@ -6,11 +6,14 @@ import SearchButton from "../components/SearchButton";
 import Notification from "../components/Notification";
 import FixedButton from "../components/FixedButton";
 import { useImageContext } from "../components/ImageContext"; // Context import 추가
+import axios from "axios"; // Axios import 추가
 
 function Home() {
   const navigate = useNavigate();
   const { album } = useImageContext(); // Context에서 album 가져오기
   const [isOpen, setIsOpen] = useState(true);
+  const [username, setUsername] = useState(""); // 사용자 이름 상태 추가
+  const [profilePicture, setProfilePicture] = useState(""); // 프로필 사진 상태 추가
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -20,6 +23,20 @@ function Home() {
     // 앨범 클릭 시 해당 앨범 화면으로 이동
     navigate("/Album", { state: { title: entry.title, images: entry.images } });
   };
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get("http://localhost:7080/dashboard", { withCredentials: true });
+        setUsername(response.data.username);
+        setProfilePicture(response.data.profilePicture);
+      } catch (error) {
+        console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   return (
     <div className="pt-2">
@@ -41,8 +58,8 @@ function Home() {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center py-8">
-        <img src={profile} alt="프로필" className="w-[80px] h-[80px]" />
-        <p className="text-[100px] text-center text-lg  ">김연아</p>
+        <img src={profilePicture || profile} alt="프로필" className="w-[80px] h-[80px]" />
+        <p className="text-[100px] text-center text-lg  ">{username || "사용자 이름"}</p>
       </div>
 
       {/* 저장된 앨범 표시 */}
