@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import AWS from "aws-sdk";
 import ShareLoading from "./Share_Loading";
 
@@ -18,6 +18,7 @@ interface FaceDetail {
 }
 
 const Amazon: React.FC = () => {
+  const location = useLocation();
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [detectedFaces, setDetectedFaces] = useState<FaceDetail[]>([]);
   const [faceGroups, setFaceGroups] = useState<FaceDetail[][]>([]);
@@ -26,9 +27,18 @@ const Amazon: React.FC = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    if (location.state?.selectedFiles) {
+      setSelectedFiles(location.state.selectedFiles);
+      handleProcess(location.state.selectedFiles);
+    }
+  }, [location.state]);
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setSelectedFiles(Array.from(event.target.files));
+      const files = Array.from(event.target.files);
+      setSelectedFiles(files);
+      handleProcess(files); // 파일이 선택될 때마다 처리
     }
   };
 
@@ -37,6 +47,10 @@ const Amazon: React.FC = () => {
 
     for (const file of files) {
       const imageBytes = await file.arrayBuffer();
+
+      console.log("File:", file);
+      console.log("Image Bytes:", new Uint8Array(imageBytes));
+
       const params = {
         Image: { Bytes: new Uint8Array(imageBytes) },
         Attributes: ["ALL"],
@@ -106,7 +120,7 @@ const Amazon: React.FC = () => {
 
   const groupFacesBySimilarity = async (
     faces: FaceDetail[],
-    threshold: number = 90
+    threshold: number = 90 // 임계값
   ) => {
     const groups: FaceDetail[][] = [];
 
@@ -128,9 +142,9 @@ const Amazon: React.FC = () => {
     setFaceGroups(groups);
   };
 
-  const handleProcess = async () => {
+  const handleProcess = async (files: File[]) => {
     setIsProcessing(true);
-    const faces = await detectAndSaveFaces(selectedFiles);
+    const faces = await detectAndSaveFaces(files);
     setDetectedFaces(faces);
     await groupFacesBySimilarity(faces);
     setIsProcessing(false);
@@ -184,19 +198,12 @@ const Amazon: React.FC = () => {
     }
   };
 
-  const handleConfirm = () => {
-    handleSendToBackend();
-    //navigate("/Share_Done");
+  const handleConfirm = async () => {
+    await handleSendToBackend();
   };
 
   const handleCancel = () => {
-    setSelectedFiles([]);
-    setDetectedFaces([]);
-    setFaceGroups([]);
-    setShowConfirmation(false);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
+    navigate("/home"); // 홈 화면으로 이동
   };
 
   if (isProcessing) {
@@ -206,23 +213,8 @@ const Amazon: React.FC = () => {
   return (
     <div className="w-full mx-auto">
       <div className="justify-center py-4">
-        <p className="text-[20px] text-center font-bold">사진 선택</p>
+        <p className="text-[20px] text-center font-bold">사진 공유</p>
         <br></br>
-      </div>
-      <div className="flex">
-        <input
-          type="file"
-          multiple
-          onChange={handleFileChange}
-          ref={fileInputRef}
-        />
-        <button
-          className="w-40 h-9 bg-blue-400 mr-4"
-          onClick={handleProcess}
-          disabled={isProcessing}
-        >
-          {isProcessing ? "분류 중..." : "분류"}
-        </button>
       </div>
 
       <div>
@@ -232,7 +224,7 @@ const Amazon: React.FC = () => {
             className="ml-4 mb-4 w-[332px] h-[100px] bg-neutral-100 rounded-lg"
           >
             <div className="mb-4">
-              <p className="ml-2 text-left font-bold">인물 {idx + 1}</p>
+              <p className="ml-2 text-left font-medium">인물 {idx + 1}</p>
               <br />
               <div className="ml-2 flex flex-wrap">
                 {group.map((face, faceIdx) => (
