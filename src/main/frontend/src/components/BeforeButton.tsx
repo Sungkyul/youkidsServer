@@ -11,7 +11,7 @@ const BeforeButton: React.FC<NextButtonProps> = ({ text, onClick }) => {
   };
 
   return (
-    <div>
+    <div className="p-4">
       <button onClick={handleButtonClick}>
         <img src={Left} alt="Before Icon" />
       </button>

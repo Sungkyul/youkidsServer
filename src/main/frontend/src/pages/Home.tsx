@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import profile from "../assets/profile.jpeg";
+import profile from "../assets/yr.jpeg"; // yr->profile 수정해야됨
 import MenuBar from "../components/MenuBar";
 import SearchButton from "../components/SearchButton";
 import Notification from "../components/Notification";
@@ -27,7 +27,9 @@ function Home() {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get("http://localhost:7080/dashboard", { withCredentials: true });
+        const response = await axios.get("http://localhost:7080/dashboard", {
+          withCredentials: true,
+        });
         setUsername(response.data.username);
         setProfilePicture(response.data.profilePicture);
       } catch (error) {
@@ -42,7 +44,7 @@ function Home() {
     <div className="pt-2">
       <div className="w-full mx-auto flex justify-between">
         <MenuBar text="" /> {/* MenuBar 컴포넌트를 사용 */}
-        <div className="flex justify-end items-center pr-4">
+        <div className="mt-2 flex justify-end items-center pr-4">
           <SearchButton
             text={""}
             onClick={() => {
@@ -58,8 +60,16 @@ function Home() {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center py-8">
-        <img src={profilePicture || profile} alt="프로필" className="w-[80px] h-[80px]" />
-        <p className="text-[100px] text-center text-lg  ">{username || "사용자 이름"}</p>
+        <img
+          //src={profilePicture || profile}
+          src={profile}
+          alt="프로필"
+          className="w-[80px] h-[80px] rounded-full"
+        />
+        <p className="text-[100px] text-center text-lg  ">
+          {/* {username || "사용자 이름"} */}
+          백예린
+        </p>
       </div>
 
       {/* 저장된 앨범 표시 */}
