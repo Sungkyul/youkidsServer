@@ -213,28 +213,32 @@ const Amazon: React.FC = () => {
   return (
     <div className="w-full mx-auto">
       <div className="justify-center py-4">
-        <p className="text-[20px] text-center font-bold">사진 공유</p>
-        <br></br>
+        <p className="text-center text-neutral-900 text-[22px] font-semibold font-['Pretendard'] leading-snug">
+          사진 공유
+        </p>
       </div>
 
-      <div>
+      <div className="pt-2">
         {faceGroups.map((group, idx) => (
           <div
             key={idx}
-            className="ml-4 mb-4 w-[332px] h-[100px] bg-neutral-100 rounded-lg"
+            className="mx-[14px] my-[14px] rounded-lg flex items-center bg-neutral-100"
           >
-            <div className="mb-4">
-              <p className="ml-2 text-left font-medium">인물 {idx + 1}</p>
-              <br />
-              <div className="ml-2 flex flex-wrap">
-                {group.map((face, faceIdx) => (
-                  <img
-                    className="w-[40px] h-[40px] mr-1"
-                    key={faceIdx}
-                    src={face.imagePath}
-                    alt={`Face ${faceIdx + 1}`}
-                  />
-                ))}
+            <div className="items-center h-[108px]">
+              <div className="ml-4 mt-2 pb-2 font-medium">
+                <p>인물 {idx + 1}</p>
+              </div>
+              <div className="mx-[14px] my-[14px] flex items-center justify-between">
+                <div className="flex items-center overflow-x-auto max-w-80">
+                  {group.map((face, faceIdx) => (
+                    <img
+                      key={faceIdx}
+                      src={face.imagePath}
+                      alt={`Face ${faceIdx + 1}`}
+                      className="w-11 h-11 mr-1 rounded-[0px]"
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>

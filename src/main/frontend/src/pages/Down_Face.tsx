@@ -88,14 +88,15 @@ const DownFace: React.FC = () => {
           얼굴 선택
         </p>
       </div>
-      <div>
+
+      <div className="pt-2">
         {Array.from(groupedImages.entries()).map(([groupId, images]) => (
           <div
             key={groupId}
-            className={`mx-[14px] my-[14px] rounded-lg flex items-center justify-center cursor-pointer ${selectedGroup === groupId ? "bg-emerald-200" : "bg-neutral-100"}`}
+            className={`mx-[14px] my-[14px] rounded-lg flex items-center cursor-pointer ${selectedGroup === groupId ? "bg-emerald-200" : "bg-neutral-100"}`}
             onClick={() => handleGroupClick(groupId, images)} // 그룹 클릭 시 이미지를 전달
           >
-            <div className="items-center w-[332px] h-[108px]">
+            <div className="items-center h-[108px]">
               <div className="ml-4 mt-2 pb-2 font-medium">
                 <p>인물 {parseInt(groupId) + 1}</p>
               </div>
