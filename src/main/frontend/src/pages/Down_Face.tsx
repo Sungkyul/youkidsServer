@@ -97,7 +97,7 @@ const DownFace: React.FC = () => {
           >
             <div className="items-center w-[332px] h-[121px]">
               <div className="ml-4 mt-2">
-                <p>그룹 {groupId}</p>
+                <p>그룹 {parseInt(groupId) + 1}</p>
                 <br />
               </div>
               <div className="mx-[14px] my-[14px] flex items-center justify-between">
