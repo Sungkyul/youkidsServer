@@ -12,7 +12,7 @@ const Notification: React.FC<NotificationProps> = ({ text, onClick }) => {
 
   return (
     <div>
-      <button onClick={handleButtonClick}>
+      <button className="w-[22px]" onClick={handleButtonClick}>
         <img src={notification} alt="알림 아이콘" />
       </button>
     </div>

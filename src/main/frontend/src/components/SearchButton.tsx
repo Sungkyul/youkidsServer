@@ -12,7 +12,7 @@ const SearchButton: React.FC<SearchButtonProps> = ({ text, onClick }) => {
 
   return (
     <div>
-      <button onClick={handleButtonClick}>
+      <button className="mr-2 w-[22px]" onClick={handleButtonClick}>
         <img src={Search} alt="돋보기" />
       </button>
     </div>
