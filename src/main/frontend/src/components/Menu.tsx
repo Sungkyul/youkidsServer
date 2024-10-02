@@ -11,7 +11,7 @@ const SearchButton: React.FC<MenuButtonProps> = ({ text, onClick }) => {
   };
 
   return (
-    <div>
+    <div className="m-4 w-[22px]">
       <button onClick={handleButtonClick}>
         <img src={Menu} alt="메뉴" />
       </button>

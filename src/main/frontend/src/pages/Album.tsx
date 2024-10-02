@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import BeforeButton from "../components/BeforeButton";
+import MenuButton from "../components/Menu";
 
 const Album: React.FC = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Album: React.FC = () => {
   }, [images]);
 
   return (
-    <div className="mx-full mx-auto">
+    <div className="mx-full mx-auto pt-2">
       <div className="w-full mx-auto flex justify-between">
         <BeforeButton
           text={""}
@@ -23,17 +24,17 @@ const Album: React.FC = () => {
             navigate("/Home");
           }}
         ></BeforeButton>
-        <p className="text-center text-neutral-900 text-[22px] font-semibold font-['Pretendard'] leading-snug">
+        <p className="py-4 text-center text-neutral-900 text-[20px] font-semibold font-['Pretendard'] leading-snug">
           {title}
         </p>
-        <BeforeButton
+        <MenuButton
           text={""}
           onClick={() => {
             navigate("/Home");
           }}
-        ></BeforeButton>
+        ></MenuButton>
       </div>
-      <div className="mt-8 ml-4 flex flex-wrap">
+      <div className="mt-2 ml-4 flex flex-wrap">
         {albumImages.map((image, index) => (
           <img
             key={index}
