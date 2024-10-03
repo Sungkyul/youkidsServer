@@ -42,6 +42,67 @@ const Amazon: React.FC = () => {
     }
   };
 
+  // const detectAndSaveFaces = async (files: File[]): Promise<FaceDetail[]> => {
+  //   const faces: FaceDetail[] = [];
+
+  //   for (const file of files) {
+  //     const imageBytes = await file.arrayBuffer();
+
+  //     console.log("File:", file);
+  //     console.log("Image Bytes:", new Uint8Array(imageBytes));
+
+  //     const params = {
+  //       Image: { Bytes: new Uint8Array(imageBytes) },
+  //       Attributes: ["ALL"],
+  //     };
+
+  //     const response = await rekognition.detectFaces(params).promise();
+  //     const image = URL.createObjectURL(file);
+  //     const img = new Image();
+  //     img.src = image;
+
+  //     await new Promise((resolve) => {
+  //       img.onload = () => {
+  //         const width = img.width;
+  //         const height = img.height;
+
+  //         response.FaceDetails?.forEach((faceDetail) => {
+  //           const box = faceDetail.BoundingBox!;
+  //           const left = Math.floor(box.Left! * width);
+  //           const top = Math.floor(box.Top! * height);
+  //           const right = Math.floor((box.Left! + box.Width!) * width);
+  //           const bottom = Math.floor((box.Top! + box.Height!) * height);
+
+  //           const canvas = document.createElement("canvas");
+  //           const ctx = canvas.getContext("2d")!;
+  //           canvas.width = right - left;
+  //           canvas.height = bottom - top;
+  //           ctx.drawImage(
+  //             img,
+  //             left,
+  //             top,
+  //             canvas.width,
+  //             canvas.height,
+  //             0,
+  //             0,
+  //             canvas.width,
+  //             canvas.height
+  //           );
+
+  //           canvas.toBlob((blob) => {
+  //             const newImagePath = URL.createObjectURL(blob!);
+  //             faces.push({ imagePath: newImagePath, faceDetail });
+  //           });
+  //         });
+  //         resolve(null);
+  //       };
+  //     });
+  //   }
+
+  //   return faces;
+  // };
+
+  // 원본 이미지 사용
   const detectAndSaveFaces = async (files: File[]): Promise<FaceDetail[]> => {
     const faces: FaceDetail[] = [];
 
@@ -58,44 +119,9 @@ const Amazon: React.FC = () => {
 
       const response = await rekognition.detectFaces(params).promise();
       const image = URL.createObjectURL(file);
-      const img = new Image();
-      img.src = image;
 
-      await new Promise((resolve) => {
-        img.onload = () => {
-          const width = img.width;
-          const height = img.height;
-
-          response.FaceDetails?.forEach((faceDetail) => {
-            const box = faceDetail.BoundingBox!;
-            const left = Math.floor(box.Left! * width);
-            const top = Math.floor(box.Top! * height);
-            const right = Math.floor((box.Left! + box.Width!) * width);
-            const bottom = Math.floor((box.Top! + box.Height!) * height);
-
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d")!;
-            canvas.width = right - left;
-            canvas.height = bottom - top;
-            ctx.drawImage(
-              img,
-              left,
-              top,
-              canvas.width,
-              canvas.height,
-              0,
-              0,
-              canvas.width,
-              canvas.height
-            );
-
-            canvas.toBlob((blob) => {
-              const newImagePath = URL.createObjectURL(blob!);
-              faces.push({ imagePath: newImagePath, faceDetail });
-            });
-          });
-          resolve(null);
-        };
+      response.FaceDetails?.forEach((faceDetail) => {
+        faces.push({ imagePath: image, faceDetail });
       });
     }
 
