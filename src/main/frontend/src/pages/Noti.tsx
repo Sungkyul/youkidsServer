@@ -1,22 +1,29 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BeforeButton from "../components/BeforeButton";
+import MenuButton from "../components/Menu";
 
 function Noti() {
   const navigate = useNavigate();
 
   return (
     <div className="w-full mx-auto">
-      <div className="flex justify-center py-4">
-        <div className="absolute left-0 w-6 h-6 ml-4">
-          <BeforeButton
-            text={""}
-            onClick={() => {
-              navigate("/Home");
-            }}
-          />
-        </div>
-        <p className=" text-[20px] text-center font-bold">알림</p>
+      <div className="w-full mx-auto flex justify-between">
+        <BeforeButton
+          text={""}
+          onClick={() => {
+            navigate("/Home");
+          }}
+        ></BeforeButton>
+        <p className="py-4 text-center text-neutral-900 text-[20px] font-semibold font-['Pretendard'] leading-snug">
+          알림
+        </p>
+        <MenuButton
+          text={""}
+          onClick={() => {
+            //navigate("/Home");
+          }}
+        ></MenuButton>
       </div>
 
       <div className="border-b border-gray-300">
