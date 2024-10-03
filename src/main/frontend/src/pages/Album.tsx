@@ -30,7 +30,7 @@ const Album: React.FC = () => {
         <MenuButton
           text={""}
           onClick={() => {
-            navigate("/Home");
+            //navigate("/Home");
           }}
         ></MenuButton>
       </div>
