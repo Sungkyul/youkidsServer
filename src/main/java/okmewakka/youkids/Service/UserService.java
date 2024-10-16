@@ -40,7 +40,7 @@ public class UserService {
         profile.transferTo(saveFile);
 
         user.setUserProfileFileName(fileName);
-        user.setUserProfileFilePath("/files" + fileName);
+        user.setUserProfileFilePath(fileName);
 
 
     }
