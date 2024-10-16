@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import profile from "../assets/yr.jpeg"; // yr->profile 수정해야됨
+import profile from "../assets/default_profile.png"; // yr->profile 수정해야됨
 import MenuBar from "../components/MenuBar";
 import SearchButton from "../components/SearchButton";
 import Notification from "../components/Notification";
@@ -31,7 +31,14 @@ function Home() {
           withCredentials: true,
         });
         setUsername(response.data.username);
-        setProfilePicture(response.data.profilePicture);
+
+        // 절대 경로로 프로필 사진 URL을 설정
+        const profilePictureUrl = response.data.profilePicture
+          ? `http://localhost:7080/files/${response.data.profilePicture}` // 파일 경로를 절대 경로로 설정
+          : profile; // 기본 프로필 사진
+
+        setProfilePicture(profilePictureUrl);
+        console.log("Profile Picture URL set to:", profilePictureUrl); // 로그 추가
       } catch (error) {
         console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
       }
@@ -61,14 +68,12 @@ function Home() {
       </div>
       <div className="flex flex-col items-center justify-center py-8">
         <img
-          //src={profilePicture || profile}
-          src={profile}
+          src={profilePicture || profile}
           alt="프로필"
           className="w-[80px] h-[80px] rounded-full"
         />
         <p className="text-[100px] text-center text-lg  ">
-          {/* {username || "사용자 이름"} */}
-          백예린
+          {username || "사용자 이름"}
         </p>
       </div>
 
