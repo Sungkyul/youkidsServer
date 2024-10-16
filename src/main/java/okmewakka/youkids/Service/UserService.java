@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public void profileUpload(user user, MultipartFile profile) throws Exception {
-        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
+        String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/files";
 
         UUID uuid = UUID.randomUUID();
 
@@ -40,7 +40,7 @@ public class UserService {
         profile.transferTo(saveFile);
 
         user.setUserProfileFileName(fileName);
-        user.setUserProfileFilePath("/files" + fileName);
+        user.setUserProfileFilePath(fileName);
 
 
     }
