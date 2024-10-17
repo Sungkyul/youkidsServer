@@ -10,11 +10,14 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post("http://localhost:7080/login", {
-        phoneNumber: phoneNumber,  
-        password: password,
-      },{ withCredentials: true } // 세션 쿠키를 유지
-       );
+      const response = await axios.post(
+        "http://localhost:7080/login",
+        {
+          phoneNumber: phoneNumber,
+          password: password,
+        },
+        { withCredentials: true } // 세션 쿠키를 유지
+      );
       console.log("로그인 성공:", response.data);
       navigate("/Home");
     } catch (err) {
@@ -29,10 +32,9 @@ function Login() {
       setPassword("");
     }
   };
-  
 
   const handleJoin = () => {
-    navigate("/Join_ID");
+    navigate("/Join_Name");
   };
 
   return (

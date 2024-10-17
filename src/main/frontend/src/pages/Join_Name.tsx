@@ -3,17 +3,29 @@ import { useNavigate } from "react-router-dom";
 import Modal2 from "../components/Modal2";
 import ExitButton from "../components/ExitButton";
 
-function Join_Name() {
+const Join_Name: React.FC = () => {
+  const [name, setName] = useState("");
   const navigate = useNavigate();
   const [isEmptyModalOpen, setIsEmptyModalOpen] = useState(false); // 입력하지 않은 경우 모달 열림 여부 상태
-  const [name, setName] = useState(""); // 입력된 휴대폰 번호 상태를 관리
 
-  const handleConfirmation = () => {
+  const handleConfirmation = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     if (!name.trim()) {
       setIsEmptyModalOpen(true);
     } else {
-      //비밀번호가 입력되었을 때 Join_Name으로 이동
-      navigate("/Join_Profile");
+      try {
+        await fetch("http://localhost:7080/name", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({ name }),
+        });
+        navigate("/Join_ID");
+      } catch (error) {
+        console.error("Error submitting name:", error);
+      }
     }
   };
 
@@ -36,6 +48,7 @@ function Join_Name() {
             placeholder="이름을 입력하세요."
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
         </div>
         <button
@@ -77,6 +90,6 @@ function Join_Name() {
       </Modal2>
     </div>
   );
-}
+};
 
 export default Join_Name;

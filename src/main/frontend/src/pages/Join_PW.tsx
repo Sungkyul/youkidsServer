@@ -3,16 +3,28 @@ import { useNavigate } from "react-router-dom";
 import Modal2 from "../components/Modal2";
 import ExitButton from "../components/ExitButton";
 
-function Join_PW() {
+const Join_PW: React.FC = () => {
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [isEmptyModalOpen, setIsEmptyModalOpen] = useState(false); // 입력하지 않은 경우 모달 열림 여부 상태
-  const [password, setPassword] = useState(""); // 입력된 비밀번호 상태를 관리
-  const handleConfirmation = () => {
+
+  const handleConfirmation = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!password.trim()) {
       setIsEmptyModalOpen(true);
     } else {
-      //비밀번호가 입력되었을 때 Join_Name으로 이동
-      navigate("/Join_Name");
+      try {
+        await fetch("http://localhost:7080/password", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({ password }),
+        });
+        navigate("/Join_Profile");
+      } catch (error) {
+        console.error("Error submitting password:", error);
+      }
     }
   };
   return (
@@ -34,6 +46,7 @@ function Join_PW() {
             placeholder="비밀번호를 입력하세요."
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
         <button
@@ -75,6 +88,6 @@ function Join_PW() {
       </Modal2>
     </div>
   );
-}
+};
 
 export default Join_PW;

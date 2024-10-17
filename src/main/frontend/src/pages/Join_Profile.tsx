@@ -5,15 +5,16 @@ import ExitButton from "../components/ExitButton";
 
 function Join_Profile() {
   const navigate = useNavigate();
-  const [isEmptyModalOpen, setIsEmptyModalOpen] = useState(false); // 모달이 열려있는지 상태를 관리
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [isEmptyModalOpen, setIsEmptyModalOpen] = useState(false); // 모달 상태 관리
+  const [selectedFile, setSelectedFile] = useState<File | null>(null); // 선택된 파일
+  const [previewImage, setPreviewImage] = useState<string | null>(null); // 미리보기 이미지
 
+  // 파일 선택 처리
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     setSelectedFile(file);
 
-    // 선택된 파일이 있으면 미리보기 이미지를 설정
+    // 미리보기 이미지 설정
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -25,12 +26,38 @@ function Join_Profile() {
     }
   };
 
-  const handleConfirmation = () => {
-    // 프로필 사진이 등록되었는지 확인하는 조건
-    if (selectedFile) {
-      navigate("/Join_Done");
-    } else {
+  // 프로필 사진을 서버로 전송
+  const uploadProfilePicture = async () => {
+    if (!selectedFile) return;
+
+    const formData = new FormData();
+    formData.append("profile", selectedFile);
+
+    try {
+      const response = await fetch("http://localhost:7080/profilePicture", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        // 업로드 성공 시 회원가입 완료 페이지로 이동
+        navigate("/Join_Terms");
+      } else {
+        console.error("프로필 사진 업로드 실패:", response.statusText);
+        setIsEmptyModalOpen(true); // 실패 시 모달 열기
+      }
+    } catch (error) {
+      console.error("프로필 사진 업로드 중 오류 발생:", error);
       setIsEmptyModalOpen(true);
+    }
+  };
+
+  // 프로필 사진 등록 확인
+  const handleConfirmation = () => {
+    if (selectedFile) {
+      uploadProfilePicture(); // 프로필 사진 업로드 함수 호출
+    } else {
+      setIsEmptyModalOpen(true); // 파일 선택이 안 되어 있으면 모달 열기
     }
   };
 

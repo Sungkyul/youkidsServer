@@ -4,11 +4,11 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Login from "./pages/Login";
+import Join_Name from "./pages/Join_Name";
 import Join_ID from "./pages/Join_ID";
 import Join_PW from "./pages/Join_PW";
-import Join_Name from "./pages/Join_Name";
 import Join_Profile from "./pages/Join_Profile";
-import Join_Face from "./pages/Join_Face";
+import Join_Terms from "./pages/Join_Terms";
 import Join_Done from "./pages/Join_Done";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
@@ -28,11 +28,11 @@ function App() {
       <Router>
         <Routes>
           <Route path="/Login" element={<Login />} />
+          <Route path="/Join_Name" element={<Join_Name />} />
           <Route path="/Join_ID" element={<Join_ID />} />
           <Route path="/Join_PW" element={<Join_PW />} />
-          <Route path="/Join_Name" element={<Join_Name />} />
           <Route path="/Join_Profile" element={<Join_Profile />} />
-          <Route path="/Join_Face" element={<Join_Face />} />
+          <Route path="/Join_Terms" element={<Join_Terms />} />
           <Route path="/Join_Done" element={<Join_Done />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/Search" element={<Search />} />

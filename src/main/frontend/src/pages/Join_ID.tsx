@@ -3,44 +3,34 @@ import { useNavigate } from "react-router-dom";
 import Modal2 from "../components/Modal2";
 import ExitButton from "../components/ExitButton";
 
-function Join_ID() {
+const Join_ID: React.FC = () => {
+  const [phoneNumber, setPhoneNumber] = useState("");
   const navigate = useNavigate();
   const [isEmptyModalOpen, setIsEmptyModalOpen] = useState(false); // 입력하지 않은 경우 모달 열림 여부 상태
   const [isInvalidLengthModalOpen, setIsInvalidLengthModalOpen] =
     useState(false); // 11자리가 아닌 경우 모달 열림 여부 상태
-  const [phoneNumber, setPhoneNumber] = useState(""); // 입력된 휴대폰 번호 상태를 관리
 
- //  POST 요청으로 서버에 데이터를 전송하는 코드
-const handleConfirmation = async () => {
-  if (!phoneNumber.trim()) {
-    setIsEmptyModalOpen(true);
-  } else if (phoneNumber.trim().length !== 11) {
-    setIsInvalidLengthModalOpen(true);
-  } else {
-    try {
-      // 서버로 POST 요청 보내기
-      const response = await fetch("/phoneNumber", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phoneNumber: phoneNumber.trim(), // 서버로 전송할 휴대폰 번호
-        }),
-      });
-
-      if (response.ok) {
-        
+  const handleConfirmation = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!phoneNumber.trim()) {
+      setIsEmptyModalOpen(true);
+    } else if (phoneNumber.trim().length !== 11) {
+      setIsInvalidLengthModalOpen(true);
+    } else {
+      try {
+        await fetch("http://localhost:7080/phoneNumber", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({ phoneNumber }),
+        });
         navigate("/Join_PW");
-      } else {
-        console.error("서버 오류 발생");
+      } catch (error) {
+        console.error("Error submitting phone number:", error);
       }
-    } catch (error) {
-      console.error("요청 중 오류가 발생했습니다.", error);
     }
-  }
-};
-
+  };
 
   return (
     <div className="w-full h-screen flex items-center justify-center bg-emerald-200">
@@ -61,6 +51,7 @@ const handleConfirmation = async () => {
             placeholder="휴대폰 번호를 입력하세요. (-제외)"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
+            required
           />
         </div>
         <button
@@ -130,6 +121,6 @@ const handleConfirmation = async () => {
       </Modal2>
     </div>
   );
-}
+};
 
 export default Join_ID;
