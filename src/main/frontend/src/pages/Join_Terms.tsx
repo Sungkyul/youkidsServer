@@ -34,13 +34,19 @@ const Terms: React.FC = () => {
             동의해주세요.
           </span>
         </div>
-        <div className="my-6 relative flex items-center bg-white">
+        <div className="my-6 relative flex items-center bg-white p-2 max-h-60 overflow-y-auto">
           <span>
-            aaaa
             <br />
-            bbbb
-            <br />
-            cccc
+            1. 회원은 본인의 사진을 업로드함으로써, <br />
+            회사가 이를 서비스 목적으로 사용할 수 <br />
+            있음에 동의합니다. <br />
+            2. 제 3자의 초상이 포함된 경우, <br />
+            회원은 해당 인물의 동의를 받아야 하며, <br />
+            이에 대한 책임은 회원에게 있습니다. <br />
+            3. 사진은 회원의 요청 시 삭제 가능하며, <br />
+            계정 삭제 시 자동으로 삭제됩니다. <br />
+            4. 초상권 침해에 대한 모든 책임은 <br />
+            회원에게 있습니다. <br />
           </span>
         </div>
         <div className="mb-4">
