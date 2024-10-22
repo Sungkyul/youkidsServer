@@ -68,7 +68,7 @@ const DownFace: React.FC = () => {
           const updatedData = Object.fromEntries(
             Object.entries(data).map(([groupId, images]) => [
               groupId,
-              images.map((image) => `http://localhost:7080/${image}`), // 서버 URL 추가
+              images.map((image) => `http://localhost:7080${image}`), // 서버 URL 추가
             ])
           );
           setGroupedImages(new Map(Object.entries(updatedData)));
