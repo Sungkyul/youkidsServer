@@ -13,7 +13,6 @@ const DownFace: React.FC = () => {
   const { imagePaths } = location.state || { imagePaths: [] };
   const { saveImages } = useImageContext(); // Context에서 saveImages 함수 가져오기
   const [username, setUsername] = useState("");
-  const [userId, setUserId] = useState("");
 
   const params = new URLSearchParams(location.search);
   const verificationCode = params.get("verificationCode") || "";
@@ -25,7 +24,6 @@ const DownFace: React.FC = () => {
           withCredentials: true,
         });
         setUsername(response.data.username);
-        setUserId(response.data.userId);
       } catch (error) {
         console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
       }
@@ -35,11 +33,11 @@ const DownFace: React.FC = () => {
   }, []);
 
   const handleConfirm = () => {
-    navigate(`/home/${username}`);
+    navigate(`/home?userId=${username}`);
   };
 
   const handleCancel = () => {
-    navigate("/Down_Code");
+    navigate(`/down_code?userId=${username}`);
   };
 
   const handleOpenModal = (images: string[]) => {
@@ -95,9 +93,9 @@ const DownFace: React.FC = () => {
   };
 
   const handleSave = (title: string) => {
-    saveImages(selectedGroupImages, title, userId); // 선택된 그룹의 이미지를 Context에 저장
+    saveImages(selectedGroupImages, title, username); // 선택된 그룹의 이미지를 Context에 저장
     setIsModalOpen(false); // 모달 닫기
-    navigate(`/home/${username}`);
+    navigate(`/home?userId=${username}`);
   };
 
   return (

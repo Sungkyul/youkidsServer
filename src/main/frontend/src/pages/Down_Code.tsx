@@ -31,11 +31,11 @@ const DownCode: React.FC = () => {
       setIsEmptyModalOpen(true);
       return;
     }
-    navigate(`/down_face?verificationCode=${code}&userId=${username}`);
+    navigate(`/down_face?userId=${username}&verificationCode=${code}`);
   };
 
   const handleCancel = () => {
-    navigate(`/home/${username}`);
+    navigate(`/home?userId=${username}`);
   };
 
   return (
