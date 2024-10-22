@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import AWS from "aws-sdk";
 import ShareLoading from "./Share_Loading";
+import axios from "axios";
 
 // AWS 설정
 AWS.config.update({
@@ -26,6 +27,22 @@ const Amazon: React.FC = () => {
   const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get("http://localhost:7080/dashboard", {
+          withCredentials: true,
+        });
+        setUsername(response.data.username);
+      } catch (error) {
+        console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   useEffect(() => {
     if (location.state?.selectedFiles) {
@@ -187,7 +204,9 @@ const Amazon: React.FC = () => {
       if (response.ok) {
         const data = await response.text();
         const backendCode = data;
-        navigate("/Share_Done", { state: { verificationCode: backendCode } });
+        navigate(`/share_done?userId=${username}`, {
+          state: { verificationCode: backendCode },
+        });
         console.log("Received verification code:", data);
       } else {
         const errorText = await response.text(); // 서버에서 반환한 에러 메시지
@@ -203,7 +222,7 @@ const Amazon: React.FC = () => {
   };
 
   const handleCancel = () => {
-    navigate("/home"); // 홈 화면으로 이동
+    navigate(`/home?userId=${username}`);
   };
 
   if (isProcessing) {

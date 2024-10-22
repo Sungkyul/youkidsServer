@@ -3,12 +3,29 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import BeforeButton from "../components/BeforeButton";
 import MenuButton from "../components/Menu";
+import axios from "axios";
 
 const Album: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { title, images } = location.state || { title: "", images: [] }; // 전달된 앨범 데이터
   const [albumImages, setAlbumImages] = useState<string[]>([]); // 상태로 이미지 관리
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get("http://localhost:7080/dashboard", {
+          withCredentials: true,
+        });
+        setUsername(response.data.username);
+      } catch (error) {
+        console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   useEffect(() => {
     // 컴포넌트가 마운트될 때 상태 초기화
@@ -21,7 +38,7 @@ const Album: React.FC = () => {
         <BeforeButton
           text={""}
           onClick={() => {
-            navigate("/Home");
+            navigate(`/home?userId=${username}`);
           }}
         ></BeforeButton>
         <p className="py-4 text-center text-neutral-900 text-[20px] font-semibold font-['Pretendard'] leading-snug">

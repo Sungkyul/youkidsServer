@@ -22,7 +22,7 @@ function Login() {
       const { username } = response.data;
       console.log("로그인 성공:", response.data);
 
-      navigate(`/home/${username}`);
+      navigate(`/home?userId=${username}`);
     } catch (err) {
       if (axios.isAxiosError(err)) {
         // AxiosError일 경우 처리

@@ -21,7 +21,9 @@ function Home() {
 
   const handleAlbumClick = (entry: { title: string; images: string[] }) => {
     // 앨범 클릭 시 해당 앨범 화면으로 이동
-    navigate("/Album", { state: { title: entry.title, images: entry.images } });
+    navigate(`/album?userId=${username}&${entry.title}`, {
+      state: { title: entry.title, images: entry.images },
+    });
   };
 
   useEffect(() => {
@@ -31,7 +33,6 @@ function Home() {
           withCredentials: true,
         });
         setUsername(response.data.username);
-
         // 절대 경로로 프로필 사진 URL을 설정
         const profilePictureUrl = response.data.profilePicture
           ? `http://localhost:7080/files/${response.data.profilePicture}` // 파일 경로를 절대 경로로 설정
@@ -47,6 +48,9 @@ function Home() {
     fetchUserProfile();
   }, []);
 
+  // 사용자 ID로 앨범 필터링
+  const userAlbums = album.filter((entry) => entry.username === username);
+
   return (
     <div className="pt-2">
       <div className="w-full mx-auto flex justify-between">
@@ -55,13 +59,13 @@ function Home() {
           <SearchButton
             text={""}
             onClick={() => {
-              navigate("/Search");
+              navigate(`/search?userId=${username}`);
             }}
           />
           <Notification
             text={""}
             onClick={() => {
-              navigate("/Noti");
+              navigate(`/noti?userId=${username}`);
             }}
           />
         </div>
@@ -80,7 +84,7 @@ function Home() {
       {/* 저장된 앨범 표시 */}
       <div className="flex item-center space-x-6">
         <div className="ml-5 flex flex-wrap">
-          {album.map((entry, index) => (
+          {userAlbums.map((entry, index) => (
             <div
               key={index}
               className="w-[125px] h-[125px] rounded-lg mx-4 mb-10"
