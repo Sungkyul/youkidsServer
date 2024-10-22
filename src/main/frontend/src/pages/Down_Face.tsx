@@ -5,6 +5,10 @@ import NextButton from "../components/NextButton";
 import { useImageContext } from "../components/ImageContext"; // Context import 추가
 import axios from "axios";
 
+interface GroupedImagesResponse {
+  [groupId: string]: string[]; // groupId는 string, images는 string[] 형태
+}
+
 const DownFace: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedGroupImages, setSelectedGroupImages] = useState<string[]>([]); // 선택된 그룹의 이미지를 저장할 상태 추가
@@ -60,8 +64,14 @@ const DownFace: React.FC = () => {
           `http://localhost:7080/getImagesByGroup?verificationCode=${verificationCode}`
         );
         if (response.ok) {
-          const data = await response.json();
-          setGroupedImages(new Map(Object.entries(data)));
+          const data: GroupedImagesResponse = await response.json(); // 응답 데이터 타입 지정
+          const updatedData = Object.fromEntries(
+            Object.entries(data).map(([groupId, images]) => [
+              groupId,
+              images.map((image) => `http://localhost:7080/${image}`), // 서버 URL 추가
+            ])
+          );
+          setGroupedImages(new Map(Object.entries(updatedData)));
         } else {
           setError("그룹화된 이미지를 가져오는 데 실패했습니다.");
         }
@@ -125,6 +135,10 @@ const DownFace: React.FC = () => {
                       src={image}
                       alt={`그룹 ${groupId}의 이미지 ${index}`}
                       className="w-11 h-11 mr-1 rounded-[0px]"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        console.error(`에러 발생 이미지: ${target.src}`); // 에러 발생한 이미지 URL 출력
+                      }}
                     />
                   ))}
                 </div>
