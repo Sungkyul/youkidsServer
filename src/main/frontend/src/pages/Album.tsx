@@ -11,6 +11,7 @@ const Album: React.FC = () => {
   const { title, images } = location.state || { title: "", images: [] }; // 전달된 앨범 데이터
   const [albumImages, setAlbumImages] = useState<string[]>([]); // 상태로 이미지 관리
   const [username, setUsername] = useState("");
+  const [menuVisible, setMenuVisible] = useState(false); // 메뉴 표시 상태
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -32,6 +33,10 @@ const Album: React.FC = () => {
     setAlbumImages(images);
   }, [images]);
 
+  const toggleMenu = () => {
+    setMenuVisible((prev) => !prev); // 메뉴 상태 토글
+  };
+
   return (
     <div className="mx-full mx-auto pt-2">
       <div className="w-full mx-auto flex justify-between">
@@ -45,11 +50,9 @@ const Album: React.FC = () => {
           {title}
         </p>
         <MenuButton
-          text={""}
-          onClick={() => {
-            //navigate("/Home");
-          }}
-        ></MenuButton>
+          visible={menuVisible} // 메뉴 상태 전달
+          onClick={toggleMenu} // 메뉴 토글 함수 전달
+        />
       </div>
       <div className="mt-2 ml-4 flex flex-wrap">
         {albumImages.map((image, index) => (
