@@ -33,7 +33,7 @@ function App() {
           <Route path="/Join_Profile" element={<Join_Profile />} />
           <Route path="/Join_Terms" element={<Join_Terms />} />
           <Route path="/Join_Done" element={<Join_Done />} />
-          <Route path="/Home" element={<Home />} />
+          <Route path="/Home/:username" element={<Home />} />
           <Route path="/Search" element={<Search />} />
           <Route path="/Noti" element={<Noti />} />
           <Route path="/Album" element={<Album />} />

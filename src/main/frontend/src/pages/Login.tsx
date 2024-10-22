@@ -18,8 +18,11 @@ function Login() {
         },
         { withCredentials: true } // 세션 쿠키를 유지
       );
+
+      const { username } = response.data;
       console.log("로그인 성공:", response.data);
-      navigate("/Home");
+
+      navigate(`/home/${username}`);
     } catch (err) {
       if (axios.isAxiosError(err)) {
         // AxiosError일 경우 처리
