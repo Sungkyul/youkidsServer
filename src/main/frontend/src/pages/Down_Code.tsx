@@ -1,12 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Modal2 from "../components/Modal2";
 import ExitButton from "../components/ExitButton";
+import axios from "axios";
 
 const DownCode: React.FC = () => {
   const navigate = useNavigate();
   const [isEmptyModalOpen, setIsEmptyModalOpen] = useState(false);
   const [code, setCode] = useState("");
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get("http://localhost:7080/dashboard", {
+          withCredentials: true,
+        });
+        setUsername(response.data.username);
+      } catch (error) {
+        console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   const handleConfirmation = () => {
     if (!/^\d+$/.test(code)) {
@@ -14,11 +31,11 @@ const DownCode: React.FC = () => {
       setIsEmptyModalOpen(true);
       return;
     }
-    navigate(`/down_face?verificationCode=${code}`);
+    navigate(`/down_face?verificationCode=${code}&userId=${username}`);
   };
 
   const handleCancel = () => {
-    navigate("/Home");
+    navigate(`/home/${username}`);
   };
 
   return (

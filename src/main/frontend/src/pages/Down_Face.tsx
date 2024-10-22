@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "../components/Modal";
 import NextButton from "../components/NextButton";
 import { useImageContext } from "../components/ImageContext"; // Context import 추가
+import axios from "axios";
 
 const DownFace: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -11,12 +12,30 @@ const DownFace: React.FC = () => {
   const navigate = useNavigate();
   const { imagePaths } = location.state || { imagePaths: [] };
   const { saveImages } = useImageContext(); // Context에서 saveImages 함수 가져오기
+  const [username, setUsername] = useState("");
+  const [userId, setUserId] = useState("");
 
   const params = new URLSearchParams(location.search);
   const verificationCode = params.get("verificationCode") || "";
 
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get("http://localhost:7080/dashboard", {
+          withCredentials: true,
+        });
+        setUsername(response.data.username);
+        setUserId(response.data.userId);
+      } catch (error) {
+        console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
   const handleConfirm = () => {
-    navigate("/Home");
+    navigate(`/home/${username}`);
   };
 
   const handleCancel = () => {
@@ -76,9 +95,9 @@ const DownFace: React.FC = () => {
   };
 
   const handleSave = (title: string) => {
-    saveImages(selectedGroupImages, title); // 선택된 그룹의 이미지를 Context에 저장
+    saveImages(selectedGroupImages, title, userId); // 선택된 그룹의 이미지를 Context에 저장
     setIsModalOpen(false); // 모달 닫기
-    navigate("/Home");
+    navigate(`/home/${username}`);
   };
 
   return (

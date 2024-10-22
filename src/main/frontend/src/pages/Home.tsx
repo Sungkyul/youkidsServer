@@ -14,6 +14,7 @@ function Home() {
   const [isOpen, setIsOpen] = useState(true);
   const [username, setUsername] = useState(""); // 사용자 이름 상태 추가
   const [profilePicture, setProfilePicture] = useState(""); // 프로필 사진 상태 추가
+  const [userId, setUserId] = useState("");
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -31,7 +32,7 @@ function Home() {
           withCredentials: true,
         });
         setUsername(response.data.username);
-
+        setUserId(response.data.userId);
         // 절대 경로로 프로필 사진 URL을 설정
         const profilePictureUrl = response.data.profilePicture
           ? `http://localhost:7080/files/${response.data.profilePicture}` // 파일 경로를 절대 경로로 설정
@@ -46,6 +47,9 @@ function Home() {
 
     fetchUserProfile();
   }, []);
+
+  // 사용자 ID로 앨범 필터링
+  const userAlbums = album.filter((entry) => entry.userId === userId);
 
   return (
     <div className="pt-2">
@@ -80,7 +84,7 @@ function Home() {
       {/* 저장된 앨범 표시 */}
       <div className="flex item-center space-x-6">
         <div className="ml-5 flex flex-wrap">
-          {album.map((entry, index) => (
+          {userAlbums.map((entry, index) => (
             <div
               key={index}
               className="w-[125px] h-[125px] rounded-lg mx-4 mb-10"
