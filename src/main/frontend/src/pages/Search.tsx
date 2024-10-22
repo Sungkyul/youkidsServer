@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Magnifier from "../assets/Magnifier.svg";
+import axios from "axios";
 
 function Search() {
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get("http://localhost:7080/dashboard", {
+          withCredentials: true,
+        });
+        setUsername(response.data.username);
+      } catch (error) {
+        console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
   const handleCancel = () => {
-    navigate("/Home");
+    navigate(`/home?userId=${username}`);
   };
+
   return (
     <div className="w-full mx-auto">
       <div className="mt-[24px] flex items-center justify-center">

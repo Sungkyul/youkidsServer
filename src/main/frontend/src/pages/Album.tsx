@@ -38,7 +38,7 @@ const Album: React.FC = () => {
         <BeforeButton
           text={""}
           onClick={() => {
-            navigate(`/home/${username}`);
+            navigate(`/home?userId=${username}`);
           }}
         ></BeforeButton>
         <p className="py-4 text-center text-neutral-900 text-[20px] font-semibold font-['Pretendard'] leading-snug">

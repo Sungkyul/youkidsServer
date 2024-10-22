@@ -10,12 +10,6 @@ interface PDownButtonProps {
 
 const PDownButton: React.FC<PDownButtonProps> = ({ text, onClick }) => {
   const navigate = useNavigate();
-
-  const handleButtonClick = () => {
-    navigate(`/down_code?userId=${username}`);
-    onClick();
-  };
-
   const [username, setUsername] = useState("");
 
   useEffect(() => {
@@ -32,6 +26,11 @@ const PDownButton: React.FC<PDownButtonProps> = ({ text, onClick }) => {
 
     fetchUserProfile();
   }, []);
+
+  const handleButtonClick = () => {
+    navigate(`/down_code?userId=${username}`);
+    onClick();
+  };
 
   return (
     <div className="flex justify-center items-center">

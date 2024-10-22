@@ -1,10 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BeforeButton from "../components/BeforeButton";
 import MenuButton from "../components/Menu";
+import axios from "axios";
 
 function Noti() {
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get("http://localhost:7080/dashboard", {
+          withCredentials: true,
+        });
+        setUsername(response.data.username);
+      } catch (error) {
+        console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   return (
     <div className="w-full mx-auto">
@@ -12,7 +29,7 @@ function Noti() {
         <BeforeButton
           text={""}
           onClick={() => {
-            navigate("/Home");
+            navigate(`/home?userId=${username}`);
           }}
         ></BeforeButton>
         <p className="py-4 text-center text-neutral-900 text-[20px] font-semibold font-['Pretendard'] leading-snug">

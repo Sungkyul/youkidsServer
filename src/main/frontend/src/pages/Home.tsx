@@ -21,7 +21,9 @@ function Home() {
 
   const handleAlbumClick = (entry: { title: string; images: string[] }) => {
     // 앨범 클릭 시 해당 앨범 화면으로 이동
-    navigate("/Album", { state: { title: entry.title, images: entry.images } });
+    navigate(`/album?userId=${username}&${entry.title}`, {
+      state: { title: entry.title, images: entry.images },
+    });
   };
 
   useEffect(() => {
@@ -57,13 +59,13 @@ function Home() {
           <SearchButton
             text={""}
             onClick={() => {
-              navigate("/Search");
+              navigate(`/search?userId=${username}`);
             }}
           />
           <Notification
             text={""}
             onClick={() => {
-              navigate("/Noti");
+              navigate(`/noti?userId=${username}`);
             }}
           />
         </div>

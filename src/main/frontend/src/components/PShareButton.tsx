@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Share from "../assets/Share.svg";
+import axios from "axios";
 
 interface PShareButtonProps {
   text: string;
@@ -9,9 +10,25 @@ interface PShareButtonProps {
 
 const PShareButton: React.FC<PShareButtonProps> = ({ text, onClick }) => {
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get("http://localhost:7080/dashboard", {
+          withCredentials: true,
+        });
+        setUsername(response.data.username);
+      } catch (error) {
+        console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   const handleButtonClick = () => {
-    navigate("/Amazon");
+    navigate(`/amazon?userId=${username}`);
     onClick();
   };
 

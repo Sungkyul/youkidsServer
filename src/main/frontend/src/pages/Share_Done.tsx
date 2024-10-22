@@ -1,13 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
 function Share_Done() {
   const navigate = useNavigate();
   const location = useLocation();
   const verificationCode = location.state?.verificationCode || "N/A"; // 전달받은 코드
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get("http://localhost:7080/dashboard", {
+          withCredentials: true,
+        });
+        setUsername(response.data.username);
+      } catch (error) {
+        console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   const handleConfirm = () => {
-    navigate("/Home");
+    navigate(`/home?userId=${username}`);
   };
 
   return (
