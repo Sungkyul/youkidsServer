@@ -14,7 +14,7 @@ function Home() {
   const [isOpen, setIsOpen] = useState(true);
   const [username, setUsername] = useState(""); // 사용자 이름 상태 추가
   const [profilePicture, setProfilePicture] = useState(""); // 프로필 사진 상태 추가
-  const [phoneNumber, setPhoneNumber] = useState(""); // username을 phoneNumber로 변경
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -51,7 +51,7 @@ function Home() {
   }, []);
 
   // 사용자 ID로 앨범 필터링
-  const userAlbums = album.filter((entry) => entry.username === username);
+  const userAlbums = album.filter((entry) => entry.phoneNumber === phoneNumber);
 
   return (
     <div className="pt-2">

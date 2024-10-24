@@ -17,6 +17,7 @@ const DownFace: React.FC = () => {
   const { imagePaths } = location.state || { imagePaths: [] };
   const { saveImages } = useImageContext(); // Context에서 saveImages 함수 가져오기
   const [username, setUsername] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState(""); // username을 phoneNumber로 변경
 
   const params = new URLSearchParams(location.search);
   const verificationCode = params.get("verificationCode") || "";
@@ -28,6 +29,7 @@ const DownFace: React.FC = () => {
           withCredentials: true,
         });
         setUsername(response.data.username);
+        setPhoneNumber(response.data.phoneNumber);
       } catch (error) {
         console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
       }
@@ -103,7 +105,7 @@ const DownFace: React.FC = () => {
   };
 
   const handleSave = (title: string) => {
-    saveImages(selectedGroupImages, title, username); // 선택된 그룹의 이미지를 Context에 저장
+    saveImages(selectedGroupImages, title, phoneNumber); // 선택된 그룹의 이미지를 Context에 저장
     setIsModalOpen(false); // 모달 닫기
     navigate(`/home?userId=${username}`);
   };
