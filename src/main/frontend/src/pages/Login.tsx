@@ -31,7 +31,7 @@ function Login() {
         // AxiosError가 아닐 경우 처리
         console.error("로그인 실패:", err);
       }
-      setError("잘못된 사용자 이름 또는 비밀번호입니다.");
+      setError("잘못된 아이디 또는 비밀번호입니다.");
       setPassword("");
     }
   };
@@ -74,17 +74,14 @@ function Login() {
           </div>
         </button>
         <div className="flex items-center justify-center">
+          <span className="mx-2 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug">
+            계정이 없으신가요?
+          </span>
           <button
             onClick={handleJoin}
-            className="my-4 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug"
+            className="my-4 text-center text-slate-500 text-sm font-bold font-['Pretendard'] leading-snug"
           >
             회원가입
-          </button>
-          <span className="mx-2 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug">
-            |
-          </span>
-          <button className="my-4 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug">
-            아이디/비밀번호 찾기
           </button>
         </div>
       </div>
