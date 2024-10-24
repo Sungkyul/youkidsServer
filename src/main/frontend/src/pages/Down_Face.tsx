@@ -4,6 +4,7 @@ import Modal from "../components/Modal";
 import NextButton from "../components/NextButton";
 import { useImageContext } from "../components/ImageContext"; // Context import 추가
 import axios from "axios";
+import { AxiosError } from "axios"; // AxiosError import 추가
 
 interface GroupedImagesResponse {
   [groupId: string]: string[]; // groupId는 string, images는 string[] 형태
@@ -104,10 +105,23 @@ const DownFace: React.FC = () => {
     }
   };
 
-  const handleSave = (title: string) => {
-    saveImages(selectedGroupImages, title, phoneNumber); // 선택된 그룹의 이미지를 Context에 저장
-    setIsModalOpen(false); // 모달 닫기
-    navigate(`/home?userId=${username}`);
+  const handleSave = async (title: string) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:7080/albums/create?userIdPhone=${phoneNumber}&title=${title}`, // 쿼리 매개변수로 userIdPhone과 title 추가
+        selectedGroupImages // photoUrls는 본문으로 보내기
+      );
+
+      const createdAlbum = response.data; // 생성된 앨범 데이터
+      console.log("생성된 앨범 ID:", createdAlbum.id); // 앨범 ID 콘솔 출력
+
+      saveImages(selectedGroupImages, title, phoneNumber); // 선택된 그룹의 이미지를 Context에 저장
+      setIsModalOpen(false); // 모달 닫기
+      navigate(`/home?userId=${username}`);
+    } catch (error) {
+      const axiosError = error as AxiosError; // error를 AxiosError 타입으로 캐스팅
+      console.error("앨범 생성 중 오류 발생:", axiosError.response?.data); // 오류 응답 데이터 추가
+    }
   };
 
   return (
