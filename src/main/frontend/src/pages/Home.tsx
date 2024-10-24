@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react"; // useRef 추가
 import { useNavigate } from "react-router-dom";
 import profile from "../assets/default_profile.png";
 import MenuBar from "../components/MenuBar";
@@ -15,6 +15,9 @@ function Home() {
   const [username, setUsername] = useState(""); // 사용자 이름 상태 추가
   const [profilePicture, setProfilePicture] = useState(""); // 프로필 사진 상태 추가
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태 추가
+  const [isSearchActive, setIsSearchActive] = useState(false); // 검색 활성화 상태 추가
+  const searchRef = useRef<HTMLDivElement | null>(null); // 검색창 참조 추가
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -53,16 +56,52 @@ function Home() {
   // 사용자 ID로 앨범 필터링
   const userAlbums = album.filter((entry) => entry.phoneNumber === phoneNumber);
 
+  // 검색어로 앨범 필터링
+  const filteredAlbums = userAlbums.filter((entry) =>
+    entry.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // 검색창 외부 클릭 이벤트 핸들러
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      searchRef.current &&
+      !searchRef.current.contains(event.target as Node)
+    ) {
+      setIsSearchActive(false); // 검색창 닫기
+    }
+  };
+
+  useEffect(() => {
+    // 컴포넌트 마운트 시 이벤트 리스너 추가
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // 컴포넌트 언마운트 시 이벤트 리스너 제거
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="pt-2">
       <div className="w-full mx-auto flex justify-between">
         <MenuBar text="" /> {/* MenuBar 컴포넌트를 사용 */}
-        <div className="mt-2 flex justify-end items-center pr-4">
+        <div
+          className="mt-2 flex justify-end items-center pr-4"
+          ref={searchRef}
+        >
+          {" "}
+          {/* ref 추가 */}
+          {isSearchActive && ( // 검색 입력 필드 표시
+            <input
+              type="text"
+              placeholder="앨범명으로 검색..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)} // 검색어 업데이트
+              className="mx-2 p-1 w-[200px] border rounded bg-neutral-200"
+            />
+          )}
           <SearchButton
             text={""}
-            onClick={() => {
-              navigate(`/search?userId=${username}`);
-            }}
+            onClick={() => setIsSearchActive(!isSearchActive)} // 검색 버튼 클릭 시 검색 활성화 상태 토글
           />
           <Notification
             text={""}
@@ -86,7 +125,7 @@ function Home() {
       {/* 저장된 앨범 표시 */}
       <div className="flex item-center space-x-6">
         <div className="ml-5 flex flex-wrap">
-          {userAlbums.map((entry, index) => (
+          {filteredAlbums.map((entry, index) => (
             <div
               key={index}
               className="w-[125px] h-[125px] rounded-lg mx-4 mb-10"
