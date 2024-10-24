@@ -3,12 +3,18 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 interface AlbumEntry {
   title: string;
   images: string[];
-  username: string; // 사용자 ID 추가
+  phoneNumber: string;
+  id: number; // 앨범 ID 추가
 }
 
 interface ImageContextType {
   album: AlbumEntry[];
-  saveImages: (images: string[], title: string, username: string) => void; // userId 추가
+  saveImages: (
+    images: string[],
+    title: string,
+    phoneNumber: string,
+    id: number
+  ) => void; // 앨범 ID 추가
 }
 
 const ImageContext = createContext<ImageContextType | undefined>(undefined);
@@ -26,8 +32,13 @@ export const ImageProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, []);
 
-  const saveImages = (images: string[], title: string, username: string) => {
-    const newAlbumEntry = { title, images, username };
+  const saveImages = (
+    images: string[],
+    title: string,
+    phoneNumber: string,
+    id: number
+  ) => {
+    const newAlbumEntry: AlbumEntry = { title, images, phoneNumber, id }; // 앨범 ID 포함
     const updatedAlbum = [...album, newAlbumEntry];
 
     setAlbum(updatedAlbum); // 앨범 상태 업데이트
