@@ -24,11 +24,13 @@ public class DashboardController {
     public ResponseEntity<Map<String, String>> dashboard(HttpSession session) {
         String username = (String) session.getAttribute("username");
         String profilePicture = (String) session.getAttribute("profilePicture");
+        String phoneNumber = (String) session.getAttribute("phoneNumber");
 
         if (username != null) {
             Map<String, String> response = new HashMap<>();
             response.put("username", username);
             response.put("profilePicture", profilePicture != null ? profilePicture : "defaultProfilePath.jpg"); // 기본 프로필 경로
+            response.put("phoneNumber", phoneNumber != null ? phoneNumber : "defaultPhoneNumber");
 
             return ResponseEntity.ok(response); // 사용자 정보 반환
         } else {

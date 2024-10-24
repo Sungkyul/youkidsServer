@@ -47,7 +47,7 @@ public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String
 
         // 세션에 사용자 정보 저장
         session.setAttribute("username", username);
-        session.setAttribute("phonenumber", phoneNumber);
+        session.setAttribute("phoneNumber", phoneNumber);
         session.setAttribute("userid", userId);
         session.setAttribute("profilePicture", profilePicture); // 변경: key 값을 "profilePicture"로 수정
 
@@ -55,6 +55,7 @@ public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String
         Map<String, String> response = new HashMap<>();
         response.put("username", username);
         response.put("profilePicture", profilePicture); // 프로필 사진 반환
+        response.put("phoneNumber", phoneNumber);
         return ResponseEntity.ok(response);
     } else {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("error", "Invalid username or password"));

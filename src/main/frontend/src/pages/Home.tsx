@@ -14,6 +14,7 @@ function Home() {
   const [isOpen, setIsOpen] = useState(true);
   const [username, setUsername] = useState(""); // 사용자 이름 상태 추가
   const [profilePicture, setProfilePicture] = useState(""); // 프로필 사진 상태 추가
+  const [phoneNumber, setPhoneNumber] = useState(""); // username을 phoneNumber로 변경
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -33,6 +34,7 @@ function Home() {
           withCredentials: true,
         });
         setUsername(response.data.username);
+        setPhoneNumber(response.data.phoneNumber);
         // 절대 경로로 프로필 사진 URL을 설정
         const profilePictureUrl = response.data.profilePicture
           ? `http://localhost:7080/files/${response.data.profilePicture}` // 파일 경로를 절대 경로로 설정
