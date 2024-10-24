@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // 추가
+import axios from "axios";
 import profile from "../assets/yr.jpeg";
 import 오른쪽화살표 from "../assets/오른쪽 화살표.svg";
 import 전송기록 from "../assets/전송기록.svg";
@@ -14,7 +16,10 @@ interface MenuBarProps {
 
 const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false); // 메뉴의 표시 여부 상태
+  const [username, setUsername] = useState(""); // 사용자 이름 상태
+  const [profilePicture, setProfilePicture] = useState(profile); // 프로필 사진 상태, 기본 사진으로 초기화
   const menuRef = useRef<HTMLDivElement>(null); // 메뉴 바 참조를 위한 useRef
+  const navigate = useNavigate();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -33,8 +38,34 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
     };
   }, []);
 
+  // 사용자 정보를 가져오는 함수
+  const fetchUserProfile = async () => {
+    try {
+      const response = await axios.get("http://localhost:7080/dashboard", {
+        withCredentials: true,
+      });
+      setUsername(response.data.username);
+      // 프로필 사진 URL 설정
+      const profilePictureUrl = response.data.profilePicture
+        ? `http://localhost:7080/files/${response.data.profilePicture}`
+        : profile; // 기본 사진
+      setProfilePicture(profilePictureUrl);
+    } catch (error) {
+      console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserProfile(); // 컴포넌트가 마운트될 때 사용자 정보 가져오기
+  }, []);
+
   const handleMenuClick = () => {
     setIsMenuVisible(!isMenuVisible); // 메뉴의 표시 여부를 토글합니다.
+  };
+
+  const handleLogout = () => {
+    // 로그아웃 처리 로직 추가 (예: 세션 삭제, API 호출 등)
+    navigate("/login"); // 로그인 페이지로 이동
   };
 
   return (
@@ -50,18 +81,20 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
           <div className="flex flex-col items-center justify-center w-full h-full">
             <div className="flex items-center py-8 pl-2 w-full">
               <img
-                src={profile}
-                alt="김연아"
+                src={profilePicture}
+                alt="프로필"
                 className="w-[50px] h-[50px] rounded-full"
               />
-              <p className="text-sm text-left pl-4 pr-4 font-bold">백예린</p>
-              <div className="flex justify-end flex-1">
+              <p className="text-sm text-left pl-4 pr-4 font-bold">
+                {username || "사용자 이름"}
+              </p>
+              {/* <div className="flex justify-end flex-1">
                 <img
                   src={오른쪽화살표}
                   alt="오른쪽화살표"
                   className="w-[24px] h-[24px]"
                 />
-              </div>
+              </div> */}
             </div>
 
             <div className="border-t border-gray-300 w-full pb-2"></div>
@@ -100,7 +133,10 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
               <p className="text-xs pb-1">이용안내</p>
               <p className="text-xs pb-1">고객센터</p>
               <p className="text-xs ">정보수정제안</p>
-              <p className="text-xs pt-32 text-right">로그아웃</p>
+              <p className="text-xs pt-32 text-right" onClick={handleLogout}>
+                로그아웃
+              </p>{" "}
+              {/* 클릭 이벤트 추가 */}
             </div>
           </div>
         </div>
