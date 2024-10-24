@@ -98,6 +98,7 @@ function Home() {
                 className="w-[125px] h-[125px] rounded-lg"
               />
               <p className="text-xs text-left pt-1">{entry.title}</p>
+              <p className="text-xs text-left pt-1">앨범 ID: {entry.id}</p>
             </div>
           ))}
         </div>

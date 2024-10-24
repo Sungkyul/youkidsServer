@@ -115,7 +115,8 @@ const DownFace: React.FC = () => {
       const createdAlbum = response.data; // 생성된 앨범 데이터
       console.log("생성된 앨범 ID:", createdAlbum.id); // 앨범 ID 콘솔 출력
 
-      saveImages(selectedGroupImages, title, phoneNumber); // 선택된 그룹의 이미지를 Context에 저장
+      saveImages(selectedGroupImages, title, phoneNumber, createdAlbum.id);
+
       setIsModalOpen(false); // 모달 닫기
       navigate(`/home?userId=${username}`);
     } catch (error) {
