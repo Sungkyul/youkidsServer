@@ -121,7 +121,14 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
               </div>
               <div className="flex items-center">
                 <img src={공지} alt="공지" className="w-[24px] h-[24px]" />
-                <p className="text-xs text-left pl-4">공지</p>
+                <p
+                  className="text-xs text-left pl-4"
+                  onClick={() => {
+                    navigate(`/notice?userId=${username}`);
+                  }}
+                >
+                  공지
+                </p>
               </div>
               <div className="flex items-center">
                 <img src={설정} alt="설정" className="w-[24px] h-[24px]" />

@@ -13,6 +13,7 @@ import Join_Done from "./pages/Join_Done";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 import Noti from "./pages/Noti";
+import Notice from "./pages/Notice";
 import Album from "./pages/Album";
 import Share_Loading from "./pages/Share_Loading";
 import Share_Done from "./pages/Share_Done";
@@ -36,6 +37,7 @@ function App() {
           <Route path="/Home/" element={<Home />} />
           <Route path="/Search" element={<Search />} />
           <Route path="/Noti" element={<Noti />} />
+          <Route path="/Notice" element={<Notice />} />
           <Route path="/Album" element={<Album />} />
           <Route path="/Share_Loading" element={<Share_Loading />} />
           <Route path="/Share_Done" element={<Share_Done />} />
