@@ -99,7 +99,7 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
 
             <div className="border-t border-gray-300 w-full pb-2"></div>
             <div className="flex flex-col justify-items-start p-2 w-full h-full">
-              <div className="flex items-center ">
+              <div className="flex items-center w-[90px]">
                 <img
                   src={전송기록}
                   alt="전송기록"
@@ -107,7 +107,7 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
                 />
                 <p className="text-xs text-left pl-4">전송기록</p>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center w-[90px]">
                 <img
                   src={즐겨찾기}
                   alt="즐겨찾기"
@@ -115,22 +115,25 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
                 />
                 <p className="text-xs text-left pl-4">즐겨찾기</p>
               </div>
-              <div className="flex items-center">
+              <div className="flex items-center w-[90px]">
                 <img src={휴지통} alt="휴지통" className="w-[24px] h-[24px]" />
                 <p className="text-xs text-left pl-4">휴지통</p>
               </div>
-              <div className="flex items-center">
+              <div
+                className="flex items-center w-[90px]"
+                onClick={() => {
+                  navigate(`/notice?userId=${username}`);
+                }}
+              >
                 <img src={공지} alt="공지" className="w-[24px] h-[24px]" />
-                <p
-                  className="text-xs text-left pl-4"
-                  onClick={() => {
-                    navigate(`/notice?userId=${username}`);
-                  }}
-                >
-                  공지
-                </p>
+                <p className="text-xs text-left pl-4">공지</p>
               </div>
-              <div className="flex items-center">
+              <div
+                className="flex items-center w-[90px]"
+                onClick={() => {
+                  navigate(`/usersettings?userId=${username}`);
+                }}
+              >
                 <img src={설정} alt="설정" className="w-[24px] h-[24px]" />
                 <p className="text-xs text-left pl-4">설정</p>
               </div>

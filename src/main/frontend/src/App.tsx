@@ -13,7 +13,6 @@ import Join_Done from "./pages/Join_Done";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 import Noti from "./pages/Noti";
-import Notice from "./pages/Notice";
 import Album from "./pages/Album";
 import Share_Loading from "./pages/Share_Loading";
 import Share_Done from "./pages/Share_Done";
@@ -21,6 +20,9 @@ import Down_Code from "./pages/Down_Code";
 import Down_Face from "./pages/Down_Face";
 import Amazon from "./pages/Amazon";
 import Test from "./pages/Test";
+import Notice from "./pages/Notice";
+import Setting from "./pages/Setting";
+import UserSettings from "./pages/UserSettings";
 
 function App() {
   return (
@@ -37,7 +39,6 @@ function App() {
           <Route path="/Home/" element={<Home />} />
           <Route path="/Search" element={<Search />} />
           <Route path="/Noti" element={<Noti />} />
-          <Route path="/Notice" element={<Notice />} />
           <Route path="/Album" element={<Album />} />
           <Route path="/Share_Loading" element={<Share_Loading />} />
           <Route path="/Share_Done" element={<Share_Done />} />
@@ -45,6 +46,9 @@ function App() {
           <Route path="/Down_Face" element={<Down_Face />} />
           <Route path="/Amazon" element={<Amazon />} />
           <Route path="/Test" element={<Test />} />
+          <Route path="/Notice" element={<Notice />} />
+          <Route path="/Setting" element={<Setting />} />
+          <Route path="/UserSettings" element={<UserSettings />} />
         </Routes>
       </Router>
     </div>

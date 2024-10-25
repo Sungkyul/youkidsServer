@@ -12,12 +12,12 @@ const MenuButton: React.FC<MenuButtonProps> = ({ visible, onClick }) => {
   };
 
   return (
-    <div className="m-4 w-[22px]">
+    <div className="w-[22px]">
       <button onClick={handleButtonClick}>
         <img src={MenuIcon} alt="메뉴" />
       </button>
       {visible && (
-        <div className="absolute top-12 right-0 bg-white shadow-md rounded-md z-50">
+        <div className="mr-4 mt-1 absolute top-12 right-0 bg-white shadow-md rounded-md z-50">
           <ul className="flex flex-col p-2">
             <li className="py-1 px-3 hover:bg-gray-200 cursor-pointer">
               즐겨찾기

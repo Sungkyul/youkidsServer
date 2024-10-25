@@ -4,6 +4,7 @@ import profile from "../assets/default_profile.png";
 import MenuBar from "../components/MenuBar";
 import SearchButton from "../components/SearchButton";
 import Notification from "../components/Notification";
+import MenuButton from "../components/Menu";
 import FixedButton from "../components/FixedButton";
 import { useImageContext } from "../components/ImageContext"; // Context import 추가
 import axios from "axios"; // Axios import 추가
@@ -18,9 +19,14 @@ function Home() {
   const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태 추가
   const [isSearchActive, setIsSearchActive] = useState(false); // 검색 활성화 상태 추가
   const searchRef = useRef<HTMLDivElement | null>(null); // 검색창 참조 추가
+  const [menuVisible, setMenuVisible] = useState(false); // 메뉴 표시 상
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
+  };
+
+  const toggleMenu = () => {
+    setMenuVisible((prev) => !prev); // 메뉴 상태 토글
   };
 
   const handleAlbumClick = (entry: { title: string; images: string[] }) => {
@@ -103,12 +109,16 @@ function Home() {
             text={""}
             onClick={() => setIsSearchActive(!isSearchActive)} // 검색 버튼 클릭 시 검색 활성화 상태 토글
           />
-          <Notification
+          <MenuButton
+            visible={menuVisible} // 메뉴 상태 전달
+            onClick={toggleMenu} // 메뉴 토글 함수 전달
+          />
+          {/* <Notification
             text={""}
             onClick={() => {
               navigate(`/noti?userId=${username}`);
             }}
-          />
+          /> */}
         </div>
       </div>
       <div className="flex flex-col items-center justify-center py-8">

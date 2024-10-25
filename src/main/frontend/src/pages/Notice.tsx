@@ -60,12 +60,13 @@ function NoticePage() {
         <p className="py-4 text-center text-neutral-900 text-[20px] font-semibold font-['Pretendard'] leading-snug">
           공지
         </p>
-        <MenuButton
+        <div className="m-6"></div>
+        {/* <MenuButton
           text={""}
           onClick={() => {
             //navigate("/Home");
           }}
-        ></MenuButton>
+        ></MenuButton> */}
       </div>
 
       <main className="p-6 space-y-4">
