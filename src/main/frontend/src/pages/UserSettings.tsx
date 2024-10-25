@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import profile from "../assets/default_profile.png";
+import BeforeButton from "../components/BeforeButton";
 import axios from "axios";
 
 const UserSettings: React.FC = () => {
+  const navigate = useNavigate();
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [username, setUsername] = useState("");
+  const [profilePicture, setProfilePicture] = useState("");
   const [newUserName, setNewUserName] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newPhoneNumber, setNewPhoneNumber] = useState("");
@@ -15,7 +21,15 @@ const UserSettings: React.FC = () => {
         const response = await axios.get("http://localhost:7080/dashboard", {
           withCredentials: true,
         });
+        setUsername(response.data.username);
         setPhoneNumber(response.data.phoneNumber);
+        // 절대 경로로 프로필 사진 URL을 설정
+        const profilePictureUrl = response.data.profilePicture
+          ? `http://localhost:7080/files/${response.data.profilePicture}` // 파일 경로를 절대 경로로 설정
+          : profile; // 기본 프로필 사진
+
+        setProfilePicture(profilePictureUrl);
+        console.log("Profile Picture URL set to:", profilePictureUrl); // 로그 추가
       } catch (error) {
         console.error("사용자 정보를 가져오는 데 실패했습니다:", error);
       }
@@ -87,44 +101,104 @@ const UserSettings: React.FC = () => {
   };
 
   return (
-    <div className="settings-container">
-      <h2>유저 정보 수정</h2>
-      <div>
-        <label>이름:</label>
-        <input
-          type="text"
-          value={newUserName}
-          onChange={(e) => setNewUserName(e.target.value)}
-        />
-        <button onClick={handleUserNameUpdate}>이름 수정</button>
+    <div className="w-full mx-auto">
+      <div className="w-full mx-auto flex justify-between">
+        <BeforeButton
+          text={""}
+          onClick={() => {
+            navigate(`/home?userId=${username}`);
+          }}
+        ></BeforeButton>
+        <p className="py-4 text-center text-neutral-900 text-[20px] font-semibold font-['Pretendard'] leading-snug">
+          설정
+        </p>
+        <div className="m-6"></div>
       </div>
-      <div>
-        <label>비밀번호:</label>
-        <input
-          type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
+
+      <div className="mb-4 flex flex-col items-center justify-center py-8">
+        <img
+          src={profilePicture || profile}
+          alt="프로필"
+          className="mb-1 w-[80px] h-[80px] rounded-full"
         />
-        <button onClick={handlePasswordUpdate}>비밀번호 수정</button>
+        <p className="text-[100px] text-center text-lg  ">
+          {username || "사용자 이름"}
+        </p>
       </div>
-      <div>
-        <label>전화번호:</label>
-        <input
-          type="text"
-          value={newPhoneNumber}
-          onChange={(e) => setNewPhoneNumber(e.target.value)}
-        />
-        <button onClick={handlePhoneNumberUpdate}>전화번호 수정</button>
+      <div className="">
+        <div className="flex items-center justify-center">
+          <span className="ml-3 mr-1 text-center font-bold">프로필</span>
+          <div className="my-2 px-4 flex items-center justify-between w-[280px] h-[40px] bg-white rounded-lg border-2 border-stone-300">
+            <input
+              type="file"
+              className="w-40 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug"
+              onChange={(e) =>
+                e.target.files && setProfileImage(e.target.files[0])
+              }
+            />
+            <button
+              className="ml-6 font-bold text-slate-500"
+              onClick={handleProfileUpdate}
+            >
+              수정
+            </button>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center">
+          <span className="ml-6 mr-1 text-center font-bold">이름</span>
+          <div className="my-2 px-4 flex items-center justify-between w-[280px] h-[40px] bg-white rounded-lg border-2 border-stone-300">
+            <input
+              type="text"
+              className="w-40 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug"
+              value={newUserName}
+              onChange={(e) => setNewUserName(e.target.value)}
+            />
+            <button
+              className="ml-6 font-bold text-slate-500"
+              onClick={handleUserNameUpdate}
+            >
+              수정
+            </button>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-center">
+          <span className="mr-1 text-center font-bold">전화번호</span>
+          <div className="my-2 px-4 flex items-center justify-between w-[280px] h-[40px] bg-white rounded-lg border-2 border-stone-300">
+            <input
+              type="number"
+              className="w-40 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug"
+              value={newPhoneNumber}
+              onChange={(e) => setNewPhoneNumber(e.target.value)}
+            />
+            <button
+              className="ml-6 font-bold text-slate-500"
+              onClick={handlePhoneNumberUpdate}
+            >
+              수정
+            </button>
+          </div>
+        </div>
+        <div className="flex items-center justify-center">
+          <span className="mr-1 text-center font-bold">비밀번호</span>
+          <div className="my-2 px-4 flex items-center justify-between w-[280px] h-[40px] bg-white rounded-lg border-2 border-stone-300">
+            <input
+              type="password"
+              className="w-40 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+            <button
+              className="ml-6 font-bold text-slate-500"
+              onClick={handlePasswordUpdate}
+            >
+              수정
+            </button>
+          </div>
+        </div>
       </div>
-      <div>
-        <label>프로필 사진:</label>
-        <input
-          type="file"
-          onChange={(e) => e.target.files && setProfileImage(e.target.files[0])}
-        />
-        <button onClick={handleProfileUpdate}>프로필 사진 수정</button>
-      </div>
-      {message && <p>{message}</p>}
+      {message && <p className="mt-8 text-center text-red-500">{message}</p>}
     </div>
   );
 };

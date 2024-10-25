@@ -125,7 +125,7 @@ function Home() {
         <img
           src={profilePicture || profile}
           alt="프로필"
-          className="w-[80px] h-[80px] rounded-full"
+          className="mb-1 w-[80px] h-[80px] rounded-full"
         />
         <p className="text-[100px] text-center text-lg  ">
           {username || "사용자 이름"}

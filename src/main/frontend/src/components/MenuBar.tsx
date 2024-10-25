@@ -76,7 +76,7 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
 
       {/* 메뉴가 표시되면 아래의 내용을 보여줍니다. */}
       {isMenuVisible && (
-        <div className="absolute top-0 left-0 h-full w-3/4 bg-white shadow-md p-4 flex justify-center items-center">
+        <div className="absolute top-0 left-0 h-full w-3/5 bg-white shadow-md p-4 flex justify-center items-center">
           {/* 메뉴에 해당하는 내용 */}
           <div className="flex flex-col items-center justify-center w-full h-full">
             <div className="flex items-center py-8 pl-2 w-full">
@@ -97,9 +97,9 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
               </div> */}
             </div>
 
-            <div className="border-t border-gray-300 w-full pb-2"></div>
-            <div className="flex flex-col justify-items-start p-2 w-full h-full">
-              <div className="flex items-center w-[90px]">
+            <div className="border-t border-gray-300 w-full pb-4"></div>
+            <div className="flex flex-col justify-items-star p-2 w-full h-full">
+              <div className="flex items-center my-1 w-[90px]">
                 <img
                   src={전송기록}
                   alt="전송기록"
@@ -107,7 +107,7 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
                 />
                 <p className="text-xs text-left pl-4">전송기록</p>
               </div>
-              <div className="flex items-center w-[90px]">
+              <div className="flex items-center my-1 w-[90px]">
                 <img
                   src={즐겨찾기}
                   alt="즐겨찾기"
@@ -115,12 +115,12 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
                 />
                 <p className="text-xs text-left pl-4">즐겨찾기</p>
               </div>
-              <div className="flex items-center w-[90px]">
+              <div className="flex items-center my-1 w-[90px]">
                 <img src={휴지통} alt="휴지통" className="w-[24px] h-[24px]" />
                 <p className="text-xs text-left pl-4">휴지통</p>
               </div>
               <div
-                className="flex items-center w-[90px]"
+                className="flex items-center my-1 w-[90px]"
                 onClick={() => {
                   navigate(`/notice?userId=${username}`);
                 }}
@@ -129,7 +129,7 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
                 <p className="text-xs text-left pl-4">공지</p>
               </div>
               <div
-                className="flex items-center w-[90px]"
+                className="flex items-center my-1 w-[90px]"
                 onClick={() => {
                   navigate(`/usersettings?userId=${username}`);
                 }}
@@ -138,11 +138,11 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
                 <p className="text-xs text-left pl-4">설정</p>
               </div>
             </div>
-            <div className="border-t border-gray-300 w-full pb-4"></div>
-            <div className="w-full h-full p-4">
-              <p className="text-xs pb-1">이용안내</p>
-              <p className="text-xs pb-1">고객센터</p>
-              <p className="text-xs ">정보수정제안</p>
+            <div className="border-t border-gray-300 w-full"></div>
+            <div className="w-full h-full px-4">
+              <p className="text-xs pt-4 pb-2">이용안내</p>
+              <p className="text-xs pb-2">고객센터</p>
+              <p className="text-xs">정보수정제안</p>
               <p className="text-xs pt-32 text-right" onClick={handleLogout}>
                 로그아웃
               </p>{" "}
