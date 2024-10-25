@@ -20,6 +20,9 @@ import Down_Code from "./pages/Down_Code";
 import Down_Face from "./pages/Down_Face";
 import Amazon from "./pages/Amazon";
 import Test from "./pages/Test";
+import Notice from "./pages/Notice";
+import Setting from "./pages/Setting";
+import UserSettings from "./pages/UserSettings";
 
 function App() {
   return (
@@ -43,6 +46,9 @@ function App() {
           <Route path="/Down_Face" element={<Down_Face />} />
           <Route path="/Amazon" element={<Amazon />} />
           <Route path="/Test" element={<Test />} />
+          <Route path="/Notice" element={<Notice />} />
+          <Route path="/Setting" element={<Setting />} />
+          <Route path="/UserSettings" element={<UserSettings />} />
         </Routes>
       </Router>
     </div>

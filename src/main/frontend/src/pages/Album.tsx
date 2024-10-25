@@ -49,10 +49,11 @@ const Album: React.FC = () => {
         <p className="py-4 text-center text-neutral-900 text-[20px] font-semibold font-['Pretendard'] leading-snug">
           {title}
         </p>
-        <MenuButton
+        <div className="m-6"></div>
+        {/* <MenuButton
           visible={menuVisible} // 메뉴 상태 전달
           onClick={toggleMenu} // 메뉴 토글 함수 전달
-        />
+        /> */}
       </div>
       <div className="mt-2 ml-4 flex flex-wrap">
         {albumImages.map((image, index) => (

@@ -34,6 +34,8 @@ public class UserController {
     public ResponseEntity<String> updateUserName(
             @Parameter(description = "유저 전화번호") @PathVariable String phone,
             @Parameter(description = "새로운 유저 이름") @RequestBody String newUserName) {
+            // JSON 문자열에서 따옴표 제거
+        newUserName = newUserName.replaceAll("^\"|\"$", "");
         user updatedUser = userService.updateUserName(phone, newUserName);
         if (updatedUser != null) {
             return ResponseEntity.ok().body("회원 이름이 성공적으로 업데이트되었습니다.");
