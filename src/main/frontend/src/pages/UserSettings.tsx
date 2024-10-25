@@ -110,7 +110,7 @@ const UserSettings: React.FC = () => {
           }}
         ></BeforeButton>
         <p className="py-4 text-center text-neutral-900 text-[20px] font-semibold font-['Pretendard'] leading-snug">
-          설정
+          유저 설정
         </p>
         <div className="m-6"></div>
       </div>

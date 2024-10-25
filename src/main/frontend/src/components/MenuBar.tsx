@@ -88,13 +88,18 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
               <p className="text-sm text-left pl-4 pr-4 font-bold">
                 {username || "사용자 이름"}
               </p>
-              {/* <div className="flex justify-end flex-1">
+              <div
+                className="flex justify-end flex-1"
+                onClick={() => {
+                  navigate(`/usersettings?userId=${username}`);
+                }}
+              >
                 <img
                   src={오른쪽화살표}
                   alt="오른쪽화살표"
                   className="w-[24px] h-[24px]"
                 />
-              </div> */}
+              </div>
             </div>
 
             <div className="border-t border-gray-300 w-full pb-4"></div>
@@ -131,7 +136,7 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
               <div
                 className="flex items-center my-1 w-[90px]"
                 onClick={() => {
-                  navigate(`/usersettings?userId=${username}`);
+                  navigate(`/setting?userId=${username}`);
                 }}
               >
                 <img src={설정} alt="설정" className="w-[24px] h-[24px]" />
