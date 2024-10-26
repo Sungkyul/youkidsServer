@@ -110,7 +110,7 @@ const UserSettings: React.FC = () => {
           }}
         ></BeforeButton>
         <p className="py-4 text-center text-neutral-900 text-[20px] font-semibold font-['Pretendard'] leading-snug">
-          유저 설정
+          프로필 설정
         </p>
         <div className="m-6"></div>
       </div>
@@ -126,9 +126,9 @@ const UserSettings: React.FC = () => {
         </p>
       </div>
       <div className="">
-        <div className="flex items-center justify-center">
+        <div className="mr-2 flex items-center justify-center">
           <span className="ml-3 mr-1 text-center font-bold">프로필</span>
-          <div className="my-2 px-4 flex items-center justify-between w-[280px] h-[40px] bg-white rounded-lg border-2 border-stone-300">
+          <div className="my-2 px-4 flex items-center justify-between w-[250px] h-[40px] bg-white rounded-lg border-2 border-stone-300">
             <input
               type="file"
               className="w-40 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug"
@@ -145,12 +145,13 @@ const UserSettings: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center justify-center">
+        <div className="mr-2 flex items-center justify-center">
           <span className="ml-6 mr-1 text-center font-bold">이름</span>
-          <div className="my-2 px-4 flex items-center justify-between w-[280px] h-[40px] bg-white rounded-lg border-2 border-stone-300">
+          <div className="my-2 px-4 flex items-center justify-between w-[250px] h-[40px] bg-white rounded-lg border-2 border-stone-300">
             <input
               type="text"
-              className="w-40 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug"
+              className="w-40 text-center text-neutral-900 text-sm font-normal font-['Pretendard'] leading-snug"
+              placeholder={username}
               value={newUserName}
               onChange={(e) => setNewUserName(e.target.value)}
             />
@@ -163,12 +164,13 @@ const UserSettings: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center justify-center">
+        <div className="mr-2 flex items-center justify-center">
           <span className="mr-1 text-center font-bold">전화번호</span>
-          <div className="my-2 px-4 flex items-center justify-between w-[280px] h-[40px] bg-white rounded-lg border-2 border-stone-300">
+          <div className="my-2 px-4 flex items-center justify-between w-[250px] h-[40px] bg-white rounded-lg border-2 border-stone-300">
             <input
               type="number"
-              className="w-40 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug"
+              className="w-40 text-center text-neutral-900 text-sm font-normal font-['Pretendard'] leading-snug"
+              placeholder={phoneNumber}
               value={newPhoneNumber}
               onChange={(e) => setNewPhoneNumber(e.target.value)}
             />
@@ -180,12 +182,13 @@ const UserSettings: React.FC = () => {
             </button>
           </div>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="mr-2 flex items-center justify-center">
           <span className="mr-1 text-center font-bold">비밀번호</span>
-          <div className="my-2 px-4 flex items-center justify-between w-[280px] h-[40px] bg-white rounded-lg border-2 border-stone-300">
+          <div className="my-2 px-4 flex items-center justify-between w-[250px] h-[40px] bg-white rounded-lg border-2 border-stone-300">
             <input
               type="password"
               className="w-40 text-center text-neutral-500 text-sm font-normal font-['Pretendard'] leading-snug"
+              placeholder="새로운 비밀번호"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             />
@@ -198,7 +201,22 @@ const UserSettings: React.FC = () => {
           </div>
         </div>
       </div>
-      {message && <p className="mt-8 text-center text-red-500">{message}</p>}
+      {message && <p className="mt-4 text-center text-red-500">{message}</p>}
+      <div className="mt-4 flex items-center justify-center">
+        <button
+          onClick={() => {
+            navigate(`/home?userId=${username}`);
+          }}
+          className="flex items-center justify-center w-72 h-[50px] bg-emerald-200 rounded-lg"
+        >
+          <div className="text-center text-neutral-900 text-base font-semibold font-['Pretendard'] leading-snug">
+            저장
+          </div>
+        </button>
+      </div>
+      <div className="text-center pt-4 text-[12px] text-red-500">
+        <p>계정 삭제하기</p>
+      </div>
     </div>
   );
 };

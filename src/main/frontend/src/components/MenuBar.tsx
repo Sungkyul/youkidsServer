@@ -148,7 +148,8 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
               <p className="text-xs pt-4 pb-2">이용안내</p>
               <p className="text-xs pb-2">고객센터</p>
               <p className="text-xs">정보수정제안</p>
-              <p className="text-xs pt-32 text-right" onClick={handleLogout}>
+              <p className="pt-32 text-xs"></p>
+              <p className="text-xs text-right" onClick={handleLogout}>
                 로그아웃
               </p>{" "}
               {/* 클릭 이벤트 추가 */}
