@@ -89,6 +89,7 @@ function Home() {
       !searchRef.current.contains(event.target as Node)
     ) {
       setIsSearchActive(false); // 검색창 닫기
+      setSearchTerm(""); // 검색 내용 초기화
     }
   };
 
@@ -150,14 +151,14 @@ function Home() {
       </div>
 
       {/* 즐겨찾기만 보기 버튼 */}
-      <div className="flex justify-end pr-4">
+      {/* <div className="flex justify-end pr-4">
         <button
           onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
           className="bg-blue-500 text-white p-2 rounded"
         >
           {showFavoritesOnly ? "전체보기" : "즐겨찾기만 보기"}
         </button>
-      </div>
+      </div> */}
 
       {/* 저장된 앨범 표시 */}
       <div className="flex item-center space-x-6">
