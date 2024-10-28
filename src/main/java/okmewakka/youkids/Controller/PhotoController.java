@@ -134,7 +134,8 @@ public ResponseEntity<String> uploadPhotos(
     
     @Operation(summary = "이미지 경로 가져오기", description = "이미지 경로를 가져옵니다.")
     @GetMapping("/getImages")
-    public ResponseEntity<List<String>> getImagePaths(@Parameter(description = "비밀번호") @RequestParam String password) {
+    public ResponseEntity<List<String>> getImagePaths(
+        @Parameter(description = "비밀번호") @RequestParam("password") String password) {
         List<Photo> photos = photoRepository.findByUuid(password);
         List<String> imagePaths = new ArrayList<>();
         for (Photo photo : photos) {
@@ -142,11 +143,12 @@ public ResponseEntity<String> uploadPhotos(
         }
         return ResponseEntity.ok().body(imagePaths);
     }
+
     
     @Operation(summary = "그룹별 이미지 경로 가져오기", description = "비밀번호로 그룹별 이미지 경로를 가져옵니다.")
     @GetMapping("/getImagesByGroup")
     public ResponseEntity<Map<String, List<String>>> getImagesByGroup(
-        @Parameter(description = "비밀번호") @RequestParam String verificationCode) {
+        @Parameter(description = "비밀번호") @RequestParam("verificationCode") String verificationCode) {
         
         List<Photo> photos = photoRepository.findByUuid(verificationCode);
         Map<String, List<String>> groupedImages = new HashMap<>();
@@ -154,7 +156,6 @@ public ResponseEntity<String> uploadPhotos(
         for (Photo photo : photos) {
             String groupId = String.valueOf(photo.getGroupId());  // int를 String으로 변환
 
-            
             if (!groupedImages.containsKey(groupId)) {
                 groupedImages.put(groupId, new ArrayList<>());
             }
@@ -164,6 +165,7 @@ public ResponseEntity<String> uploadPhotos(
         
         return ResponseEntity.ok(groupedImages);
     }
+
     
 
     @Operation(summary = "사진 보기", description = "사진 보기 페이지를 보여줍니다.")
