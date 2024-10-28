@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // 추가
 import axios from "axios";
-import profile from "../assets/yr.jpeg";
+import profile from "../assets/default_profile.png";
 import 오른쪽화살표 from "../assets/오른쪽 화살표.svg";
 import 전송기록 from "../assets/전송기록.svg";
 import 즐겨찾기 from "../assets/즐겨찾기.svg";
@@ -145,9 +145,30 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
             </div>
             <div className="border-t border-gray-300 w-full"></div>
             <div className="w-full h-full px-4">
-              <p className="text-xs pt-4 pb-2">이용안내</p>
-              <p className="text-xs pb-2">고객센터</p>
-              <p className="text-xs">정보수정제안</p>
+              <p
+                className="text-xs pt-4 pb-2"
+                onClick={() => {
+                  navigate(`/guide?userId=${username}`);
+                }}
+              >
+                이용안내
+              </p>
+              <p
+                className="text-xs pb-2"
+                onClick={() => {
+                  navigate(`/customerservice?userId=${username}`);
+                }}
+              >
+                고객센터
+              </p>
+              <p
+                className="text-xs"
+                onClick={() => {
+                  navigate(`/updatesuggestion?userId=${username}`);
+                }}
+              >
+                정보 수정 제안
+              </p>
               <p className="pt-32 text-xs"></p>
               <p className="text-xs text-right" onClick={handleLogout}>
                 로그아웃
