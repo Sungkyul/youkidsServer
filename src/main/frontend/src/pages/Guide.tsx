@@ -79,6 +79,16 @@ const Guide: React.FC = () => {
         <p className="pt-4">
           이용하시면서 궁금한 점이 있으시면 언제든지 문의해 주세요. 감사합니다!
         </p>
+        <div className="mt-4 flex items-center justify-center">
+          <button
+            className="flex mt-2 items-center justify-center w-72 h-[50px] bg-emerald-200 rounded-lg"
+            onClick={() => {
+              navigate(`/home?userId=${username}`);
+            }}
+          >
+            확인
+          </button>
+        </div>
       </div>
     </div>
   );

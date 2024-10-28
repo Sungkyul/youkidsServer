@@ -8,6 +8,7 @@ import MenuButton from "../components/Menu";
 import FixedButton from "../components/FixedButton";
 import { useImageContext } from "../components/ImageContext"; // Context import 추가
 import axios from "axios"; // Axios import 추가
+import { AiFillStar, AiOutlineStar } from "react-icons/ai"; // 별표 아이콘 import 추가
 
 function Home() {
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ function Home() {
   const [isSearchActive, setIsSearchActive] = useState(false); // 검색 활성화 상태 추가
   const searchRef = useRef<HTMLDivElement | null>(null); // 검색창 참조 추가
   const [menuVisible, setMenuVisible] = useState(false); // 메뉴 표시 상
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false); // 즐겨찾기 필터 상태 추가
+  const [favorites, setFavorites] = useState<string[]>([]); // 즐겨찾기 상태 추가
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -35,6 +38,27 @@ function Home() {
       state: { title: entry.title, images: entry.images },
     });
   };
+
+  // 즐겨찾기 추가/제거
+  const toggleFavorite = (albumTitle: string) => {
+    setFavorites((prev) => {
+      const newFavorites = prev.includes(albumTitle)
+        ? prev.filter((fav) => fav !== albumTitle)
+        : [...prev, albumTitle];
+
+      // 로컬 스토리지에 즐겨찾기 저장
+      localStorage.setItem("favorites", JSON.stringify(newFavorites));
+      return newFavorites;
+    });
+  };
+
+  // 컴포넌트 마운트 시 로컬 스토리지에서 즐겨찾기 불러오기
+  useEffect(() => {
+    const storedFavorites = localStorage.getItem("favorites");
+    if (storedFavorites) {
+      setFavorites(JSON.parse(storedFavorites));
+    }
+  }, []);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -63,9 +87,13 @@ function Home() {
   const userAlbums = album.filter((entry) => entry.phoneNumber === phoneNumber);
 
   // 검색어로 앨범 필터링
-  const filteredAlbums = userAlbums.filter((entry) =>
-    entry.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredAlbums = userAlbums
+    .filter((entry) =>
+      entry.title.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((entry) =>
+      showFavoritesOnly ? favorites.includes(entry.title) : true
+    ); // 즐겨찾기 필터 적용
 
   // 검색창 외부 클릭 이벤트 핸들러
   const handleClickOutside = (event: MouseEvent) => {
@@ -74,6 +102,7 @@ function Home() {
       !searchRef.current.contains(event.target as Node)
     ) {
       setIsSearchActive(false); // 검색창 닫기
+      setSearchTerm(""); // 검색 내용 초기화
     }
   };
 
@@ -112,6 +141,8 @@ function Home() {
           <MenuButton
             visible={menuVisible} // 메뉴 상태 전달
             onClick={toggleMenu} // 메뉴 토글 함수 전달
+            onShowFavorites={() => setShowFavoritesOnly(!showFavoritesOnly)} // 즐겨찾기만 보기 토글 함수 전달
+            showFavoritesOnly={showFavoritesOnly} // 즐겨찾기 상태 전달
           />
           {/* <Notification
             text={""}
@@ -132,6 +163,16 @@ function Home() {
         </p>
       </div>
 
+      {/* 즐겨찾기만 보기 버튼 */}
+      {/* <div className="flex justify-end pr-4">
+        <button
+          onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+          className="bg-blue-500 text-white p-2 rounded"
+        >
+          {showFavoritesOnly ? "전체보기" : "즐겨찾기만 보기"}
+        </button>
+      </div> */}
+
       {/* 저장된 앨범 표시 */}
       <div className="flex item-center space-x-6">
         <div className="ml-5 flex flex-wrap">
@@ -146,7 +187,23 @@ function Home() {
                 alt={`앨범 ${entry.title}`}
                 className="w-[125px] h-[125px] rounded-lg"
               />
-              <p className="text-xs text-left pt-1">{entry.title}</p>
+              <div className="flex items-center pt-1">
+                {/* 즐겨찾기 아이콘 */}
+                <div
+                  className="cursor-pointer mr-1"
+                  onClick={(e) => {
+                    e.stopPropagation(); // 앨범 클릭 방지
+                    toggleFavorite(entry.title);
+                  }}
+                >
+                  {favorites.includes(entry.title) ? (
+                    <AiFillStar color="lightgreen" size={16} /> // 노란색 별 아이콘
+                  ) : (
+                    <AiOutlineStar color="gray" size={16} /> // 회색 별 아이콘
+                  )}
+                </div>
+                <p className="text-xs text-left">{entry.title}</p>
+              </div>
             </div>
           ))}
         </div>
