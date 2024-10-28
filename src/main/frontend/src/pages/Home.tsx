@@ -39,13 +39,26 @@ function Home() {
     });
   };
 
+  // 즐겨찾기 추가/제거
   const toggleFavorite = (albumTitle: string) => {
-    setFavorites((prev) =>
-      prev.includes(albumTitle)
+    setFavorites((prev) => {
+      const newFavorites = prev.includes(albumTitle)
         ? prev.filter((fav) => fav !== albumTitle)
-        : [...prev, albumTitle]
-    );
+        : [...prev, albumTitle];
+
+      // 로컬 스토리지에 즐겨찾기 저장
+      localStorage.setItem("favorites", JSON.stringify(newFavorites));
+      return newFavorites;
+    });
   };
+
+  // 컴포넌트 마운트 시 로컬 스토리지에서 즐겨찾기 불러오기
+  useEffect(() => {
+    const storedFavorites = localStorage.getItem("favorites");
+    if (storedFavorites) {
+      setFavorites(JSON.parse(storedFavorites));
+    }
+  }, []);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -184,7 +197,7 @@ function Home() {
                   }}
                 >
                   {favorites.includes(entry.title) ? (
-                    <AiFillStar color="yellow" size={16} /> // 노란색 별 아이콘
+                    <AiFillStar color="lightgreen" size={16} /> // 노란색 별 아이콘
                   ) : (
                     <AiOutlineStar color="gray" size={16} /> // 회색 별 아이콘
                   )}
