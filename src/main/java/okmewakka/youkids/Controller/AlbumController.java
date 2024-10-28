@@ -34,9 +34,10 @@ public class AlbumController {
     @Parameter(name = "title", description = "앨범 제목")
     @Parameter(name = "photoUrls", description = "사진 경로들(List)")
     @PostMapping("/create")
-    public ResponseEntity<Album> createAlbum(@RequestParam String userIdPhone,
-                                             @RequestParam String title,
-                                             @RequestBody List<String> photoUrls) {
+    public ResponseEntity<Album> createAlbum(
+            @RequestParam("userIdPhone") String userIdPhone,
+            @RequestParam("title") String title,
+            @RequestBody List<String> photoUrls) {
         Album album = albumService.createAlbum(userIdPhone, title, photoUrls);
         return ResponseEntity.ok(album);
     }
