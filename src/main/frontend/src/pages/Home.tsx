@@ -127,6 +127,8 @@ function Home() {
           <MenuButton
             visible={menuVisible} // 메뉴 상태 전달
             onClick={toggleMenu} // 메뉴 토글 함수 전달
+            onShowFavorites={() => setShowFavoritesOnly(!showFavoritesOnly)} // 즐겨찾기만 보기 토글 함수 전달
+            showFavoritesOnly={showFavoritesOnly} // 즐겨찾기 상태 전달
           />
           {/* <Notification
             text={""}
