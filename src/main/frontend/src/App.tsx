@@ -23,6 +23,9 @@ import Test from "./pages/Test";
 import Notice from "./pages/Notice";
 import Setting from "./pages/Setting";
 import UserSettings from "./pages/UserSettings";
+import CustomerService from "./pages/CustomerSerivce";
+import UpdateSuggestion from "./pages/UpdateSuggestion";
+import Guide from "./pages/Guide";
 
 function App() {
   return (
@@ -49,6 +52,9 @@ function App() {
           <Route path="/Notice" element={<Notice />} />
           <Route path="/Setting" element={<Setting />} />
           <Route path="/UserSettings" element={<UserSettings />} />
+          <Route path="/CustomerService" element={<CustomerService />} />
+          <Route path="/UpdateSuggestion" element={<UpdateSuggestion />} />
+          <Route path="/Guide" element={<Guide />} />
         </Routes>
       </Router>
     </div>
