@@ -4,7 +4,7 @@ import BeforeButton from "../components/BeforeButton";
 import MenuButton from "../components/Menu";
 import axios from "axios";
 
-function Noti() {
+function Setting() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
 
@@ -33,7 +33,7 @@ function Noti() {
           }}
         ></BeforeButton>
         <p className="py-4 text-center text-neutral-900 text-[20px] font-semibold font-['Pretendard'] leading-snug">
-          설정
+          앱 설정
         </p>
         <div className="m-6"></div>
         {/* <MenuButton
@@ -44,59 +44,101 @@ function Noti() {
         ></MenuButton> */}
       </div>
 
-      <div className="border-b border-gray-300">
-        <div className="flex parent justify-between pt-2">
+      <div className="pt-2 border-b border-gray-300">
+        <div className="flex parent justify-between py-4">
           <div className="parent pl-4">
             <p className="text-neutral-900 text-base font-semibold font-['Pretendard'] leading-snug">
-              앨범을 생성했습니다.
-            </p>
-          </div>
-          <div className="parent pr-4 pt-1">
-            <p className="w-[62px] text-right text-neutral-900 text-xs font-normal font-['Pretendard'] leading-snug">
-              23.06.10
+              알림 설정
             </p>
           </div>
         </div>
 
-        <div className="flex justify-between pb-2">
-          <div className="flex pl-4 py-2">
-            <p className="w-[100px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
-              체육대회
+        <div className="flex justify-between pb-4">
+          <div className="flex pl-4">
+            <span className="w-[100px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
+              알림 수신 설정
+            </span>
+          </div>
+        </div>
+        <div className="flex justify-between pb-4">
+          <div className="flex pl-4">
+            <span className="w-[140px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
+              방해 금지 시간 설정
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-b border-gray-300">
+        <div className="flex parent justify-between py-4">
+          <div className="parent pl-4">
+            <p className="text-neutral-900 text-base font-semibold font-['Pretendard'] leading-snug">
+              화면 설정
             </p>
+          </div>
+        </div>
+
+        <div className="flex justify-between pb-4">
+          <div className="flex pl-4">
+            <span className="w-[100px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
+              테마 설정
+            </span>
+          </div>
+        </div>
+        <div className="flex justify-between pb-4">
+          <div className="flex pl-4">
+            <span className="w-[100px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
+              글꼴 설정
+            </span>
+          </div>
+        </div>
+        <div className="flex justify-between pb-4">
+          <div className="flex pl-4">
+            <span className="w-[100px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
+              언어 설정
+            </span>
           </div>
         </div>
       </div>
 
       <div className="">
-        <div className="flex parent justify-between pt-2">
+        <div className="flex parent justify-between py-4">
           <div className="parent pl-4">
             <p className="text-neutral-900 text-base font-semibold font-['Pretendard'] leading-snug">
-              앨범을 생성했습니다.
-            </p>
-          </div>
-          <div className="parent pr-4 pt-1">
-            <p className="w-[62px] text-right text-neutral-900 text-xs font-normal font-['Pretendard'] leading-snug">
-              23.06.10
+              기타
             </p>
           </div>
         </div>
 
-        <div className="flex justify-between pb-2">
-          <div className="flex pl-4 py-2">
-            <p className="w-[100px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
-              입학식
-            </p>
+        <div className="flex justify-between pb-4">
+          <div className="flex pl-4">
+            <span className="w-[120px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
+              캐시 데이터 삭제
+            </span>
           </div>
         </div>
-      </div>
-
-      <div className="justify-center py-4">
-        <p className="text-xs text-center text-gray-600">
-          최근 30일간 알림을 표시합니다.
-        </p>
+        <div className="flex justify-between pb-4">
+          <div className="flex pl-4">
+            <span className="w-[120px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
+              이용 약관 및 정책
+            </span>
+          </div>
+        </div>
+        <div className="flex justify-between pb-4">
+          <div className="flex pl-4">
+            <span className="w-[100px] text-neutral-900 text-base font-normal font-['Pretendard'] leading-snug">
+              버전
+            </span>
+          </div>
+          <div className="flex pr-4">
+            <span className="text-gray-700 text-[14px] font-normal font-['Pretendard'] leading-snug">
+              24.10.2
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-export default Noti;
+export default Setting;
