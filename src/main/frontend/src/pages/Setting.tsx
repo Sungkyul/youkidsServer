@@ -132,7 +132,7 @@ function Setting() {
           </div>
           <div className="flex pr-4">
             <span className="text-gray-700 text-[14px] font-normal font-['Pretendard'] leading-snug">
-              24.10.2
+              24.10.4
             </span>
           </div>
         </div>
