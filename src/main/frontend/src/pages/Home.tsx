@@ -35,6 +35,7 @@ function Home() {
   const [selectedAlbums, setSelectedAlbums] = useState<string[]>([]); // 선택된 앨범 상태 추가
   const [isSelectMode, setIsSelectMode] = useState(false); // 선택 모드 상태 추가
   const [hiddenAlbums, setHiddenAlbums] = useState<string[]>([]); // 숨겨진 앨범 상태 추가
+  const [deletedAlbums, setDeletedAlbums] = useState<string[]>([]); // 숨겨진 앨범 상태 추가
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -86,6 +87,11 @@ function Home() {
     if (storedHiddenAlbums) {
       setHiddenAlbums(JSON.parse(storedHiddenAlbums));
     }
+
+    const storedDeletedAlbums = localStorage.getItem("deletedAlbums"); // 숨긴 앨범 불러오기
+    if (storedDeletedAlbums) {
+      setHiddenAlbums(JSON.parse(storedDeletedAlbums));
+    }
   }, []);
 
   useEffect(() => {
@@ -122,7 +128,8 @@ function Home() {
     .filter((entry) =>
       showFavoritesOnly ? favorites.includes(entry.title) : true
     ) // 즐겨찾기 필터 적용
-    .filter((entry) => !hiddenAlbums.includes(entry.title)); // 숨겨진 앨범 필터링
+    .filter((entry) => !hiddenAlbums.includes(entry.title)) // 숨겨진 앨범 필터링
+    .filter((entry) => !deletedAlbums.includes(entry.title)); // 삭제된 앨범 필터링
 
   // 검색창 외부 클릭 이벤트 핸들러
   const handleClickOutside = (event: MouseEvent) => {
@@ -157,6 +164,20 @@ function Home() {
       const updatedHiddenAlbums = [...prev, ...selectedAlbums];
       localStorage.setItem("hiddenAlbums", JSON.stringify(updatedHiddenAlbums)); // 로컬 스토리지에 저장
       return updatedHiddenAlbums; // 숨긴 앨범 상태 업데이트
+    });
+    setSelectedAlbums([]); // 선택 초기화
+    setIsSelectMode(false); // 선택 모드 종료
+  };
+
+  // 선택한 앨범 지우기
+  const deleteSelectedAlbums = () => {
+    setDeletedAlbums((prev) => {
+      const updatedDeletedAlbums = [...prev, ...selectedAlbums];
+      localStorage.setItem(
+        "deletedAlbums",
+        JSON.stringify(updatedDeletedAlbums)
+      ); // 로컬 스토리지에 저장
+      return updatedDeletedAlbums; // 숨긴 앨범 상태 업데이트
     });
     setSelectedAlbums([]); // 선택 초기화
     setIsSelectMode(false); // 선택 모드 종료
@@ -315,7 +336,7 @@ function Home() {
                 className="w-[24px] h-[24px]"
               />
             </button>
-            <button className="mx-4 p-1 rounded">
+            <button className="mx-4 p-1 rounded" onClick={deleteSelectedAlbums}>
               <img src={휴지통} alt="휴지통" className="w-[24px] h-[24px]" />
             </button>
           </div>

@@ -139,7 +139,12 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
                 />
                 <p className="text-xs text-left pl-4">숨긴 앨범</p>
               </div>
-              <div className="flex items-center my-1 w-[90px]">
+              <div
+                className="flex items-center my-1 w-[90px]"
+                onClick={() => {
+                  navigate(`/deletedalbum?userId=${username}`);
+                }}
+              >
                 <img src={휴지통} alt="휴지통" className="w-[24px] h-[24px]" />
                 <p className="text-xs text-left pl-4">휴지통</p>
               </div>
