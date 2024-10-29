@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -74,12 +75,13 @@ public class SignupController {
     }
 
     @Operation(summary = "프로필 사진 업로드", description = "사용자의 프로필 사진을 업로드합니다.")
-    @PostMapping("/profilePicture")
-    public String submitProfilePicture(Model model, MultipartFile profile, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        model.addAttribute("user", user);
-        userService.profileUpload(user, profile);
-        return "terms";
-    }
+@PostMapping("/profilePicture")
+public String submitProfilePicture(Model model, @RequestParam("profile") MultipartFile profile, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    model.addAttribute("user", user);
+    userService.profileUpload(user, profile);
+    return "terms";
+}
+
 
     @Operation(summary = "약관 동의 후 회원가입 완료", description = "약관 동의 후 사용자 정보를 데이터베이스에 저장합니다.")
     @PostMapping("/complete")
