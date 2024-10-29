@@ -7,6 +7,7 @@ interface MenuButtonProps {
   onClick: () => void; // 메뉴 열기/닫기 함수
   onShowFavorites: () => void; // 즐겨찾기만 보기 함수
   showFavoritesOnly: boolean; // 즐겨찾기 상태 여부
+  onSelectMode: () => void; // 선택 모드로 전환하는 함수
 }
 
 const MenuButton: React.FC<MenuButtonProps> = ({
@@ -14,6 +15,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({
   onClick,
   onShowFavorites,
   showFavoritesOnly,
+  onSelectMode,
 }) => {
   const menuRef = useRef<HTMLDivElement | null>(null); // 메뉴 리스트를 참조하기 위한 ref
 
@@ -40,6 +42,15 @@ const MenuButton: React.FC<MenuButtonProps> = ({
     onClick();
   };
 
+  const handleFavoriteClick = () => {
+    onShowFavorites();
+    onClick();
+  };
+  const handleSelectClick = () => {
+    onSelectMode(); // 선택 모드로 전환
+    onClick(); // 메뉴 닫기
+  };
+
   return (
     <div className="w-[22px]">
       <button onClick={handleButtonClick}>
@@ -53,7 +64,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({
           <ul className="flex flex-col py-2">
             <li
               className="py-1 pl-3 hover:bg-gray-200 cursor-pointer flex items-center"
-              onClick={onShowFavorites}
+              onClick={handleFavoriteClick}
               style={{ width: "100px" }}
             >
               <span className="">즐겨찾기</span>
@@ -61,8 +72,12 @@ const MenuButton: React.FC<MenuButtonProps> = ({
                 <img src={CheckIcon} alt="체크 표시" className="ml-2 w-4 h-4" />
               )}{" "}
             </li>
-            <li className="py-1 px-3 hover:bg-gray-200 cursor-pointer">선택</li>
-            <li className="py-1 px-3 hover:bg-gray-200 cursor-pointer">삭제</li>
+            <li
+              className="py-1 px-3 hover:bg-gray-200 cursor-pointer"
+              onClick={handleSelectClick}
+            >
+              선택
+            </li>
           </ul>
         </div>
       )}

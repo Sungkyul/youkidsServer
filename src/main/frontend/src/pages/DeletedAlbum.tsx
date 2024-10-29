@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useImageContext } from "../components/ImageContext"; // Context에서 album 가져오기
 import BeforeButton from "../components/BeforeButton";
-import { AiFillStar, AiOutlineStar } from "react-icons/ai"; // 별 아이콘
+import { TiTrash } from "react-icons/ti";
 import axios from "axios";
 
-const Favorites = () => {
+const DeletedAlbum = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const { album } = useImageContext(); // Context에서 album 가져오기
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const [deletedAlbums, setDeletedAlbums] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -27,14 +27,18 @@ const Favorites = () => {
   }, []);
 
   useEffect(() => {
-    const storedFavorites = localStorage.getItem("favorites_${username}");
-    if (storedFavorites) {
-      setFavorites(JSON.parse(storedFavorites));
+    const storedDeletedAlbums = localStorage.getItem(
+      "deletedAlbums_${username}"
+    );
+    if (storedDeletedAlbums) {
+      setDeletedAlbums(JSON.parse(storedDeletedAlbums));
     }
   }, []);
 
   // 사용자 ID로 앨범 필터링
-  const userAlbums = album.filter((entry) => favorites.includes(entry.title));
+  const userDeletedAlbums = album.filter((entry) =>
+    deletedAlbums.includes(entry.title)
+  );
 
   const handleAlbumClick = (entry: { title: string; images: string[] }) => {
     // 앨범 클릭 시 해당 앨범 화면으로 이동
@@ -53,18 +57,14 @@ const Favorites = () => {
           }}
         ></BeforeButton>
         <p className="py-4 text-center text-neutral-900 text-[20px] font-semibold font-['Pretendard'] leading-snug">
-          즐겨찾기
+          휴지통
         </p>
         <div className="m-6"></div>
-        {/* <MenuButton
-          visible={menuVisible} // 메뉴 상태 전달
-          onClick={toggleMenu} // 메뉴 토글 함수 전달
-        /> */}
       </div>
 
       <div className="mt-6 ml-5 flex flex-wrap">
-        {userAlbums.length > 0 ? (
-          userAlbums.map((entry, index) => (
+        {userDeletedAlbums.length > 0 ? (
+          userDeletedAlbums.map((entry, index) => (
             <div
               key={index}
               className="w-[125px] h-[125px] rounded-lg mx-4 mb-10 cursor-pointer"
@@ -77,19 +77,19 @@ const Favorites = () => {
               />
               <div className="flex items-center pt-1">
                 <div className="cursor-pointer mr-1">
-                  <AiFillStar color="lightgreen" size={16} />{" "}
-                  {/* 초록색 별 아이콘 */}
+                  <TiTrash color="lightgreen" size={16} />{" "}
+                  {/* 초록색 휴지통 아이콘 */}
                 </div>
                 <p className="text-xs text-left">{entry.title}</p>
               </div>
             </div>
           ))
         ) : (
-          <p>즐겨찾기 앨범이 없습니다.</p>
+          <p>삭제한 앨범이 없습니다.</p>
         )}
       </div>
     </div>
   );
 };
 
-export default Favorites;
+export default DeletedAlbum;

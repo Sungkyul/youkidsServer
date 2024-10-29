@@ -12,6 +12,11 @@ interface Notice {
 
 const notices: Notice[] = [
   {
+    title: "숨김 기능 안내",
+    date: "2024-10-04",
+    content: "가리고 싶은 앨범을 숨길 수 있어요.",
+  },
+  {
     title: "즐겨찾기 기능 안내",
     date: "2024-08-28",
     content: "마음에 드는 앨범을 즐겨찾기에 등록할 수 있어요.",
