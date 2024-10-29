@@ -27,7 +27,7 @@ const Favorites = () => {
   }, []);
 
   useEffect(() => {
-    const storedFavorites = localStorage.getItem("favorites");
+    const storedFavorites = localStorage.getItem("favorites_${username}");
     if (storedFavorites) {
       setFavorites(JSON.parse(storedFavorites));
     }

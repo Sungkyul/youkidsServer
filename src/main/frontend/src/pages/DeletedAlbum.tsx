@@ -27,7 +27,9 @@ const DeletedAlbum = () => {
   }, []);
 
   useEffect(() => {
-    const storedDeletedAlbums = localStorage.getItem("deletedAlbums");
+    const storedDeletedAlbums = localStorage.getItem(
+      "deletedAlbums_${username}"
+    );
     if (storedDeletedAlbums) {
       setDeletedAlbums(JSON.parse(storedDeletedAlbums));
     }
@@ -83,7 +85,7 @@ const DeletedAlbum = () => {
             </div>
           ))
         ) : (
-          <p>숨긴 앨범이 없습니다.</p>
+          <p>삭제한 앨범이 없습니다.</p>
         )}
       </div>
     </div>

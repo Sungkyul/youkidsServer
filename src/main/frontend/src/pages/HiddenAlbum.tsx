@@ -27,7 +27,7 @@ const HiddenAlbum = () => {
   }, []);
 
   useEffect(() => {
-    const storedHiddenAlbums = localStorage.getItem("hiddenAlbums");
+    const storedHiddenAlbums = localStorage.getItem("hiddenAlbums_${username}");
     if (storedHiddenAlbums) {
       setHiddenAlbums(JSON.parse(storedHiddenAlbums));
     }

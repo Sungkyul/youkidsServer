@@ -105,14 +105,14 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
 
             <div className="border-t border-gray-300 w-full pb-4"></div>
             <div className="flex flex-col justify-items-star p-2 w-full h-full">
-              <div className="flex items-center my-1 w-[90px]">
+              {/* <div className="flex items-center my-1 w-[90px]">
                 <img
                   src={전송기록}
                   alt="전송기록"
                   className="w-[24px] h-[24px]"
                 />
                 <p className="text-xs text-left pl-4">전송기록</p>
-              </div>
+              </div> */}
               <div
                 className="flex items-center my-1 w-[90px]"
                 onClick={() => {
