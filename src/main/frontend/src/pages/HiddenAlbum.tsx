@@ -75,8 +75,8 @@ const HiddenAlbum = () => {
               />
               <div className="flex items-center pt-1">
                 <div className="cursor-pointer mr-1">
-                  <AiOutlineEyeInvisible color="lightblue" size={16} />{" "}
-                  {/* 파란색 눈 아이콘 */}
+                  <AiOutlineEyeInvisible color="lightgreen" size={16} />{" "}
+                  {/* 초록색 눈 아이콘 */}
                 </div>
                 <p className="text-xs text-left">{entry.title}</p>
               </div>

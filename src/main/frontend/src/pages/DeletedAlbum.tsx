@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useImageContext } from "../components/ImageContext"; // Context에서 album 가져오기
 import BeforeButton from "../components/BeforeButton";
-import { AiOutlineEyeInvisible } from "react-icons/ai"; // 눈 아이콘
+import { TiTrash } from "react-icons/ti";
 import axios from "axios";
 
 const DeletedAlbum = () => {
@@ -55,7 +55,7 @@ const DeletedAlbum = () => {
           }}
         ></BeforeButton>
         <p className="py-4 text-center text-neutral-900 text-[20px] font-semibold font-['Pretendard'] leading-snug">
-          숨긴 앨범
+          휴지통
         </p>
         <div className="m-6"></div>
       </div>
@@ -75,8 +75,8 @@ const DeletedAlbum = () => {
               />
               <div className="flex items-center pt-1">
                 <div className="cursor-pointer mr-1">
-                  <AiOutlineEyeInvisible color="lightblue" size={16} />{" "}
-                  {/* 파란색 눈 아이콘 */}
+                  <TiTrash color="lightgreen" size={16} />{" "}
+                  {/* 초록색 휴지통 아이콘 */}
                 </div>
                 <p className="text-xs text-left">{entry.title}</p>
               </div>
