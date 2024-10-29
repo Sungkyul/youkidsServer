@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useImageContext } from "../components/ImageContext"; // Context에서 album 가져오기
 import BeforeButton from "../components/BeforeButton";
-import { AiOutlineEye } from "react-icons/ai"; // 눈 아이콘
+import { AiOutlineEyeInvisible } from "react-icons/ai"; // 눈 아이콘
 import axios from "axios";
 
 const HiddenAlbum = () => {
@@ -75,7 +75,7 @@ const HiddenAlbum = () => {
               />
               <div className="flex items-center pt-1">
                 <div className="cursor-pointer mr-1">
-                  <AiOutlineEye color="lightblue" size={16} />{" "}
+                  <AiOutlineEyeInvisible color="lightblue" size={16} />{" "}
                   {/* 파란색 눈 아이콘 */}
                 </div>
                 <p className="text-xs text-left">{entry.title}</p>
