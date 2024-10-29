@@ -5,6 +5,7 @@ import profile from "../assets/default_profile.png";
 import 오른쪽화살표 from "../assets/오른쪽 화살표.svg";
 import 전송기록 from "../assets/전송기록.svg";
 import 즐겨찾기 from "../assets/즐겨찾기.svg";
+import NoPreview from "../assets/No Preview.svg";
 import 휴지통 from "../assets/휴지통.svg";
 import 공지 from "../assets/공지.svg";
 import 설정 from "../assets/설정.svg";
@@ -124,6 +125,19 @@ const MenuBar: React.FC<MenuBarProps> = ({ text }) => {
                   className="w-[24px] h-[24px]"
                 />
                 <p className="text-xs text-left pl-4">즐겨찾기</p>
+              </div>
+              <div
+                className="flex items-center my-1 w-[90px]"
+                onClick={() => {
+                  navigate(`/hiddenalbum?userId=${username}`);
+                }}
+              >
+                <img
+                  src={NoPreview}
+                  alt="NoPreview"
+                  className="w-[24px] h-[24px]"
+                />
+                <p className="text-xs text-left pl-4">숨긴 앨범</p>
               </div>
               <div className="flex items-center my-1 w-[90px]">
                 <img src={휴지통} alt="휴지통" className="w-[24px] h-[24px]" />

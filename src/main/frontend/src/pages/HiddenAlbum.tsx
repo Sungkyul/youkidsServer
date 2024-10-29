@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useImageContext } from "../components/ImageContext"; // Context에서 album 가져오기
 import BeforeButton from "../components/BeforeButton";
-import { AiFillStar, AiOutlineStar } from "react-icons/ai"; // 별 아이콘
+import { AiOutlineEye } from "react-icons/ai"; // 눈 아이콘
 import axios from "axios";
 
-const Favorites = () => {
+const HiddenAlbum = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const { album } = useImageContext(); // Context에서 album 가져오기
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const [hiddenAlbums, setHiddenAlbums] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -27,14 +27,16 @@ const Favorites = () => {
   }, []);
 
   useEffect(() => {
-    const storedFavorites = localStorage.getItem("favorites");
-    if (storedFavorites) {
-      setFavorites(JSON.parse(storedFavorites));
+    const storedHiddenAlbums = localStorage.getItem("hiddenAlbums");
+    if (storedHiddenAlbums) {
+      setHiddenAlbums(JSON.parse(storedHiddenAlbums));
     }
   }, []);
 
   // 사용자 ID로 앨범 필터링
-  const userAlbums = album.filter((entry) => favorites.includes(entry.title));
+  const userHiddenAlbums = album.filter((entry) =>
+    hiddenAlbums.includes(entry.title)
+  );
 
   const handleAlbumClick = (entry: { title: string; images: string[] }) => {
     // 앨범 클릭 시 해당 앨범 화면으로 이동
@@ -53,18 +55,14 @@ const Favorites = () => {
           }}
         ></BeforeButton>
         <p className="py-4 text-center text-neutral-900 text-[20px] font-semibold font-['Pretendard'] leading-snug">
-          즐겨찾기
+          숨긴 앨범
         </p>
         <div className="m-6"></div>
-        {/* <MenuButton
-          visible={menuVisible} // 메뉴 상태 전달
-          onClick={toggleMenu} // 메뉴 토글 함수 전달
-        /> */}
       </div>
 
       <div className="mt-6 ml-5 flex flex-wrap">
-        {userAlbums.length > 0 ? (
-          userAlbums.map((entry, index) => (
+        {userHiddenAlbums.length > 0 ? (
+          userHiddenAlbums.map((entry, index) => (
             <div
               key={index}
               className="w-[125px] h-[125px] rounded-lg mx-4 mb-10 cursor-pointer"
@@ -77,19 +75,19 @@ const Favorites = () => {
               />
               <div className="flex items-center pt-1">
                 <div className="cursor-pointer mr-1">
-                  <AiFillStar color="lightgreen" size={16} />{" "}
-                  {/* 초록색 별 아이콘 */}
+                  <AiOutlineEye color="lightblue" size={16} />{" "}
+                  {/* 파란색 눈 아이콘 */}
                 </div>
                 <p className="text-xs text-left">{entry.title}</p>
               </div>
             </div>
           ))
         ) : (
-          <p>즐겨찾기 앨범이 없습니다.</p>
+          <p>숨긴 앨범이 없습니다.</p>
         )}
       </div>
     </div>
   );
 };
 
-export default Favorites;
+export default HiddenAlbum;

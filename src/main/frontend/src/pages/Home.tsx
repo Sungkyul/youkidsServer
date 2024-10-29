@@ -8,6 +8,10 @@ import MenuButton from "../components/Menu";
 import FixedButton from "../components/FixedButton";
 import { useImageContext } from "../components/ImageContext"; // Context import 추가
 import axios from "axios"; // Axios import 추가
+import 휴지통 from "../assets/휴지통.svg";
+import upload from "../assets/upload.svg";
+import NoPreview from "../assets/No Preview.svg";
+
 import {
   AiFillCheckCircle,
   AiFillStar,
@@ -30,6 +34,7 @@ function Home() {
   const [favorites, setFavorites] = useState<string[]>([]); // 즐겨찾기 상태 추가
   const [selectedAlbums, setSelectedAlbums] = useState<string[]>([]); // 선택된 앨범 상태 추가
   const [isSelectMode, setIsSelectMode] = useState(false); // 선택 모드 상태 추가
+  const [hiddenAlbums, setHiddenAlbums] = useState<string[]>([]); // 숨겨진 앨범 상태 추가
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -70,11 +75,16 @@ function Home() {
     });
   };
 
-  // 컴포넌트 마운트 시 로컬 스토리지에서 즐겨찾기 불러오기
+  // 컴포넌트 마운트 시 로컬 스토리지에서 즐겨찾기, 숨긴 앨범 불러오기
   useEffect(() => {
     const storedFavorites = localStorage.getItem("favorites");
     if (storedFavorites) {
       setFavorites(JSON.parse(storedFavorites));
+    }
+
+    const storedHiddenAlbums = localStorage.getItem("hiddenAlbums"); // 숨긴 앨범 불러오기
+    if (storedHiddenAlbums) {
+      setHiddenAlbums(JSON.parse(storedHiddenAlbums));
     }
   }, []);
 
@@ -111,7 +121,8 @@ function Home() {
     )
     .filter((entry) =>
       showFavoritesOnly ? favorites.includes(entry.title) : true
-    ); // 즐겨찾기 필터 적용
+    ) // 즐겨찾기 필터 적용
+    .filter((entry) => !hiddenAlbums.includes(entry.title)); // 숨겨진 앨범 필터링
 
   // 검색창 외부 클릭 이벤트 핸들러
   const handleClickOutside = (event: MouseEvent) => {
@@ -140,10 +151,21 @@ function Home() {
     setIsSelectMode(!isSelectMode); // 선택 모드 토글
   };
 
+  // 선택한 앨범 숨기기
+  const hideSelectedAlbums = () => {
+    setHiddenAlbums((prev) => {
+      const updatedHiddenAlbums = [...prev, ...selectedAlbums];
+      localStorage.setItem("hiddenAlbums", JSON.stringify(updatedHiddenAlbums)); // 로컬 스토리지에 저장
+      return updatedHiddenAlbums; // 숨긴 앨범 상태 업데이트
+    });
+    setSelectedAlbums([]); // 선택 초기화
+    setIsSelectMode(false); // 선택 모드 종료
+  };
+
   return (
     <div className="pt-2">
       <div className="w-full mx-auto flex justify-between">
-        <div style={{ zIndex: 10 }}>
+        <div style={{ zIndex: 30 }}>
           <MenuBar text="" /> {/* MenuBar 컴포넌트를 사용 */}
         </div>
         <div
@@ -170,6 +192,7 @@ function Home() {
             onClick={toggleMenu} // 메뉴 토글 함수 전달
             onShowFavorites={() => setShowFavoritesOnly(!showFavoritesOnly)} // 즐겨찾기만 보기 토글 함수 전달
             showFavoritesOnly={showFavoritesOnly} // 즐겨찾기 상태 전달
+            onSelectMode={handleSelectModeToggle}
           />
           {/* <Notification
             text={""}
@@ -191,12 +214,12 @@ function Home() {
       </div>
 
       {/* 선택 버튼 추가 */}
-      <button
+      {/* <button
         className="mb-4 p-2 bg-blue-500 text-white rounded"
         onClick={handleSelectModeToggle} // 선택 모드 토글
       >
         {isSelectMode ? "선택 모드 종료" : "선택 모드 시작"}
-      </button>
+      </button> */}
 
       {/* 즐겨찾기만 보기 버튼 */}
       {/* <div className="flex justify-end pr-4">
@@ -267,14 +290,35 @@ function Home() {
 
       {/* 선택된 앨범 수 표시 */}
       {isSelectMode && ( // 선택 모드일 때만 선택된 앨범 수 표시
-        <div className="fixed bottom-4 left-4 bg-gray-200 p-3 rounded-lg">
-          선택된 앨범 수: {selectedAlbums.length}
-          <button
-            className="ml-2 p-1 bg-red-500 text-white rounded"
-            onClick={() => setSelectedAlbums([])} // 선택 해제 버튼
-          >
-            선택 해제
-          </button>
+        <div
+          className="fixed bottom-2 left-4 w-[222px] z-20 bg-[#DAEBE5] p-2 rounded-lg"
+          // style={{ backgroundColor: "rgba(229, 231, 235, 1)" }}
+        >
+          <div className="ml-2 flex items-center justify-between">
+            {" "}
+            선택된 앨범 수: {selectedAlbums.length}
+            <button
+              className="mr-1 px-2 bg-white rounded-[30px]"
+              onClick={handleSelectModeToggle}
+            >
+              취소
+            </button>
+          </div>
+          <div className="mt-2 flex items-center justify-center">
+            <button className="mx-4 p-1 rounded">
+              <img src={upload} alt="upload" className="w-[24px] h-[24px]" />
+            </button>
+            <button className="mx-4 p-1 rounded" onClick={hideSelectedAlbums}>
+              <img
+                src={NoPreview}
+                alt="NoPreview"
+                className="w-[24px] h-[24px]"
+              />
+            </button>
+            <button className="mx-4 p-1 rounded">
+              <img src={휴지통} alt="휴지통" className="w-[24px] h-[24px]" />
+            </button>
+          </div>
         </div>
       )}
 

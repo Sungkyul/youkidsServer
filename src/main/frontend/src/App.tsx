@@ -15,6 +15,7 @@ import Search from "./pages/Search";
 import Noti from "./pages/Noti";
 import Album from "./pages/Album";
 import Favorites from "./pages/Favorites";
+import HiddenAlbum from "./pages/HiddenAlbum";
 import Share_Loading from "./pages/Share_Loading";
 import Share_Done from "./pages/Share_Done";
 import Down_Code from "./pages/Down_Code";
@@ -45,6 +46,7 @@ function App() {
           <Route path="/Noti" element={<Noti />} />
           <Route path="/Album" element={<Album />} />
           <Route path="/Favorites" element={<Favorites />} />
+          <Route path="/HiddenAlbum" element={<HiddenAlbum />} />
           <Route path="/Share_Loading" element={<Share_Loading />} />
           <Route path="/Share_Done" element={<Share_Done />} />
           <Route path="/Down_Code" element={<Down_Code />} />
