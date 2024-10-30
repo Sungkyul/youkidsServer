@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import profile from "../assets/default_profile.png";
 import MenuBar from "../components/MenuBar";
 import SearchButton from "../components/SearchButton";
+import X from "../assets/X.svg";
 import Notification from "../components/Notification";
 import MenuButton from "../components/Menu";
 import FixedButton from "../components/FixedButton";
@@ -201,20 +202,34 @@ function Home() {
           className="mt-2 flex justify-end items-center pr-4"
           ref={searchRef}
         >
-          {" "}
-          {/* ref 추가 */}
           {isSearchActive && ( // 검색 입력 필드 표시
-            <input
-              type="text"
-              placeholder="앨범명으로 검색..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)} // 검색어 업데이트
-              className="mx-2 p-1 w-[200px] border rounded bg-neutral-200"
-            />
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="앨범명으로 검색..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)} // 검색어 업데이트
+                className="mx-2 p-1 w-[200px] border rounded bg-neutral-200"
+              />
+              {searchTerm && ( // 검색어가 있을 때만 X 버튼 표시
+                <button
+                  onClick={() => setSearchTerm("")} // X 버튼 클릭 시 검색어 초기화
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                >
+                  <img src={X} alt="X" className="w-4 h-4" />{" "}
+                  {/* X 버튼 이미지 */}
+                </button>
+              )}
+            </div>
           )}
           <SearchButton
             text={""}
-            onClick={() => setIsSearchActive(!isSearchActive)} // 검색 버튼 클릭 시 검색 활성화 상태 토글
+            onClick={() => {
+              if (isSearchActive) {
+                setSearchTerm(""); // 검색어 초기화
+              }
+              setIsSearchActive(!isSearchActive); // 검색 활성화 상태 토글
+            }}
           />
           <MenuButton
             visible={menuVisible} // 메뉴 상태 전달
