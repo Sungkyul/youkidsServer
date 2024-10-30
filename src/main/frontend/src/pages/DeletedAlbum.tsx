@@ -47,6 +47,13 @@ const DeletedAlbum = () => {
     });
   };
 
+  const handleRecoverAll = () => {
+    // 전체 복구 로직
+    setDeletedAlbums([]); // 상태에서 삭제된 앨범 복구
+    localStorage.removeItem(`deletedAlbums_${username}`); // 로컬 저장소에서 제거
+    alert("모든 앨범이 복구되었습니다.");
+  };
+
   return (
     <div className="mx-full mx-auto pt-2">
       <div className="w-full mx-auto flex justify-between">
@@ -88,6 +95,19 @@ const DeletedAlbum = () => {
           <p>삭제한 앨범이 없습니다.</p>
         )}
       </div>
+
+      {userDeletedAlbums.length > 0 && (
+        <div className="mt-2 flex justify-center">
+          <button
+            className="flex items-center justify-center w-72 h-[50px] bg-emerald-200 rounded-lg"
+            onClick={handleRecoverAll}
+          >
+            <div className="text-center text-base font-normal font-['Pretendard'] leading-snug">
+              전체 복구
+            </div>
+          </button>
+        </div>
+      )}
     </div>
   );
 };
