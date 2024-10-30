@@ -27,11 +27,11 @@ const Favorites = () => {
   }, []);
 
   useEffect(() => {
-    const storedFavorites = localStorage.getItem("favorites_${username}");
+    const storedFavorites = localStorage.getItem(`favorites_${username}`);
     if (storedFavorites) {
       setFavorites(JSON.parse(storedFavorites));
     }
-  }, []);
+  }, [username]);
 
   // 사용자 ID로 앨범 필터링
   const userAlbums = album.filter((entry) => favorites.includes(entry.title));

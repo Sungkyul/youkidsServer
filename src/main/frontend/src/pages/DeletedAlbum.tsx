@@ -28,12 +28,12 @@ const DeletedAlbum = () => {
 
   useEffect(() => {
     const storedDeletedAlbums = localStorage.getItem(
-      "deletedAlbums_${username}"
+      `deletedAlbums_${username}`
     );
     if (storedDeletedAlbums) {
       setDeletedAlbums(JSON.parse(storedDeletedAlbums));
     }
-  }, []);
+  }, [username]);
 
   // 사용자 ID로 앨범 필터링
   const userDeletedAlbums = album.filter((entry) =>

@@ -73,7 +73,7 @@ function Home() {
 
       // 로컬 스토리지에 즐겨찾기 저장
       localStorage.setItem(
-        "favorites_${username}",
+        `favorites_${username}`,
         JSON.stringify(newFavorites)
       );
       return newFavorites;
@@ -82,23 +82,23 @@ function Home() {
 
   // 컴포넌트 마운트 시 로컬 스토리지에서 즐겨찾기, 숨긴 앨범 불러오기
   useEffect(() => {
-    const storedFavorites = localStorage.getItem("favorites_${username}");
+    const storedFavorites = localStorage.getItem(`favorites_${username}`);
     if (storedFavorites) {
       setFavorites(JSON.parse(storedFavorites));
     }
 
-    const storedHiddenAlbums = localStorage.getItem("hiddenAlbums_${username}"); // 숨긴 앨범 불러오기
+    const storedHiddenAlbums = localStorage.getItem(`hiddenAlbums_${username}`); // 숨긴 앨범 불러오기
     if (storedHiddenAlbums) {
       setHiddenAlbums(JSON.parse(storedHiddenAlbums));
     }
 
     const storedDeletedAlbums = localStorage.getItem(
-      "deletedAlbums_${username}"
+      `deletedAlbums_${username}`
     ); // 숨긴 앨범 불러오기
     if (storedDeletedAlbums) {
       setDeletedAlbums(JSON.parse(storedDeletedAlbums));
     }
-  }, []);
+  }, [username]);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -169,7 +169,7 @@ function Home() {
     setHiddenAlbums((prev) => {
       const updatedHiddenAlbums = [...prev, ...selectedAlbums];
       localStorage.setItem(
-        "hiddenAlbums_${username}",
+        `hiddenAlbums_${username}`,
         JSON.stringify(updatedHiddenAlbums)
       ); // 로컬 스토리지에 저장
       return updatedHiddenAlbums; // 숨긴 앨범 상태 업데이트
@@ -183,7 +183,7 @@ function Home() {
     setDeletedAlbums((prev) => {
       const updatedDeletedAlbums = [...prev, ...selectedAlbums];
       localStorage.setItem(
-        "deletedAlbums_${username}",
+        `deletedAlbums_${username}`,
         JSON.stringify(updatedDeletedAlbums)
       ); // 로컬 스토리지에 저장
       return updatedDeletedAlbums; // 숨긴 앨범 상태 업데이트

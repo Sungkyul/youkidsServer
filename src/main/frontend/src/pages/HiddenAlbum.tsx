@@ -27,11 +27,11 @@ const HiddenAlbum = () => {
   }, []);
 
   useEffect(() => {
-    const storedHiddenAlbums = localStorage.getItem("hiddenAlbums_${username}");
+    const storedHiddenAlbums = localStorage.getItem(`hiddenAlbums_${username}`);
     if (storedHiddenAlbums) {
       setHiddenAlbums(JSON.parse(storedHiddenAlbums));
     }
-  }, []);
+  }, [username]);
 
   // 사용자 ID로 앨범 필터링
   const userHiddenAlbums = album.filter((entry) =>
