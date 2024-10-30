@@ -316,7 +316,10 @@ function Home() {
                 src={entry.images[0]} // 첫 번째 이미지만 표시
                 alt={`앨범 ${entry.title}`}
                 className="w-[125px] h-[125px] rounded-lg"
-                onClick={() => handleAlbumClick(entry)}
+                onClick={() => {
+                  handleAlbumClick(entry);
+                  toggleAlbumSelection(entry.title);
+                }}
               />
               {isSelectMode && ( // 선택 모드일 때만 체크 표시
                 <div className="absolute bottom-1 right-1">
