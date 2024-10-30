@@ -172,6 +172,17 @@ function Home() {
         `hiddenAlbums_${username}`,
         JSON.stringify(updatedHiddenAlbums)
       ); // 로컬 스토리지에 저장
+
+      // 숨긴 앨범을 즐겨찾기에서 제거
+      const updatedFavorites = favorites.filter(
+        (fav) => !selectedAlbums.includes(fav)
+      );
+      localStorage.setItem(
+        `favorites_${username}`,
+        JSON.stringify(updatedFavorites)
+      ); // 즐겨찾기 상태 업데이트
+      setFavorites(updatedFavorites); // 즐겨찾기 상태 업데이트
+
       return updatedHiddenAlbums; // 숨긴 앨범 상태 업데이트
     });
     setSelectedAlbums([]); // 선택 초기화
@@ -186,6 +197,17 @@ function Home() {
         `deletedAlbums_${username}`,
         JSON.stringify(updatedDeletedAlbums)
       ); // 로컬 스토리지에 저장
+
+      // 삭제한 앨범을 즐겨찾기에서 제거
+      const updatedFavorites = favorites.filter(
+        (fav) => !selectedAlbums.includes(fav)
+      );
+      localStorage.setItem(
+        `favorites_${username}`,
+        JSON.stringify(updatedFavorites)
+      ); // 즐겨찾기 상태 업데이트
+      setFavorites(updatedFavorites); // 즐겨찾기 상태 업데이트
+
       return updatedDeletedAlbums; // 숨긴 앨범 상태 업데이트
     });
     setSelectedAlbums([]); // 선택 초기화
