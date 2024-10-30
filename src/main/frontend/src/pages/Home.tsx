@@ -221,6 +221,12 @@ function Home() {
     setIsSelectMode(false); // 선택 모드 종료
   };
 
+  // 모든 로컬 스토리지 항목 삭제
+  const clearAllAlbums = () => {
+    localStorage.clear();
+    console.log("로컬 스토리지가 초기화되었습니다.");
+  };
+
   return (
     <div className="pt-2">
       <div className="w-full mx-auto flex justify-between">
@@ -285,6 +291,16 @@ function Home() {
           {username || "사용자 이름"}
         </p>
       </div>
+
+      {/* 로컬 스토리지 삭제 */}
+      {/* <div className="flex items-center justify-center">
+        <button
+          onClick={clearAllAlbums}
+          className="p-2 bg-red-500 text-white rounded"
+        >
+          모든 앨범 삭제
+        </button>
+      </div> */}
 
       {/* 선택 버튼 추가 */}
       {/* <button
