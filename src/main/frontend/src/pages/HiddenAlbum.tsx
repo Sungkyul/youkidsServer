@@ -116,7 +116,7 @@ const HiddenAlbum = () => {
       {userHiddenAlbums.length > 0 && (
         <div className="mt-2 flex justify-center">
           <button
-            className="flex items-center justify-center w-72 h-[50px] bg-emerald-200 rounded-lg"
+            className="flex items-center justify-center w-72 h-9 bg-emerald-200 rounded-lg"
             onClick={handleRecoverAll}
           >
             <div className="text-center text-base font-normal font-['Pretendard'] leading-snug">

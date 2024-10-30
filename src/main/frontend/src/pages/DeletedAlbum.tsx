@@ -149,7 +149,7 @@ const DeletedAlbum = () => {
         <div className="mt-2 flex justify-center">
           <div className="mx-2">
             <button
-              className="flex items-center justify-center w-full h-[50px] bg-emerald-200 rounded-lg"
+              className="flex items-center justify-center w-full h-9 bg-emerald-200 rounded-lg"
               onClick={handleRecoverAll}
             >
               <div className="px-10 text-center text-base font-normal font-['Pretendard'] leading-snug">
@@ -159,7 +159,7 @@ const DeletedAlbum = () => {
           </div>
           <div className="mx-2">
             <button
-              className="flex items-center justify-center w-full h-[50px] bg-emerald-200 rounded-lg"
+              className="flex items-center justify-center w-full h-9 bg-emerald-200 rounded-lg"
               onClick={hardDelete}
             >
               <div className="px-10 text-center text-base font-normal font-['Pretendard'] leading-snug">
