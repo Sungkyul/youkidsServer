@@ -45,6 +45,20 @@ const HiddenAlbum = () => {
     });
   };
 
+  const handleRecoverAlbum = (albumTitle: string) => {
+    // 특정 앨범 복구 로직
+    const updatedHiddenAlbums = hiddenAlbums.filter(
+      (title) => title !== albumTitle
+    );
+    setHiddenAlbums(updatedHiddenAlbums); // 상태에서 해당 앨범 삭제
+
+    // 로컬 저장소 업데이트
+    localStorage.setItem(
+      `hiddenAlbums_${username}`,
+      JSON.stringify(updatedHiddenAlbums)
+    );
+  };
+
   const handleRecoverAll = () => {
     // 전체 복구 로직
     setHiddenAlbums([]); // 상태에서 삭제된 앨범 복구
@@ -81,7 +95,13 @@ const HiddenAlbum = () => {
                 className="w-[125px] h-[125px] rounded-lg"
               />
               <div className="flex items-center pt-1">
-                <div className="cursor-pointer mr-1">
+                <div
+                  className="cursor-pointer mr-1"
+                  onClick={(e) => {
+                    e.stopPropagation(); // 앨범 클릭 방지
+                    handleRecoverAlbum(entry.title);
+                  }}
+                >
                   <AiOutlineEyeInvisible color="lightgreen" size={16} />{" "}
                   {/* 초록색 눈 아이콘 */}
                 </div>
