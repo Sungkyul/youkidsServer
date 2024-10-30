@@ -36,7 +36,8 @@ function Home() {
   const [selectedAlbums, setSelectedAlbums] = useState<string[]>([]); // 선택된 앨범 상태 추가
   const [isSelectMode, setIsSelectMode] = useState(false); // 선택 모드 상태 추가
   const [hiddenAlbums, setHiddenAlbums] = useState<string[]>([]); // 숨겨진 앨범 상태 추가
-  const [deletedAlbums, setDeletedAlbums] = useState<string[]>([]); // 숨겨진 앨범 상태 추가
+  const [deletedAlbums, setDeletedAlbums] = useState<string[]>([]); // 삭제된 앨범 상태 추가
+  const [trashAlbums, setTrashAlbums] = useState<string[]>([]); // 완전 삭제된 앨범 상태 추가
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -87,16 +88,21 @@ function Home() {
       setFavorites(JSON.parse(storedFavorites));
     }
 
-    const storedHiddenAlbums = localStorage.getItem(`hiddenAlbums_${username}`); // 숨긴 앨범 불러오기
+    const storedHiddenAlbums = localStorage.getItem(`hiddenAlbums_${username}`);
     if (storedHiddenAlbums) {
       setHiddenAlbums(JSON.parse(storedHiddenAlbums));
     }
 
     const storedDeletedAlbums = localStorage.getItem(
       `deletedAlbums_${username}`
-    ); // 숨긴 앨범 불러오기
+    );
     if (storedDeletedAlbums) {
       setDeletedAlbums(JSON.parse(storedDeletedAlbums));
+    }
+
+    const storedTrashAlbums = localStorage.getItem(`trashAlbums_${username}`);
+    if (storedTrashAlbums) {
+      setTrashAlbums(JSON.parse(storedTrashAlbums));
     }
   }, [username]);
 
@@ -135,7 +141,8 @@ function Home() {
       showFavoritesOnly ? favorites.includes(entry.title) : true
     ) // 즐겨찾기 필터 적용
     .filter((entry) => !hiddenAlbums.includes(entry.title)) // 숨겨진 앨범 필터링
-    .filter((entry) => !deletedAlbums.includes(entry.title)); // 삭제된 앨범 필터링
+    .filter((entry) => !deletedAlbums.includes(entry.title)) // 삭제된 앨범 필터링
+    .filter((entry) => !trashAlbums.includes(entry.title)); // 완전 삭제된 앨범 필터링
 
   // 검색창 외부 클릭 이벤트 핸들러
   const handleClickOutside = (event: MouseEvent) => {

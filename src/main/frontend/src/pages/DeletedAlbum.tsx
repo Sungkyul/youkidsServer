@@ -54,6 +54,27 @@ const DeletedAlbum = () => {
     alert("모든 앨범이 복구되었습니다.");
   };
 
+  const hardDelete = () => {
+    // trashAlbums로 이동
+    const storedTrashAlbums = localStorage.getItem(`trashAlbums_${username}`);
+    const trashAlbums = storedTrashAlbums ? JSON.parse(storedTrashAlbums) : [];
+
+    // deletedAlbums의 내용을 trashAlbums로 옮기기
+    const updatedTrashAlbums = [...trashAlbums, ...deletedAlbums];
+
+    // 로컬 스토리지에 trashAlbums 저장
+    localStorage.setItem(
+      `trashAlbums_${username}`,
+      JSON.stringify(updatedTrashAlbums)
+    );
+
+    // deletedAlbums를 비우고 상태 및 로컬 스토리지에서 삭제
+    setDeletedAlbums([]);
+    localStorage.removeItem(`deletedAlbums_${username}`);
+
+    alert("모든 앨범이 완전히 삭제되었습니다.");
+  };
+
   return (
     <div className="mx-full mx-auto pt-2">
       <div className="w-full mx-auto flex justify-between">
@@ -98,14 +119,26 @@ const DeletedAlbum = () => {
 
       {userDeletedAlbums.length > 0 && (
         <div className="mt-2 flex justify-center">
-          <button
-            className="flex items-center justify-center w-72 h-[50px] bg-emerald-200 rounded-lg"
-            onClick={handleRecoverAll}
-          >
-            <div className="text-center text-base font-normal font-['Pretendard'] leading-snug">
-              전체 복구
-            </div>
-          </button>
+          <div className="mx-2">
+            <button
+              className="flex items-center justify-center w-full h-[50px] bg-emerald-200 rounded-lg"
+              onClick={handleRecoverAll}
+            >
+              <div className="px-10 text-center text-base font-normal font-['Pretendard'] leading-snug">
+                전체 복구
+              </div>
+            </button>
+          </div>
+          <div className="mx-2">
+            <button
+              className="flex items-center justify-center w-full h-[50px] bg-emerald-200 rounded-lg"
+              onClick={hardDelete}
+            >
+              <div className="px-10 text-center text-base font-normal font-['Pretendard'] leading-snug">
+                완전 삭제
+              </div>
+            </button>
+          </div>
         </div>
       )}
     </div>
