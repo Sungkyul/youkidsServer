@@ -55,24 +55,32 @@ const DeletedAlbum = () => {
   };
 
   const hardDelete = () => {
-    // trashAlbums로 이동
-    const storedTrashAlbums = localStorage.getItem(`trashAlbums_${username}`);
-    const trashAlbums = storedTrashAlbums ? JSON.parse(storedTrashAlbums) : [];
+    const confirmDelete = window.confirm("정말로 삭제하시겠습니까?"); // 사용자에게 삭제 확인 요청
 
-    // deletedAlbums의 내용을 trashAlbums로 옮기기
-    const updatedTrashAlbums = [...trashAlbums, ...deletedAlbums];
+    if (confirmDelete) {
+      // trashAlbums로 이동
+      const storedTrashAlbums = localStorage.getItem(`trashAlbums_${username}`);
+      const trashAlbums = storedTrashAlbums
+        ? JSON.parse(storedTrashAlbums)
+        : [];
 
-    // 로컬 스토리지에 trashAlbums 저장
-    localStorage.setItem(
-      `trashAlbums_${username}`,
-      JSON.stringify(updatedTrashAlbums)
-    );
+      // deletedAlbums의 내용을 trashAlbums로 옮기기
+      const updatedTrashAlbums = [...trashAlbums, ...deletedAlbums];
 
-    // deletedAlbums를 비우고 상태 및 로컬 스토리지에서 삭제
-    setDeletedAlbums([]);
-    localStorage.removeItem(`deletedAlbums_${username}`);
+      // 로컬 스토리지에 trashAlbums 저장
+      localStorage.setItem(
+        `trashAlbums_${username}`,
+        JSON.stringify(updatedTrashAlbums)
+      );
 
-    alert("모든 앨범이 완전히 삭제되었습니다.");
+      // deletedAlbums를 비우고 상태 및 로컬 스토리지에서 삭제
+      setDeletedAlbums([]);
+      localStorage.removeItem(`deletedAlbums_${username}`);
+
+      alert("모든 앨범이 완전히 삭제되었습니다.");
+    } else {
+      alert("삭제가 취소되었습니다."); // 삭제가 취소된 경우
+    }
   };
 
   return (
