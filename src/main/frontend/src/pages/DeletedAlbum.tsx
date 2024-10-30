@@ -28,12 +28,12 @@ const DeletedAlbum = () => {
 
   useEffect(() => {
     const storedDeletedAlbums = localStorage.getItem(
-      "deletedAlbums_${username}"
+      `deletedAlbums_${username}`
     );
     if (storedDeletedAlbums) {
       setDeletedAlbums(JSON.parse(storedDeletedAlbums));
     }
-  }, []);
+  }, [username]);
 
   // 사용자 ID로 앨범 필터링
   const userDeletedAlbums = album.filter((entry) =>
@@ -45,6 +45,56 @@ const DeletedAlbum = () => {
     navigate(`/album?userId=${username}&${entry.title}`, {
       state: { title: entry.title, images: entry.images },
     });
+  };
+
+  const handleRecoverAlbum = (albumTitle: string) => {
+    // 특정 앨범 복구 로직
+    const updatedDeletedAlbums = deletedAlbums.filter(
+      (title) => title !== albumTitle
+    );
+    setDeletedAlbums(updatedDeletedAlbums); // 상태에서 해당 앨범 삭제
+
+    // 로컬 저장소 업데이트
+    localStorage.setItem(
+      `deletedAlbums_${username}`,
+      JSON.stringify(updatedDeletedAlbums)
+    );
+  };
+
+  const handleRecoverAll = () => {
+    // 전체 복구 로직
+    setDeletedAlbums([]); // 상태에서 삭제된 앨범 복구
+    localStorage.removeItem(`deletedAlbums_${username}`); // 로컬 저장소에서 제거
+    alert("모든 앨범이 복구되었습니다.");
+  };
+
+  const hardDelete = () => {
+    const confirmDelete = window.confirm("정말로 삭제하시겠습니까?"); // 사용자에게 삭제 확인 요청
+
+    if (confirmDelete) {
+      // trashAlbums로 이동
+      const storedTrashAlbums = localStorage.getItem(`trashAlbums_${username}`);
+      const trashAlbums = storedTrashAlbums
+        ? JSON.parse(storedTrashAlbums)
+        : [];
+
+      // deletedAlbums의 내용을 trashAlbums로 옮기기
+      const updatedTrashAlbums = [...trashAlbums, ...deletedAlbums];
+
+      // 로컬 스토리지에 trashAlbums 저장
+      localStorage.setItem(
+        `trashAlbums_${username}`,
+        JSON.stringify(updatedTrashAlbums)
+      );
+
+      // deletedAlbums를 비우고 상태 및 로컬 스토리지에서 삭제
+      setDeletedAlbums([]);
+      localStorage.removeItem(`deletedAlbums_${username}`);
+
+      alert("모든 앨범이 완전히 삭제되었습니다.");
+    } else {
+      alert("삭제가 취소되었습니다."); // 삭제가 취소된 경우
+    }
   };
 
   return (
@@ -76,7 +126,13 @@ const DeletedAlbum = () => {
                 className="w-[125px] h-[125px] rounded-lg"
               />
               <div className="flex items-center pt-1">
-                <div className="cursor-pointer mr-1">
+                <div
+                  className="cursor-pointer mr-1"
+                  onClick={(e) => {
+                    e.stopPropagation(); // 앨범 클릭 방지
+                    handleRecoverAlbum(entry.title);
+                  }}
+                >
                   <TiTrash color="lightgreen" size={16} />{" "}
                   {/* 초록색 휴지통 아이콘 */}
                 </div>
@@ -88,6 +144,31 @@ const DeletedAlbum = () => {
           <p>삭제한 앨범이 없습니다.</p>
         )}
       </div>
+
+      {userDeletedAlbums.length > 0 && (
+        <div className="mt-2 flex justify-center">
+          <div className="mx-2">
+            <button
+              className="flex items-center justify-center w-full h-[50px] bg-emerald-200 rounded-lg"
+              onClick={handleRecoverAll}
+            >
+              <div className="px-10 text-center text-base font-normal font-['Pretendard'] leading-snug">
+                전체 복구
+              </div>
+            </button>
+          </div>
+          <div className="mx-2">
+            <button
+              className="flex items-center justify-center w-full h-[50px] bg-emerald-200 rounded-lg"
+              onClick={hardDelete}
+            >
+              <div className="px-10 text-center text-base font-normal font-['Pretendard'] leading-snug">
+                완전 삭제
+              </div>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

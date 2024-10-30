@@ -27,11 +27,11 @@ const Favorites = () => {
   }, []);
 
   useEffect(() => {
-    const storedFavorites = localStorage.getItem("favorites_${username}");
+    const storedFavorites = localStorage.getItem(`favorites_${username}`);
     if (storedFavorites) {
       setFavorites(JSON.parse(storedFavorites));
     }
-  }, []);
+  }, [username]);
 
   // 사용자 ID로 앨범 필터링
   const userAlbums = album.filter((entry) => favorites.includes(entry.title));
@@ -41,6 +41,25 @@ const Favorites = () => {
     navigate(`/album?userId=${username}&${entry.title}`, {
       state: { title: entry.title, images: entry.images },
     });
+  };
+
+  const handleRecoverAlbum = (albumTitle: string) => {
+    // 특정 앨범 복구 로직
+    const updatedFavorites = favorites.filter((title) => title !== albumTitle);
+    setFavorites(updatedFavorites); // 상태에서 해당 앨범 삭제
+
+    // 로컬 저장소 업데이트
+    localStorage.setItem(
+      `hiddenAlbums_${username}`,
+      JSON.stringify(updatedFavorites)
+    );
+  };
+
+  const handleRecoverAll = () => {
+    // 전체 복구 로직
+    setFavorites([]); // 상태에서 삭제된 앨범 복구
+    localStorage.removeItem(`favorites_${username}`); // 로컬 저장소에서 제거
+    alert("모든 즐겨찾기가 해제되었습니다.");
   };
 
   return (
@@ -76,7 +95,13 @@ const Favorites = () => {
                 className="w-[125px] h-[125px] rounded-lg"
               />
               <div className="flex items-center pt-1">
-                <div className="cursor-pointer mr-1">
+                <div
+                  className="cursor-pointer mr-1"
+                  onClick={(e) => {
+                    e.stopPropagation(); // 앨범 클릭 방지
+                    handleRecoverAlbum(entry.title);
+                  }}
+                >
                   <AiFillStar color="lightgreen" size={16} />{" "}
                   {/* 초록색 별 아이콘 */}
                 </div>
@@ -88,6 +113,18 @@ const Favorites = () => {
           <p>즐겨찾기 앨범이 없습니다.</p>
         )}
       </div>
+      {userAlbums.length > 0 && (
+        <div className="mt-2 flex justify-center">
+          <button
+            className="flex items-center justify-center w-72 h-[50px] bg-emerald-200 rounded-lg"
+            onClick={handleRecoverAll}
+          >
+            <div className="text-center text-base font-normal font-['Pretendard'] leading-snug">
+              전체 해제
+            </div>
+          </button>
+        </div>
+      )}
     </div>
   );
 };

@@ -27,11 +27,11 @@ const HiddenAlbum = () => {
   }, []);
 
   useEffect(() => {
-    const storedHiddenAlbums = localStorage.getItem("hiddenAlbums_${username}");
+    const storedHiddenAlbums = localStorage.getItem(`hiddenAlbums_${username}`);
     if (storedHiddenAlbums) {
       setHiddenAlbums(JSON.parse(storedHiddenAlbums));
     }
-  }, []);
+  }, [username]);
 
   // 사용자 ID로 앨범 필터링
   const userHiddenAlbums = album.filter((entry) =>
@@ -43,6 +43,27 @@ const HiddenAlbum = () => {
     navigate(`/album?userId=${username}&${entry.title}`, {
       state: { title: entry.title, images: entry.images },
     });
+  };
+
+  const handleRecoverAlbum = (albumTitle: string) => {
+    // 특정 앨범 복구 로직
+    const updatedHiddenAlbums = hiddenAlbums.filter(
+      (title) => title !== albumTitle
+    );
+    setHiddenAlbums(updatedHiddenAlbums); // 상태에서 해당 앨범 삭제
+
+    // 로컬 저장소 업데이트
+    localStorage.setItem(
+      `hiddenAlbums_${username}`,
+      JSON.stringify(updatedHiddenAlbums)
+    );
+  };
+
+  const handleRecoverAll = () => {
+    // 전체 복구 로직
+    setHiddenAlbums([]); // 상태에서 삭제된 앨범 복구
+    localStorage.removeItem(`hiddenAlbums_${username}`); // 로컬 저장소에서 제거
+    alert("모든 숨긴 앨범이 해제되었습니다.");
   };
 
   return (
@@ -74,7 +95,13 @@ const HiddenAlbum = () => {
                 className="w-[125px] h-[125px] rounded-lg"
               />
               <div className="flex items-center pt-1">
-                <div className="cursor-pointer mr-1">
+                <div
+                  className="cursor-pointer mr-1"
+                  onClick={(e) => {
+                    e.stopPropagation(); // 앨범 클릭 방지
+                    handleRecoverAlbum(entry.title);
+                  }}
+                >
                   <AiOutlineEyeInvisible color="lightgreen" size={16} />{" "}
                   {/* 초록색 눈 아이콘 */}
                 </div>
@@ -86,6 +113,18 @@ const HiddenAlbum = () => {
           <p>숨긴 앨범이 없습니다.</p>
         )}
       </div>
+      {userHiddenAlbums.length > 0 && (
+        <div className="mt-2 flex justify-center">
+          <button
+            className="flex items-center justify-center w-72 h-[50px] bg-emerald-200 rounded-lg"
+            onClick={handleRecoverAll}
+          >
+            <div className="text-center text-base font-normal font-['Pretendard'] leading-snug">
+              전체 해제
+            </div>
+          </button>
+        </div>
+      )}
     </div>
   );
 };

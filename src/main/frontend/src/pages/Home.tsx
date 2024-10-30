@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import profile from "../assets/default_profile.png";
 import MenuBar from "../components/MenuBar";
 import SearchButton from "../components/SearchButton";
+import X from "../assets/X.svg";
 import Notification from "../components/Notification";
 import MenuButton from "../components/Menu";
 import FixedButton from "../components/FixedButton";
@@ -35,7 +36,8 @@ function Home() {
   const [selectedAlbums, setSelectedAlbums] = useState<string[]>([]); // 선택된 앨범 상태 추가
   const [isSelectMode, setIsSelectMode] = useState(false); // 선택 모드 상태 추가
   const [hiddenAlbums, setHiddenAlbums] = useState<string[]>([]); // 숨겨진 앨범 상태 추가
-  const [deletedAlbums, setDeletedAlbums] = useState<string[]>([]); // 숨겨진 앨범 상태 추가
+  const [deletedAlbums, setDeletedAlbums] = useState<string[]>([]); // 삭제된 앨범 상태 추가
+  const [trashAlbums, setTrashAlbums] = useState<string[]>([]); // 완전 삭제된 앨범 상태 추가
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
@@ -72,7 +74,7 @@ function Home() {
 
       // 로컬 스토리지에 즐겨찾기 저장
       localStorage.setItem(
-        "favorites_${username}",
+        `favorites_${username}`,
         JSON.stringify(newFavorites)
       );
       return newFavorites;
@@ -81,23 +83,28 @@ function Home() {
 
   // 컴포넌트 마운트 시 로컬 스토리지에서 즐겨찾기, 숨긴 앨범 불러오기
   useEffect(() => {
-    const storedFavorites = localStorage.getItem("favorites_${username}");
+    const storedFavorites = localStorage.getItem(`favorites_${username}`);
     if (storedFavorites) {
       setFavorites(JSON.parse(storedFavorites));
     }
 
-    const storedHiddenAlbums = localStorage.getItem("hiddenAlbums_${username}"); // 숨긴 앨범 불러오기
+    const storedHiddenAlbums = localStorage.getItem(`hiddenAlbums_${username}`);
     if (storedHiddenAlbums) {
       setHiddenAlbums(JSON.parse(storedHiddenAlbums));
     }
 
     const storedDeletedAlbums = localStorage.getItem(
-      "deletedAlbums_${username}"
-    ); // 숨긴 앨범 불러오기
+      `deletedAlbums_${username}`
+    );
     if (storedDeletedAlbums) {
       setDeletedAlbums(JSON.parse(storedDeletedAlbums));
     }
-  }, []);
+
+    const storedTrashAlbums = localStorage.getItem(`trashAlbums_${username}`);
+    if (storedTrashAlbums) {
+      setTrashAlbums(JSON.parse(storedTrashAlbums));
+    }
+  }, [username]);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -134,7 +141,8 @@ function Home() {
       showFavoritesOnly ? favorites.includes(entry.title) : true
     ) // 즐겨찾기 필터 적용
     .filter((entry) => !hiddenAlbums.includes(entry.title)) // 숨겨진 앨범 필터링
-    .filter((entry) => !deletedAlbums.includes(entry.title)); // 삭제된 앨범 필터링
+    .filter((entry) => !deletedAlbums.includes(entry.title)) // 삭제된 앨범 필터링
+    .filter((entry) => !trashAlbums.includes(entry.title)); // 완전 삭제된 앨범 필터링
 
   // 검색창 외부 클릭 이벤트 핸들러
   const handleClickOutside = (event: MouseEvent) => {
@@ -168,9 +176,20 @@ function Home() {
     setHiddenAlbums((prev) => {
       const updatedHiddenAlbums = [...prev, ...selectedAlbums];
       localStorage.setItem(
-        "hiddenAlbums_${username}",
+        `hiddenAlbums_${username}`,
         JSON.stringify(updatedHiddenAlbums)
       ); // 로컬 스토리지에 저장
+
+      // 숨긴 앨범을 즐겨찾기에서 제거
+      const updatedFavorites = favorites.filter(
+        (fav) => !selectedAlbums.includes(fav)
+      );
+      localStorage.setItem(
+        `favorites_${username}`,
+        JSON.stringify(updatedFavorites)
+      ); // 즐겨찾기 상태 업데이트
+      setFavorites(updatedFavorites); // 즐겨찾기 상태 업데이트
+
       return updatedHiddenAlbums; // 숨긴 앨범 상태 업데이트
     });
     setSelectedAlbums([]); // 선택 초기화
@@ -182,9 +201,20 @@ function Home() {
     setDeletedAlbums((prev) => {
       const updatedDeletedAlbums = [...prev, ...selectedAlbums];
       localStorage.setItem(
-        "deletedAlbums_${username}",
+        `deletedAlbums_${username}`,
         JSON.stringify(updatedDeletedAlbums)
       ); // 로컬 스토리지에 저장
+
+      // 삭제한 앨범을 즐겨찾기에서 제거
+      const updatedFavorites = favorites.filter(
+        (fav) => !selectedAlbums.includes(fav)
+      );
+      localStorage.setItem(
+        `favorites_${username}`,
+        JSON.stringify(updatedFavorites)
+      ); // 즐겨찾기 상태 업데이트
+      setFavorites(updatedFavorites); // 즐겨찾기 상태 업데이트
+
       return updatedDeletedAlbums; // 숨긴 앨범 상태 업데이트
     });
     setSelectedAlbums([]); // 선택 초기화
@@ -201,20 +231,34 @@ function Home() {
           className="mt-2 flex justify-end items-center pr-4"
           ref={searchRef}
         >
-          {" "}
-          {/* ref 추가 */}
           {isSearchActive && ( // 검색 입력 필드 표시
-            <input
-              type="text"
-              placeholder="앨범명으로 검색..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)} // 검색어 업데이트
-              className="mx-2 p-1 w-[200px] border rounded bg-neutral-200"
-            />
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="앨범명으로 검색..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)} // 검색어 업데이트
+                className="mx-2 p-1 w-[200px] border rounded bg-neutral-200"
+              />
+              {searchTerm && ( // 검색어가 있을 때만 X 버튼 표시
+                <button
+                  onClick={() => setSearchTerm("")} // X 버튼 클릭 시 검색어 초기화
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2"
+                >
+                  <img src={X} alt="X" className="w-4 h-4" />{" "}
+                  {/* X 버튼 이미지 */}
+                </button>
+              )}
+            </div>
           )}
           <SearchButton
             text={""}
-            onClick={() => setIsSearchActive(!isSearchActive)} // 검색 버튼 클릭 시 검색 활성화 상태 토글
+            onClick={() => {
+              if (isSearchActive) {
+                setSearchTerm(""); // 검색어 초기화
+              }
+              setIsSearchActive(!isSearchActive); // 검색 활성화 상태 토글
+            }}
           />
           <MenuButton
             visible={menuVisible} // 메뉴 상태 전달
@@ -272,7 +316,10 @@ function Home() {
                 src={entry.images[0]} // 첫 번째 이미지만 표시
                 alt={`앨범 ${entry.title}`}
                 className="w-[125px] h-[125px] rounded-lg"
-                onClick={() => handleAlbumClick(entry)}
+                onClick={() => {
+                  handleAlbumClick(entry);
+                  toggleAlbumSelection(entry.title);
+                }}
               />
               {isSelectMode && ( // 선택 모드일 때만 체크 표시
                 <div className="absolute bottom-1 right-1">
